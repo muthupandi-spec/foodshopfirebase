@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/logLMargin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.05" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/logRMargin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/logTMargin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.02" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/logBMargin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.98" />
+        <TextView
+            android:id="@+id/scheduletiming"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/schedule"
+            android:textColor="@color/Semi_Black"
+            android:textSize="@dimen/_13sdp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/logRMargin"
+            app:layout_constraintStart_toStartOf="@+id/logLMargin"
+            app:layout_constraintTop_toTopOf="@+id/logTMargin" />
+        <TextView
+            android:id="@+id/resettxt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="@string/reset"
+            android:textColor="@color/Semi_Black"
+            android:textSize="@dimen/_10sdp"
+            android:textStyle="normal"
+            app:layout_constraintEnd_toEndOf="@+id/logRMargin"
+            app:layout_constraintStart_toStartOf="@+id/logLMargin"
+            app:layout_constraintTop_toBottomOf="@+id/scheduletiming" />
+        <RadioGroup
+            android:id="@+id/radiogrp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:background="@color/White"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            app:layout_constraintStart_toStartOf="@id/logLMargin"
+            app:layout_constraintEnd_toEndOf="@id/logRMargin"
+            app:layout_constraintTop_toBottomOf="@+id/resettxt">
+
+            <RadioButton
+                android:id="@+id/opentime"
+                style="@style/radiobutton"
+                android:buttonTint="@color/colorPrimary"
+                android:text="@string/opentime" />
+
+            <RadioButton
+                android:id="@+id/closetime"
+                android:buttonTint="@color/colorPrimary"
+                style="@style/radiobutton"
+                android:text="@string/closetime" />
+
+        </RadioGroup>
+        <TimePicker
+            android:id="@+id/timePicker"
+            android:layout_width="0dp"
+            app:layout_constraintStart_toStartOf="@id/logLMargin"
+            app:layout_constraintEnd_toEndOf="@id/logRMargin"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/_12sdp"
+            app:layout_constraintTop_toBottomOf="@id/radiogrp"
+            android:timePickerMode="spinner"/>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/confirm"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_38sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:background="@drawable/button_alter"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_10sdp"
+            android:text="@string/confirm"
+            android:textAllCaps="false"
+            android:textColor="@color/White"
+            android:textSize="@dimen/_12sdp"
+            app:layout_constraintEnd_toEndOf="@id/logRMargin"
+            app:layout_constraintStart_toEndOf="@+id/logLMargin"
+            app:layout_constraintTop_toBottomOf="@+id/timePicker" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

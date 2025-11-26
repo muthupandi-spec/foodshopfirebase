@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/shoppage"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/White"
+    android:clickable="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    tools:context=".ui.fragment.ShopFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/accLMargin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.05" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/accRMargin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent=".95" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/accTMargin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.02" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/accBMargin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.98" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/toolabarcontainer"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_40sdp"
+                app:layout_constraintEnd_toEndOf="@id/accRMargin"
+                app:layout_constraintStart_toStartOf="@id/accLMargin"
+                app:layout_constraintTop_toTopOf="@id/accTMargin">
+
+                <ImageView
+                    android:id="@+id/backBtn"
+                    android:layout_width="@dimen/_36sdp"
+                    android:layout_height="@dimen/_24sdp"
+                    android:background="@drawable/ic_logo"
+                    app:layout_constraintBottom_toBottomOf="@+id/toolabarcontainer"
+                    app:layout_constraintStart_toStartOf="@+id/toolabarcontainer"
+                    app:layout_constraintTop_toTopOf="@+id/toolabarcontainer"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/accountHead"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/Black"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:text="@string/store"
+                    android:textSize="@dimen/_14sdp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@id/toolabarcontainer"
+                    app:layout_constraintLeft_toRightOf="@+id/backBtn"
+                    app:layout_constraintTop_toTopOf="@+id/toolabarcontainer" />
+
+                <ImageView
+                    android:id="@+id/notification"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:background="@drawable/notification"
+                    android:padding="@dimen/_45sdp"
+
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@id/toolabarcontainer"
+                    app:layout_constraintEnd_toEndOf="@+id/toolabarcontainer"
+                    app:layout_constraintTop_toTopOf="@+id/toolabarcontainer"
+                    tools:ignore="ContentDescription" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/addNewShop"
+                    android:layout_width="@dimen/_24sdp"
+                    android:layout_height="@dimen/_24sdp"
+                    android:visibility="gone"
+                    android:src="@drawable/plus"
+                    app:layout_constraintBottom_toBottomOf="@+id/accountHead"
+                    app:layout_constraintEnd_toEndOf="@+id/toolabarcontainer"
+                    app:layout_constraintTop_toTopOf="@+id/accountHead" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/updatestoretxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:text="@string/updatestore"
+                android:textColor="@color/Black"
+                android:textSize="@dimen/_14sdp"
+                android:textStyle="normal"
+                app:layout_constraintStart_toStartOf="@id/accLMargin"
+                app:layout_constraintTop_toBottomOf="@+id/toolabarcontainer" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:background="@color/LightGrey"
+                app:layout_constraintEnd_toEndOf="@id/accRMargin"
+                app:layout_constraintStart_toStartOf="@id/accLMargin"
+                app:layout_constraintTop_toBottomOf="@+id/updatestoretxt" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_marginTop="@dimen/_2sdp"
+                android:id="@+id/shopcontainer"
+                android:background="@color/White"
+                android:layout_width="match_parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view"
+                android:layout_height="wrap_content"
+                tools:ignore="MissingConstraints">
+
+                <TextView
+                    android:id="@+id/shopname"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_24sdp"
+                    android:textSize="@dimen/_13sdp"
+                    android:textStyle="bold"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    android:textColor="@color/Black"
+                    android:text="Basha Bai resturant"
+                    android:paddingStart="@dimen/_16sdp"
+                    android:gravity="center_vertical"
+                    app:layout_constraintBottom_toTopOf="@+id/shop"
+                    app:layout_constraintStart_toStartOf="@id/shopcontainer"
+                    app:layout_constraintTop_toTopOf="@+id/shopcontainer"
+                    app:layout_constraintEnd_toStartOf="@+id/switches"/>
+
+                <TextView
+                    android:id="@+id/shop"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_24sdp"
+                    android:textSize="@dimen/_12sdp"
+                    android:textColor="@color/LightGrey2"
+                    android:paddingStart="@dimen/_16sdp"
+                    android:drawablePadding="@dimen/_5sdp"
+                    android:gravity="center_vertical"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="@id/shopcontainer"
+                    app:layout_constraintTop_toBottomOf="@+id/shopname"
+                    app:layout_constraintEnd_toStartOf="@+id/switches"
+                    app:layout_constraintBottom_toBottomOf="@+id/shopcontainer"
+                    app:drawableStartCompat="@drawable/shop" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/switches"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/shopname"
+                    app:layout_constraintBottom_toBottomOf="@+id/shop">
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/shopswitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:trackTint="@color/LightGrey"
+                        app:thumbTint="@color/colorPrimary"
+                        android:visibility="visible"
+                        android:padding="@dimen/_10sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        tools:ignore="UseSwitchCompatOrMaterialXml" />
+                    <ImageView
+                        android:id="@+id/reject"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:trackTint="@color/LightGrey"
+                        app:thumbTint="@color/colorPrimary"
+                        android:padding="@dimen/_16sdp"
+                        android:visibility="gone"
+                        android:src="@drawable/reject"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        tools:ignore="UseSwitchCompatOrMaterialXml" />
+                    <ImageView
+                        android:id="@+id/waiting"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:trackTint="@color/LightGrey"
+                        app:thumbTint="@color/colorPrimary"
+                        android:src="@drawable/waiting"
+                        android:padding="@dimen/_16sdp"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        tools:ignore="UseSwitchCompatOrMaterialXml" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    android:id="@+id/view1"
+                    android:layout_width="0dp"
+                    android:layout_height="8dp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@color/LightGrey1"
+                    app:layout_constraintEnd_toEndOf="@id/shopcontainer"
+                    app:layout_constraintStart_toStartOf="@id/shopcontainer"
+                    app:layout_constraintTop_toBottomOf="@+id/shop" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="@id/shopcontainer"
+                    app:layout_constraintStart_toStartOf="@id/shopcontainer"
+                    app:layout_constraintTop_toBottomOf="@+id/view1"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:cardBackgroundColor="@color/White"
+                app:cardElevation="0dp"
+                app:layout_constraintBottom_toBottomOf="@id/accBMargin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/shoprecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toEndOf="@id/card"
+                    app:layout_constraintStart_toStartOf="@id/card"
+                    app:layout_constraintTop_toTopOf="@+id/card"
+                    tools:listitem="@layout/shopadapter" />
+            </com.google.android.material.card.MaterialCardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/loader"
+        android:layout_width="@dimen/_90sdp"
+        android:layout_height="@dimen/_90sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/loder"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</layout>

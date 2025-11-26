@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/White"
+    android:clickable="true"
+    android:focusable="true"
+   >
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/accLMargin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.05" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/accRMargin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".95" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/accTMargin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.02" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/accBMargin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.98" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/toolabarcontainer"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_40sdp"
+            app:layout_constraintEnd_toEndOf="@id/accRMargin"
+            app:layout_constraintStart_toStartOf="@id/accLMargin"
+            app:layout_constraintTop_toTopOf="@id/accTMargin">
+
+            <ImageView
+                android:id="@+id/backBtn"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:background="@drawable/back_arrow"
+                app:layout_constraintBottom_toBottomOf="@+id/toolabarcontainer"
+                app:layout_constraintStart_toStartOf="@+id/toolabarcontainer"
+                app:layout_constraintTop_toTopOf="@+id/toolabarcontainer"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/accountHead"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/Black"
+                android:layout_marginStart="@dimen/_30sdp"
+                android:text="@string/businessdetail"
+                android:textSize="@dimen/_14sdp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@id/toolabarcontainer"
+                app:layout_constraintLeft_toRightOf="@+id/backBtn"
+                app:layout_constraintTop_toTopOf="@+id/toolabarcontainer" />
+
+            <ImageView
+                android:id="@+id/notification"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:background="@drawable/notification"
+                android:padding="@dimen/_45sdp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/toolabarcontainer"
+                app:layout_constraintEnd_toEndOf="@+id/toolabarcontainer"
+                app:layout_constraintTop_toTopOf="@+id/toolabarcontainer"
+                tools:ignore="ContentDescription" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <TextView
+            android:id="@+id/businesstxt"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="@dimen/_14sdp"
+            android:layout_height="wrap_content"
+            android:text="@string/businessdetail"
+            android:textSize="@dimen/_12sdp"
+            android:visibility="gone"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/accLMargin"
+            app:layout_constraintTop_toBottomOf="@+id/toolabarcontainer" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/businessname"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:background="@drawable/custom_selector"
+            android:textCursorDrawable="@drawable/custom_cursor"
+            android:textSelectHandle="@drawable/custom_cursor"
+            android:hint="@string/businessname"
+            android:drawableEnd="@drawable/businessname"
+            android:imeOptions="actionNext"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_10sdp"
+            android:textSize="@dimen/_10sdp"
+            app:layout_constraintLeft_toLeftOf="@+id/accLMargin"
+            app:layout_constraintRight_toRightOf="@+id/accRMargin"
+            app:layout_constraintTop_toBottomOf="@+id/businesstxt"
+            tools:ignore="Autofill" />
+        <TextView
+            android:id="@+id/businessaddress"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:gravity="start|center"
+            android:background="@drawable/custom_selector"
+            android:drawableEnd="@drawable/address"
+            android:hint="@string/businessaddress"
+            android:imeOptions="actionNext"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_10sdp"
+            android:textSize="@dimen/_10sdp"
+            app:layout_constraintLeft_toLeftOf="@+id/accLMargin"
+            app:layout_constraintRight_toRightOf="@+id/accRMargin"
+            app:layout_constraintTop_toBottomOf="@+id/businessname"
+            tools:ignore="Autofill" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/fssainumber"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:background="@drawable/custom_selector"
+            android:textCursorDrawable="@drawable/custom_cursor"
+            android:textSelectHandle="@drawable/custom_cursor"
+            android:hint="@string/fssanumber"
+            android:drawableEnd="@drawable/gstin"
+            android:maxLength="14"
+            android:imeOptions="actionNext"
+            android:paddingStart="@dimen/_10sdp"
+            android:inputType="number"
+            android:paddingEnd="@dimen/_10sdp"
+            android:textSize="@dimen/_10sdp"
+            app:layout_constraintLeft_toLeftOf="@+id/accLMargin"
+            app:layout_constraintRight_toRightOf="@+id/accRMargin"
+            app:layout_constraintTop_toBottomOf="@+id/businessaddress"
+            tools:ignore="Autofill" />
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/pannumber"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:background="@drawable/custom_selector"
+            android:textCursorDrawable="@drawable/custom_cursor"
+            android:textSelectHandle="@drawable/custom_cursor"
+            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0987654321"
+            android:hint="@string/panno"
+            android:imeOptions="actionNext"
+            android:drawableEnd="@drawable/gstin"
+            android:paddingStart="@dimen/_10sdp"
+            android:maxLength="10"
+            android:paddingEnd="@dimen/_10sdp"
+            android:textSize="@dimen/_10sdp"
+            app:layout_constraintLeft_toLeftOf="@+id/accLMargin"
+            app:layout_constraintRight_toRightOf="@+id/accRMargin"
+            app:layout_constraintTop_toBottomOf="@+id/fssainumber"
+            tools:ignore="Autofill" />
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/gstno"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:background="@drawable/custom_selector"
+            android:textCursorDrawable="@drawable/custom_cursor"
+            android:textSelectHandle="@drawable/custom_cursor"
+            android:hint="@string/gstno"
+            android:imeOptions="actionNext"
+            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0987654321"
+            android:maxLength="15"
+            android:drawableEnd="@drawable/gstin"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_10sdp"
+            android:textSize="@dimen/_10sdp"
+            app:layout_constraintLeft_toLeftOf="@+id/accLMargin"
+            app:layout_constraintRight_toRightOf="@+id/accRMargin"
+            app:layout_constraintTop_toBottomOf="@+id/pannumber"
+            tools:ignore="Autofill" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/update"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_alter"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_10sdp"
+            android:text="@string/update"
+            android:textAllCaps="false"
+            android:textColor="@color/White"
+            android:textSize="@dimen/_12sdp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/accBMargin"
+            app:layout_constraintStart_toStartOf="@+id/accLMargin"
+            app:layout_constraintEnd_toEndOf="@+id/accRMargin"
+          />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/loader"
+        android:layout_width="@dimen/_90sdp"
+        android:layout_height="@dimen/_90sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_rawRes="@raw/loder"
+        app:lottie_loop="true" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
+
+
+

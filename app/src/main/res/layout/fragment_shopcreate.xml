@@ -1,0 +1,1338 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/White"
+        android:clickable="true"
+        android:focusable="true"
+      >
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/accLMargin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.05" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/accRMargin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent=".95" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/accTMargin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_percent="0.03" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/accBMargin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_percent="0.98" />
+
+                <ImageView
+                    android:id="@+id/backBtn"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:background="@drawable/back_arrow"
+                    app:layout_constraintStart_toStartOf="@+id/accLMargin"
+                    app:layout_constraintTop_toTopOf="@+id/accTMargin"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/accountHead"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:text="Shop Create"
+                    android:textSize="@dimen/_14sdp"
+                    android:textColor="@color/Black"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toRightOf="@+id/backBtn"
+                    app:layout_constraintTop_toTopOf="@+id/backBtn"
+                    app:layout_constraintBottom_toBottomOf="@+id/backBtn"
+                    android:gravity="center_vertical"/>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/accProfileCons"
+                    android:layout_width="@dimen/_100sdp"
+                    android:layout_height="@dimen/_100sdp"
+                    android:layout_marginTop="@dimen/_30sdp"
+                    app:cardCornerRadius="@dimen/_50sdp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintLeft_toLeftOf="@+id/accLMargin"
+                    app:layout_constraintRight_toRightOf="@+id/accRMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/accountHead"
+                    app:layout_constraintVertical_chainStyle="packed">
+
+                    <ImageView
+                        android:id="@+id/accProfile"
+                        android:layout_width="match_parent"
+                        android:visibility="visible"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/profile"
+                        tools:ignore="ContentDescription" />
+                </androidx.cardview.widget.CardView>
+
+                <ImageView
+                    android:id="@+id/accProfileEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/edit"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="@+id/accProfileCons"
+                    app:layout_constraintRight_toRightOf="@+id/accProfileCons" />
+                <LinearLayout
+                    android:id="@+id/personaltxt"
+                    android:layout_width="0dp"
+                    android:layout_marginTop="@dimen/_14sdp"
+                    app:layout_constraintStart_toStartOf="@id/accLMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/accProfileEdit"
+                    app:layout_constraintEnd_toEndOf="@id/accRMargin"
+                    android:orientation="horizontal"
+                    android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:letterSpacing="0.2"
+                    android:text="@string/shopdetail"
+                    android:textColor="@color/Black"
+                    android:textSize="@dimen/_12sdp"
+                    android:textStyle="bold"
+                 />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:src="@drawable/line"
+                 />
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/restaurantname"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:background="@drawable/custom_selector"
+                    android:clickable="true"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+                    android:drawableEnd="@drawable/businessname"
+                    android:focusable="true"
+                    android:hint="@string/restaurantname"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:textCursorDrawable="@drawable/custom_cursor"
+                    android:textSelectHandle="@drawable/custom_cursor"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintLeft_toLeftOf="@+id/accLMargin"
+                    app:layout_constraintRight_toRightOf="@+id/accRMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/personaltxt"
+                    tools:ignore="Autofill" />
+                <EditText
+                    android:id="@+id/restaurantemail"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:background="@drawable/custom_selector"
+                    android:clickable="true"
+                    android:drawableEnd="@drawable/businessname"
+                    android:focusable="true"
+                    android:hint="@string/restaurant_email"
+                    android:imeOptions="actionNext"
+                    android:inputType="textEmailAddress"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:textCursorDrawable="@drawable/custom_cursor"
+                    android:textSelectHandle="@drawable/custom_cursor"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintLeft_toLeftOf="@+id/accLMargin"
+                    app:layout_constraintRight_toRightOf="@+id/accRMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/restaurantname"
+                    tools:ignore="Autofill" />
+                <EditText
+                    android:id="@+id/restaurantmobilenon"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:background="@drawable/custom_selector"
+                    android:clickable="true"
+                    android:maxLength="10"
+                    android:drawableEnd="@drawable/businessname"
+                    android:focusable="true"
+                    android:hint="@string/restaurant_mobile_number"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:textCursorDrawable="@drawable/custom_cursor"
+                    android:textSelectHandle="@drawable/custom_cursor"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintLeft_toLeftOf="@+id/accLMargin"
+                    app:layout_constraintRight_toRightOf="@+id/accRMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/restaurantemail"
+                    tools:ignore="Autofill" />
+                <EditText
+                    android:id="@+id/password"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:background="@drawable/custom_selector"
+                    android:clickable="true"
+                    android:drawableEnd="@drawable/businessname"
+                    android:focusable="true"
+                    android:hint="@string/restaurant_password"
+                    android:imeOptions="actionNext"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:textCursorDrawable="@drawable/custom_cursor"
+                    android:textSelectHandle="@drawable/custom_cursor"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintLeft_toLeftOf="@+id/accLMargin"
+                    app:layout_constraintRight_toRightOf="@+id/accRMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/restaurantmobilenon"
+                    tools:ignore="Autofill" />
+                <EditText
+                    android:id="@+id/restaurantStreet"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:background="@drawable/custom_selector"
+                    android:clickable="true"
+                    android:drawableEnd="@drawable/businessname"
+                    android:focusable="true"
+                    android:hint="@string/restaurant_street"
+                    android:imeOptions="actionNext"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:textCursorDrawable="@drawable/custom_cursor"
+                    android:textSelectHandle="@drawable/custom_cursor"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintLeft_toLeftOf="@+id/accLMargin"
+                    app:layout_constraintRight_toRightOf="@+id/accRMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/password"
+                    tools:ignore="Autofill" />
+                <EditText
+                    android:id="@+id/restaurantCity"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:background="@drawable/custom_selector"
+                    android:clickable="true"
+                    android:drawableEnd="@drawable/businessname"
+                    android:focusable="true"
+                    android:hint="@string/restaurant_city"
+                    android:imeOptions="actionNext"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:textCursorDrawable="@drawable/custom_cursor"
+                    android:textSelectHandle="@drawable/custom_cursor"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintLeft_toLeftOf="@+id/accLMargin"
+                    app:layout_constraintRight_toRightOf="@+id/accRMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/restaurantStreet"
+                    tools:ignore="Autofill" />
+                <EditText
+                    android:id="@+id/restaurantPinCode"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:background="@drawable/custom_selector"
+                    android:clickable="true"
+                    android:drawableEnd="@drawable/businessname"
+                    android:focusable="true"
+                    android:hint="Restaurant PinCode"
+                    android:inputType="number"
+                    android:imeOptions="actionNext"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:textCursorDrawable="@drawable/custom_cursor"
+                    android:textSelectHandle="@drawable/custom_cursor"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintLeft_toLeftOf="@+id/accLMargin"
+                    app:layout_constraintRight_toRightOf="@+id/accRMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/restaurantCity"
+                    tools:ignore="Autofill" />
+                <TextView
+                    android:id="@+id/restaurantLandMark"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:background="@drawable/custom_selector"
+                    android:clickable="true"
+                    android:drawableEnd="@drawable/businessname"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:hint="@string/restaurant_landmark"
+                    android:imeOptions="actionNext"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:textCursorDrawable="@drawable/custom_cursor"
+                    android:textSelectHandle="@drawable/custom_cursor"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintLeft_toLeftOf="@+id/accLMargin"
+                    app:layout_constraintRight_toRightOf="@+id/accRMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/restaurantPinCode"
+                    tools:ignore="Autofill" />
+                <EditText
+                    android:id="@+id/restaurantDescreption"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:background="@drawable/custom_selector"
+                    android:clickable="true"
+                    android:drawableEnd="@drawable/businessname"
+                    android:focusable="true"
+                    android:hint="Restaurant Descreption"
+                    android:imeOptions="actionNext"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:textCursorDrawable="@drawable/custom_cursor"
+                    android:textSelectHandle="@drawable/custom_cursor"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintLeft_toLeftOf="@+id/accLMargin"
+                    app:layout_constraintRight_toRightOf="@+id/accRMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/restaurantLandMark"
+                    tools:ignore="Autofill" />
+                <EditText
+                    android:id="@+id/tradeId"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:background="@drawable/custom_selector"
+                    android:clickable="true"
+                    android:drawableEnd="@drawable/businessname"
+                    android:focusable="true"
+                    android:hint="@string/tradeid"
+                    android:imeOptions="actionNext"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:textCursorDrawable="@drawable/custom_cursor"
+                    android:textSelectHandle="@drawable/custom_cursor"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintLeft_toLeftOf="@+id/accLMargin"
+                    app:layout_constraintRight_toRightOf="@+id/accRMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/restaurantDescreption"
+                    tools:ignore="Autofill" />
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/restaurantaddress"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:background="@drawable/custom_selector"
+                    android:clickable="true"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+                    android:drawableEnd="@drawable/address"
+                    android:focusable="true"
+                    android:gravity="start|center"
+                    android:visibility="gone"
+                    android:hint="@string/restaurantaddress"
+                    android:imeOptions="actionNext"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintLeft_toLeftOf="@+id/accLMargin"
+                    app:layout_constraintRight_toRightOf="@+id/accRMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/restaurantemail"
+                    tools:ignore="Autofill" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/shopcatspinner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="@id/accRMargin"
+                    app:layout_constraintStart_toStartOf="@id/accLMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/tradeId"
+                    android:background="@drawable/custom_selector"
+                    android:hint="@string/shop_category"
+                    app:drawableEndCompat="@drawable/arrow___down_2"
+                    android:padding="@dimen/_10sdp"
+                    android:drawableTint="@color/LightGrey"
+                    android:gravity="center_vertical"
+                    android:textSize="@dimen/_10sdp"
+                    android:paddingStart="@dimen/_10sdp"/>
+
+                <EditText
+                    android:id="@+id/restauranrdesc"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:visibility="gone"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:background="@drawable/custom_selector"
+                    android:clickable="true"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+                    android:drawableEnd="@drawable/gstin"
+                    android:focusable="true"
+                    android:hint="@string/restaurantdes"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:textCursorDrawable="@drawable/custom_cursor"
+                    android:textSelectHandle="@drawable/custom_cursor"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintLeft_toLeftOf="@+id/accLMargin"
+                    app:layout_constraintRight_toRightOf="@+id/accRMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/shopcatspinner"
+                    tools:ignore="Autofill" />
+
+                <EditText
+                    android:id="@+id/fssainumber"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:background="@drawable/custom_selector"
+                    android:clickable="true"
+                    android:drawableEnd="@drawable/gstin"
+                    android:focusable="true"
+                    android:hint="@string/fssanumber"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
+                    android:visibility="gone"
+                    android:maxLength="14"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:textCursorDrawable="@drawable/custom_cursor"
+                    android:textSelectHandle="@drawable/custom_cursor"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintLeft_toLeftOf="@+id/accLMargin"
+                    app:layout_constraintRight_toRightOf="@+id/accRMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/restauranrdesc"
+                    tools:ignore="Autofill" />
+
+                <EditText
+                    android:id="@+id/pannumber"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:background="@drawable/custom_selector"
+                    android:clickable="true"
+                    android:visibility="gone"
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+                    android:drawableEnd="@drawable/gstin"
+                    android:focusable="true"
+                    android:hint="@string/panno"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:maxLength="10"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:textCursorDrawable="@drawable/custom_cursor"
+                    android:textSelectHandle="@drawable/custom_cursor"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintLeft_toLeftOf="@+id/accLMargin"
+                    app:layout_constraintRight_toRightOf="@+id/accRMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/fssainumber"
+                    tools:ignore="Autofill" />
+
+                <EditText
+                    android:id="@+id/gstinnumber"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:background="@drawable/custom_selector"
+                    android:clickable="true"
+                    android:visibility="gone"
+                    android:drawableEnd="@drawable/gstin"
+                    android:focusable="true"
+                    android:hint="@string/gstno"
+                    android:imeOptions="actionNext"
+                    android:maxLength="15"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0987654321"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:textCursorDrawable="@drawable/custom_cursor"
+                    android:textSelectHandle="@drawable/custom_cursor"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintLeft_toLeftOf="@+id/accLMargin"
+                    app:layout_constraintRight_toRightOf="@+id/accRMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/pannumber"
+                    tools:ignore="Autofill" />
+                <LinearLayout
+                    android:id="@+id/preorder"
+                    android:layout_marginTop="@dimen/_14sdp"
+                    android:layout_width="0dp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="@id/accRMargin"
+                    android:orientation="horizontal"
+                    android:layout_height="match_parent"
+                    app:layout_constraintStart_toStartOf="@id/accLMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/gstinnumber">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/preorder"
+                    android:textSize="@dimen/_12sdp"
+                    android:visibility="gone"
+                    android:textColor="@color/Black"
+                    android:letterSpacing="0.2"
+                    android:textStyle="bold"
+                    />
+                    <ImageView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:src="@drawable/line"
+                        />
+
+                </LinearLayout>
+
+                <RadioGroup
+                    android:id="@+id/radioGroup"
+                    android:layout_width="0dp"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="@id/accLMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/preorder">
+
+                    <!--adding a radio button -->
+                    <RadioButton
+                        android:id="@+id/preorderyes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/colorPrimary"
+                        android:checked="true"
+                        android:text="Yes"
+                        android:textAlignment="center"
+                        android:textSize="14dp" />
+
+                    <RadioButton
+                        android:id="@+id/preorderno"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_12sdp"
+                        android:buttonTint="@color/colorPrimary"
+                        android:text="No"
+                        android:textAlignment="center"
+                        android:textSize="14dp" />
+
+                </RadioGroup>
+                <LinearLayout
+                    android:id="@+id/otherdetail"
+                    android:layout_marginTop="@dimen/_14sdp"
+                    android:layout_width="0dp"
+                    app:layout_constraintEnd_toEndOf="@id/accRMargin"
+                    android:orientation="horizontal"
+                    android:layout_height="match_parent"
+                    app:layout_constraintStart_toStartOf="@id/accLMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/radioGroup">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:letterSpacing="0.2"
+                    android:text="@string/foodtype"
+                    android:textColor="@color/Black"
+                    android:textSize="@dimen/_12sdp"
+                    android:textStyle="bold"
+                     />
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:src="@drawable/line"
+                        />
+                </LinearLayout>
+
+
+                <!--adding a radio button -->
+                <RadioGroup
+                    android:id="@+id/radioGroup1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="@id/accLMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/otherdetail">
+
+                    <!--adding a radio button -->
+                    <RadioButton
+                        android:id="@+id/veg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/colorPrimary"
+                        android:text="Pure veg"
+                        android:textAlignment="center"
+                        android:textSize="14dp" />
+
+                    <RadioButton
+                        android:id="@+id/nonveg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_12sdp"
+                        android:checked="true"
+                        android:buttonTint="@color/colorPrimary"
+                        android:text="Nonveg"
+                        android:textAlignment="center"
+                        android:textSize="14dp" />
+
+                    <RadioButton
+                        android:id="@+id/both"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_12sdp"
+                        android:buttonTint="@color/colorPrimary"
+                        android:text="Both"
+                        android:textAlignment="center"
+                        android:textSize="14dp" />
+
+                </RadioGroup>
+                <LinearLayout
+                    android:id="@+id/modetxt"
+                    android:layout_marginTop="@dimen/_14sdp"
+                    android:layout_width="0dp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="@id/accRMargin"
+                    android:orientation="horizontal"
+                    android:layout_height="match_parent"
+                    app:layout_constraintStart_toStartOf="@id/accLMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/radioGroup1" >
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mode"
+                    android:visibility="gone"
+                    android:letterSpacing="0.2"
+                    android:textSize="@dimen/_12sdp"
+                    android:textColor="@color/Black"
+                    android:textStyle="bold" />
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:src="@drawable/line"
+                        />
+                </LinearLayout>
+                <RadioGroup
+                    android:id="@+id/radioGroup2"
+                    android:layout_width="0dp"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="@id/accLMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/modetxt">
+
+                    <!--adding a radio button -->
+                    <RadioButton
+                        android:id="@+id/active"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/colorPrimary"
+                        android:text="Active"
+                        android:checked="true"
+                        android:textAlignment="center"
+                        android:textSize="14dp" />
+
+                    <RadioButton
+                        android:id="@+id/inactive"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_12sdp"
+                        android:buttonTint="@color/colorPrimary"
+                        android:text="Inactive"
+                        android:textAlignment="center"
+                        android:textSize="14dp" />
+
+                </RadioGroup>
+                <LinearLayout
+                    android:id="@+id/gstaplica"
+                    android:layout_marginTop="@dimen/_14sdp"
+                    android:layout_width="0dp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="@id/accRMargin"
+                    android:orientation="horizontal"
+                    android:layout_height="match_parent"
+                    app:layout_constraintStart_toStartOf="@id/accLMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/radioGroup2" >
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gstapplicable"
+                    android:textSize="@dimen/_12sdp"
+                    android:letterSpacing="0.2"
+                    android:textColor="@color/Black"
+                    android:textStyle="bold"
+                    />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:src="@drawable/line"
+                    />
+            </LinearLayout>
+                <RadioGroup
+                    android:id="@+id/radioGroup3"
+                    android:layout_width="0dp"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="@id/accLMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/gstaplica">
+
+                    <!--adding a radio button -->
+                    <RadioButton
+                        android:id="@+id/gstapplicalbleyes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/colorPrimary"
+                        android:checked="true"
+                        android:text="Yes"
+                        android:textAlignment="center"
+                        android:textSize="14dp" />
+
+                    <RadioButton
+                        android:id="@+id/gstapplicalbleno"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_12sdp"
+                        android:buttonTint="@color/colorPrimary"
+                        android:text="No"
+                        android:textAlignment="center"
+                        android:textSize="14dp" />
+
+                </RadioGroup>
+
+                <TextView
+                    android:id="@+id/servicetzxtext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_14sdp"
+                    android:visibility="gone"
+                    android:text="@string/servicetax"
+                    android:textColor="@color/Black"
+                    android:letterSpacing="0.2"
+                    android:textSize="@dimen/_12sdp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="@id/accLMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/radioGroup3" />
+
+                <EditText
+                    android:id="@+id/servicetaxedi"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:background="@drawable/custom_selector"
+                    android:clickable="true"
+                    android:drawableEnd="@drawable/price"
+                    android:focusable="true"
+                    android:hint="10%"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
+                    android:digits="1234567890."
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:textCursorDrawable="@drawable/custom_cursor"
+                    android:textSelectHandle="@drawable/custom_cursor"
+                    android:textSize="@dimen/_10sdp"
+                    android:visibility="gone"
+                    app:layout_constraintLeft_toLeftOf="@+id/accLMargin"
+                    app:layout_constraintRight_toRightOf="@+id/accRMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/servicetzxtext"
+                    tools:ignore="Autofill" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/accCons"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:background="@drawable/custom_textview"
+                    android:visibility="gone"
+                    app:layout_constraintLeft_toLeftOf="@id/accLMargin"
+                    app:layout_constraintRight_toRightOf="@+id/accRMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/servicetaxedi">
+                    <com.hbb20.CountryCodePicker
+                        android:id="@+id/accNation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_6sdp"
+                        android:paddingStart="@dimen/_6sdp"
+                        android:paddingTop="@dimen/_4sdp"
+                        android:paddingEnd="@dimen/_1sdp"
+                        android:paddingBottom="@dimen/_4sdp"
+                        app:ccp_arrowSize="@dimen/_1sdp"
+                        app:ccp_defaultNameCode="in"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ContentDescription" />
+
+                   <!-- <com.rilixtech.widget.countrycodepicker.CountryCodePicker
+                        android:id="@+id/accNation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_6sdp"
+                        android:paddingStart="@dimen/_6sdp"
+                        android:paddingTop="@dimen/_4sdp"
+                        android:paddingEnd="@dimen/_1sdp"
+                        android:paddingBottom="@dimen/_4sdp"
+                        app:ccp_arrowSize="@dimen/_1sdp"
+                        app:ccp_defaultNameCode="in"
+                        app:ccp_enablePhoneAutoFormatter="true"
+                        app:ccp_hideNameCode="true"
+                        app:ccp_hidePhoneCode="true"
+                        app:ccp_keyboardAutoPopOnSearch="false"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ContentDescription" />
+-->
+                    <EditText
+                        android:id="@+id/accMobNum"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_24sdp"
+                        android:background="@color/transparent"
+                        android:clickable="true"
+                        android:drawableEnd="@drawable/call"
+                        android:focusable="true"
+                        android:textColor="@color/Black"
+
+                        android:hint="@string/mob_num_text"
+                        android:imeOptions="actionDone"
+                        android:inputType="numberDecimal"
+                        android:maxLength="10"
+                        android:paddingStart="@dimen/_10sdp"
+                        android:paddingEnd="@dimen/_10sdp"
+                        android:textCursorDrawable="@drawable/custom_cursor"
+                        android:textSelectHandle="@drawable/custom_cursor"
+                        android:textSize="@dimen/_10sdp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/accNation"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="Autofill" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/mode"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_14sdp"
+                    android:text="@string/mode"
+                    android:textSize="@dimen/_12sdp"
+                    android:textColor="@color/Black"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="@id/accLMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/accCons" />
+
+
+             <!--   <CheckBox
+                    android:id="@+id/logChkBox"
+                    android:layout_width="@dimen/_20sdp"
+
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:gravity="center"
+                    android:button="@drawable/check_box_inactive"
+                    android:buttonTint="@color/colorPrimary"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:textSize="@dimen/_14sdp"
+                    android:visibility="gone"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="@id/accLMargin"
+                    app:layout_constraintTop_toBottomOf="@id/mode"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/tv1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:background="@color/transparent"
+                    android:text="@string/monday"
+                    android:textSize="@dimen/_10sdp"
+                    android:textColor="@color/Black"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="@+id/logChkBox"
+                    app:layout_constraintLeft_toRightOf="@+id/logChkBox"
+                    app:layout_constraintTop_toTopOf="@+id/logChkBox" />
+
+
+                <LinearLayout
+                    android:id="@+id/mondaycontainer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:orientation="horizontal"
+                    android:visibility="visible"
+                    android:weightSum="2"
+                    app:layout_constraintEnd_toEndOf="@id/accRMargin"
+                    app:layout_constraintStart_toStartOf="@id/accLMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/logChkBox">
+
+                    <TextView
+                        android:id="@+id/monstarttime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:layout_weight="1"
+                        android:background="@drawable/custom_selector"
+                        android:hint="@string/startime"
+                        android:padding="@dimen/_10sdp"
+                        android:textColor="@color/Black" />
+
+                    <TextView
+                        android:id="@+id/monendtime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/custom_selector"
+                        android:hint="@string/endtime"
+                        android:padding="@dimen/_10sdp"
+                        android:textColor="@color/Black" />
+                </LinearLayout>
+
+                <CheckBox
+                    android:id="@+id/tuesdaycheck"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:button="@drawable/check_box_inactive"
+                    android:buttonTint="@color/colorPrimary"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:textSize="@dimen/_14sdp"
+                    android:visibility="visible"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="@id/accLMargin"
+                    app:layout_constraintTop_toBottomOf="@id/mondaycontainer"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:textColor="@color/Black"
+                    android:background="@color/transparent"
+                    android:text="@string/tuesday"
+                    android:textSize="@dimen/_10sdp"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="@+id/tuesdaycheck"
+                    app:layout_constraintStart_toEndOf="@+id/tuesdaycheck"
+                    app:layout_constraintTop_toBottomOf="@+id/mondaycontainer" />
+
+                <LinearLayout
+                    android:id="@+id/tuesdaycontainer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:orientation="horizontal"
+                    android:visibility="visible"
+                    android:weightSum="2"
+                    app:layout_constraintEnd_toEndOf="@id/accRMargin"
+                    app:layout_constraintStart_toStartOf="@id/accLMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/tuesdaycheck">
+
+                    <TextView
+                        android:id="@+id/tuesstarttime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:layout_weight="1"
+                        android:background="@drawable/custom_selector"
+                        android:hint="@string/startime"
+                        android:padding="@dimen/_10sdp"
+                        android:textColor="@color/Black" />
+
+                    <TextView
+                        android:id="@+id/tuesendtime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/custom_selector"
+                        android:hint="@string/endtime"
+                        android:padding="@dimen/_10sdp"
+                        android:textColor="@color/Black" />
+                </LinearLayout>
+
+                <CheckBox
+                    android:id="@+id/wednesdaycheck"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:button="@drawable/check_box_inactive"
+                    android:buttonTint="@color/colorPrimary"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:textSize="@dimen/_14sdp"
+                    android:visibility="visible"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="@id/accLMargin"
+                    app:layout_constraintTop_toBottomOf="@id/tuesdaycontainer"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:textColor="@color/Black"
+                    android:background="@color/transparent"
+                    android:text="@string/wednesday"
+                    android:textSize="@dimen/_10sdp"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="@+id/wednesdaycheck"
+                    app:layout_constraintStart_toEndOf="@+id/wednesdaycheck"
+                    app:layout_constraintTop_toBottomOf="@+id/tuesdaycontainer" />
+
+                <LinearLayout
+                    android:id="@+id/wednesdaycontainer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:orientation="horizontal"
+                    android:visibility="visible"
+                    android:weightSum="2"
+                    app:layout_constraintEnd_toEndOf="@id/accRMargin"
+                    app:layout_constraintStart_toStartOf="@id/accLMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/wednesdaycheck">
+
+                    <TextView
+                        android:id="@+id/wednesstarttime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:layout_weight="1"
+
+                        android:background="@drawable/custom_selector"
+                        android:hint="@string/startime"
+                        android:padding="@dimen/_10sdp"
+                        android:textColor="@color/Black" />
+
+                    <TextView
+                        android:id="@+id/wednesdayendtime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/custom_selector"
+                        android:hint="@string/endtime"
+                        android:padding="@dimen/_10sdp"
+                        android:textColor="@color/Black" />
+                </LinearLayout>
+
+                <CheckBox
+                    android:id="@+id/thursdaycheck"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:button="@drawable/check_box_inactive"
+                    android:buttonTint="@color/colorPrimary"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:textSize="@dimen/_14sdp"
+                    android:visibility="visible"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="@id/accLMargin"
+                    app:layout_constraintTop_toBottomOf="@id/wednesdaycontainer"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:background="@color/transparent"
+                    android:textColor="@color/Black"
+                    android:text="@string/thursday"
+                    android:textSize="@dimen/_10sdp"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="@+id/thursdaycheck"
+                    app:layout_constraintStart_toEndOf="@+id/thursdaycheck"
+                    app:layout_constraintTop_toBottomOf="@+id/wednesdaycontainer" />
+
+                <LinearLayout
+                    android:id="@+id/thursdaycontainer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:orientation="horizontal"
+                    android:visibility="visible"
+                    android:weightSum="2"
+                    app:layout_constraintEnd_toEndOf="@id/accRMargin"
+                    app:layout_constraintStart_toStartOf="@id/accLMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/thursdaycheck">
+
+                    <TextView
+                        android:id="@+id/thursstarttime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:layout_weight="1"
+                        android:background="@drawable/custom_selector"
+                        android:hint="@string/startime"
+                        android:padding="@dimen/_10sdp"
+                        android:textColor="@color/Black" />
+
+                    <TextView
+                        android:id="@+id/thursdayendtime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/custom_selector"
+                        android:hint="@string/endtime"
+                        android:padding="@dimen/_10sdp"
+                        android:textColor="@color/Black" />
+                </LinearLayout>
+
+                <CheckBox
+                    android:id="@+id/fridaycheck"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:button="@drawable/check_box_inactive"
+                    android:buttonTint="@color/colorPrimary"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:textSize="@dimen/_14sdp"
+                    android:visibility="visible"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="@id/accLMargin"
+                    app:layout_constraintTop_toBottomOf="@id/thursdaycontainer"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:background="@color/transparent"
+                    android:textColor="@color/Black"
+                    android:text="@string/friday"
+                    android:textSize="@dimen/_10sdp"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="@+id/fridaycheck"
+                    app:layout_constraintStart_toEndOf="@+id/fridaycheck"
+                    app:layout_constraintTop_toBottomOf="@+id/thursdaycontainer" />
+
+                <LinearLayout
+                    android:id="@+id/fridaycontainer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:orientation="horizontal"
+                    android:visibility="visible"
+                    android:weightSum="2"
+                    app:layout_constraintEnd_toEndOf="@id/accRMargin"
+                    app:layout_constraintStart_toStartOf="@id/accLMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/fridaycheck">
+
+                    <TextView
+                        android:id="@+id/fridastarttime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:layout_weight="1"
+                        android:background="@drawable/custom_selector"
+                        android:hint="@string/startime"
+                        android:padding="@dimen/_10sdp"
+                        android:textColor="@color/Black" />
+
+                    <TextView
+                        android:id="@+id/fridayendtime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/custom_selector"
+                        android:hint="@string/endtime"
+                        android:padding="@dimen/_10sdp"
+                        android:textColor="@color/Black" />
+                </LinearLayout>
+
+                <CheckBox
+                    android:id="@+id/saturdaycheck"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:button="@drawable/check_box_inactive"
+                    android:buttonTint="@color/colorPrimary"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:textSize="@dimen/_14sdp"
+                    android:visibility="visible"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="@id/accLMargin"
+                    app:layout_constraintTop_toBottomOf="@id/fridaycontainer"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:background="@color/transparent"
+                    android:text="@string/saturday"
+                    android:textSize="@dimen/_10sdp"
+                    android:textColor="@color/Black"
+
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="@+id/saturdaycheck"
+                    app:layout_constraintStart_toEndOf="@+id/saturdaycheck"
+                    app:layout_constraintTop_toBottomOf="@+id/fridaycontainer" />
+
+                <LinearLayout
+                    android:id="@+id/saturdaycontainer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:orientation="horizontal"
+                    android:visibility="visible"
+                    android:weightSum="2"
+                    app:layout_constraintEnd_toEndOf="@id/accRMargin"
+                    app:layout_constraintStart_toStartOf="@id/accLMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/saturdaycheck">
+
+                    <TextView
+                        android:id="@+id/saturstarttime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:layout_weight="1"
+                        android:background="@drawable/custom_selector"
+                        android:hint="@string/startime"
+                        android:padding="@dimen/_10sdp"
+                        android:textColor="@color/Black" />
+
+                    <TextView
+                        android:id="@+id/saturdayendtime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/custom_selector"
+                        android:hint="@string/endtime"
+                        android:padding="@dimen/_10sdp"
+                        android:textColor="@color/Black" />
+                </LinearLayout>
+
+                <CheckBox
+                    android:id="@+id/sundaycheck"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:button="@drawable/check_box_inactive"
+                    android:buttonTint="@color/colorPrimary"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:textSize="@dimen/_14sdp"
+                    android:visibility="visible"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="@id/accLMargin"
+                    app:layout_constraintTop_toBottomOf="@id/saturdaycontainer"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:background="@color/transparent"
+                    android:text="@string/sunday"
+                    android:textColor="@color/Black"
+                    android:textSize="@dimen/_10sdp"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="@+id/sundaycheck"
+                    app:layout_constraintStart_toEndOf="@+id/sundaycheck"
+                    app:layout_constraintTop_toBottomOf="@+id/saturdaycontainer" />
+
+                <LinearLayout
+                    android:id="@+id/sundaycontainer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:orientation="horizontal"
+                    android:visibility="visible"
+                    android:weightSum="2"
+                    app:layout_constraintEnd_toEndOf="@id/accRMargin"
+                    app:layout_constraintStart_toStartOf="@id/accLMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/sundaycheck">
+
+                    <TextView
+                        android:id="@+id/sundaystarttime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:layout_weight="1"
+                        android:background="@drawable/custom_selector"
+                        android:hint="@string/startime"
+                        android:padding="@dimen/_10sdp"
+                        android:textColor="@color/Black" />
+
+                    <TextView
+                        android:id="@+id/sundayendtime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/custom_selector"
+                        android:hint="@string/endtime"
+                        android:padding="@dimen/_10sdp"
+                        android:textColor="@color/Black" />
+                </LinearLayout>
+
+-->
+
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/servicetaxgroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:constraint_referenced_ids="servicetaxedi,servicetzxtext" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/accConBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:background="@drawable/custom_border"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:text="@string/submit"
+                    android:textAllCaps="false"
+                    android:textSize="@dimen/_12sdp"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="@id/accBMargin"
+                    app:layout_constraintLeft_toLeftOf="@+id/accLMargin"
+                    app:layout_constraintRight_toRightOf="@+id/accRMargin"
+                    app:layout_constraintTop_toBottomOf="@id/radioGroup1"
+                    app:layout_constraintVertical_chainStyle="spread" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

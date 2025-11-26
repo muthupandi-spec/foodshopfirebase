@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:backgroundTint="@color/transparent"
+    android:clickable="false">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/top_curved_border"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/LMargin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.05" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/RMargin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/TMargin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.05" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/BMargin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.90" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/logOutBtn"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:background="@drawable/button_alter"
+            android:text="@string/confirm"
+            android:textAllCaps="false"
+            android:textColor="@color/White"
+            android:textSize="@dimen/_12sdp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/BMargin"
+            app:layout_constraintLeft_toRightOf="@+id/logCancelBtn"
+            app:layout_constraintRight_toRightOf="@+id/RMargin" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/logCancelBtn"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:background="@drawable/button_alter_two"
+            android:text="@string/cancel"
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/_12sdp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="@+id/LMargin"
+            app:layout_constraintRight_toLeftOf="@+id/logOutBtn" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/logTxtView2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:layout_marginBottom="@dimen/_24sdp"
+            android:gravity="center"
+            android:textColor="@color/Semi_Black"
+            android:textSize="@dimen/_13sdp"
+            app:layout_constraintBottom_toTopOf="@+id/logCancelBtn"
+            app:layout_constraintLeft_toLeftOf="@+id/LMargin"
+            app:layout_constraintRight_toRightOf="@+id/RMargin" />
+
+        <View
+            android:id="@+id/logView1"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_marginBottom="@dimen/_16sdp"
+            android:background="@color/LightGrey"
+            app:layout_constraintBottom_toTopOf="@+id/logTxtView2"
+            app:layout_constraintLeft_toLeftOf="@+id/LMargin"
+            app:layout_constraintRight_toRightOf="@+id/RMargin" />
+
+        <TextView
+            android:id="@+id/logTxtView1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_16sdp"
+            android:gravity="center"
+            android:text="@string/logout"
+            android:textColor="@color/Black"
+            android:textSize="@dimen/_18sdp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/logView1"
+            app:layout_constraintLeft_toLeftOf="@+id/LMargin"
+            app:layout_constraintRight_toRightOf="@+id/RMargin" />
+
+        <View
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_2sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:background="@color/LightGrey"
+            app:layout_constraintBottom_toTopOf="@+id/logTxtView1"
+            app:layout_constraintLeft_toLeftOf="@+id/LMargin"
+            app:layout_constraintRight_toRightOf="@+id/RMargin"
+            app:layout_constraintTop_toTopOf="@+id/TMargin" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

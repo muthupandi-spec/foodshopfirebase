@@ -1,0 +1,194 @@
+<resources>
+    <string name="app_name">Foodpartner</string>
+    <string name="login_to_your_account">Login to Your Account</string>
+    <string name="facebook_accountkit_id">86a614c0d50f8e010c15b3b92a26dfb4</string>
+    <string name="facebook_app_id">1090954868823074</string>
+    <string name="fb_login_protocol_scheme">fb1234</string>
+    <string name="facebook_client_token">2952aa4b433c81feee1a110a34a136c5</string>
+    <string name="google_maps_key">AIzaSyCWQj746sQoI8ul4djjQjopk-YhISxmi9o</string>
+
+    <string name="total_earnings_in_rupees">Total earnings in Rupees</string>
+    <string name="earnings_history">Earnings History</string>
+    <string name="online_earnings">Earnings</string>
+    <string name="wallet_amount">Wallet Amount</string>
+    <string name="mob_num_text">+00 00000 00000                      </string>
+    <string name="remember_me">Remember Me</string>
+    <string name="logout_content">Are you sure you want to log out?</string>
+    <string name="remove_acc_content">Are you sure you want to Deactivate your account ?</string>
+    <string name="remove_account">Remove Account</string>
+    <string name="username">User name</string>
+    <string name="sign_in">Sign in</string>
+    <string name="or_continue_with">or continue with</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="sign_up">Sign up</string>
+    <string name="otp_verification">OTP Verification</string>
+    <string name="fill_your_profile">Fill Your Profile</string>
+    <string name="full_name">Full Name</string>
+    <string name="firstname">First Name</string>
+    <string name="lastname">Last Name</string>
+    <string name="order">Orders</string>
+    <string name="orderhistory">Orders History</string>
+    <string name="foodname">Food Name</string>
+    <string name="store">Stores</string>
+    <string name="productcate">Product category</string>
+    <string name="categoery">Categories</string>
+    <string name="stocktxt">Stock Status</string>
+    <string name="availabletime">Available Timing</string>
+    <string name="instock">InStock</string>
+    <string name="outstock">Out of stock </string>
+    <string name="meat">Meat and Eat</string>
+    <string name="notfoundesc">Sorry, the keyword you entered cannot be found, please check again or search with another keyword.</string>
+    <string name="history">History</string>
+    <string name="opentime">Opening Time</string>
+    <string name="closetime">Closing Time</string>
+    <string name="profile">Profile</string>
+    <string name="editprofile">EditProfile</string>
+    <string name="restaurantname">Restaurant Name</string>
+    <string name="restaurantaddress">Restaurant Address</string>
+    <string name="nick_name">Last Name</string>
+    <string name="date_of_birth">Date of Birth</string>
+    <string name="select_dob">Select Date of Birth</string>
+    <string name="gender">Gender</string>
+    <string name="continue1">Continue</string>
+    <string name="submit">Submit</string>
+    <string name="email">Email</string>
+    <string name="aadharno">Aadhar nummber</string>
+    <string name="business">Business</string>
+    <string name="businessname">Business Name</string>
+    <string name="businessaddress">Business Address</string>
+    <string name="fssanumber">FSSAI Number</string>
+    <string name="panno">PAN Number</string>
+    <string name="gstno">GST Number</string>
+    <string name="bankname">Choose Bank Name</string>
+    <string name="accname">Enter Account  Name</string>
+    <string name="accnumber">Enter Account  Number</string>
+    <string name="ifsccode">Enter IFSC Code</string>
+    <string name="personaldetails">Personal Details</string>
+    <string name="shopdetail">Shop Details</string>
+    <string name="shopdedit">Shop Edit</string>
+    <string name="updatestore">Update your Store Current Status</string>
+    <string name="startime">Start time</string>
+    <string name="update">Update</string>
+    <string name="accsetting">Account Settings</string>
+    <string name="endtime">End time</string>
+    <string name="empty">No order</string>
+    <string name="activeempt">You do not have an active order at this time</string>
+    <string name="noorder">You do not have an active order at this time</string>
+    <string name="preorder">Pre Order</string>
+    <string name="otherdetail">Other Details Status</string>
+    <string name="foodtype">Restaurant Category Type</string>
+    <string name="mode">Mode</string>
+    <string name="gstapplicable">GST Applicable</string>
+    <string name="servicetax">Service Tax</string>
+    <!--    <string name="facebook_app_id">1385416912225322</string>-->
+    <string name="businessdetail">Business Details</string>
+    <string name="bankdetail">Bank Details</string>
+    <string name="_3_items">3 items</string>
+    <string name="_2_4km">2.4km</string>
+    <string name="_42_22">$42.22</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="order_details">More Details</string>
+    <string name="orderdetails">Order Details</string>
+    <string name="productdetails">Product Details</string>
+    <string name="help">Help</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="promocode">Discount Amount</string>
+    <string name="admin">Admin Charge</string>
+    <string name="restaurantdes">Restaurant description</string>
+    <string name="delcharge">Delivery Charge</string>
+    <string name="track_driver">Accept Order</string>
+    <string name="save">Save</string>
+    <string name="shopremove">Remove Shop</string>
+    <string name="shop">Shop</string>
+    <string name="enablepack">Enable Packing</string>
+    <string name="inr_with">₹%1$s</string>
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="saturday">Saturday</string>
+    <string name="sunday">Sunday</string>
+    <string name="declinee">Decline</string>
+    <string name="accept">Accept</string>
+    <string name="schedule">Schedule Timing</string>
+    <string name="reset">Reset</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancelled</string>
+    <string name="complete">Completed</string>
+    <string name="price">Price</string>
+    <string name="sellingprice">Selling Price</string>
+    <string name="strikeprice">Strike Price</string>
+    <string name="Activebold"><b>Active</b></string>
+    <string name="cancelbold"><b>Cancelled</b></string>
+    <string name="completebold"><b>Completed</b></string>
+    <string name="declineorder">Are you Sure to decline the Order?</string>
+    <string name="logout">Are you Sure want to be logout ?</string>
+    <string name="logout1">Logout</string>
+    <string name="deleteacc">Remove Account</string>
+    <string name="deleteaccount">Are you Sure want to Remove the account ?</string>
+    <string name="title_activity_sampleactivity">Sampleactivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="items">%1$s Items</string>
+    <string name="Km">%1$s Km</string>
+
+    <string name="lorem_ipsum">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
+        volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus
+        dui nec risus. Maecenas non sodales nisi, vel dictum dolor. Class aptent taciti sociosqu ad
+        litora torquent per conubia nostra, per inceptos himenaeos. Suspendisse blandit eleifend
+        diam, vel rutrum tellus vulputate quis. Aliquam eget libero aliquet, imperdiet nisl a,
+        ornare ex. Sed rhoncus est ut libero porta lobortis. Fusce in dictum tellus.\n\n
+        Suspendisse interdum ornare ante. Aliquam nec cursus lorem. Morbi id magna felis. Vivamus
+        egestas, est a condimentum egestas, turpis nisl iaculis ipsum, in dictum tellus dolor sed
+        neque. Morbi tellus erat, dapibus ut sem a, iaculis tincidunt dui. Interdum et malesuada
+        fames ac ante ipsum primis in faucibus. Curabitur et eros porttitor, ultricies urna vitae,
+        molestie nibh. Phasellus at commodo eros, non aliquet metus. Sed maximus nisl nec dolor
+        bibendum, vel congue leo egestas.\n\n
+        Sed interdum tortor nibh, in sagittis risus mollis quis. Curabitur mi odio, condimentum sit
+        amet auctor at, mollis non turpis. Nullam pretium libero vestibulum, finibus orci vel,
+        molestie quam. Fusce blandit tincidunt nulla, quis sollicitudin libero facilisis et. Integer
+        interdum nunc ligula, et fermentum metus hendrerit id. Vestibulum lectus felis, dictum at
+        lacinia sit amet, tristique id quam. Cras eu consequat dui. Suspendisse sodales nunc ligula,
+        in lobortis sem porta sed. Integer id ultrices magna, in luctus elit. Sed a pellentesque
+        est.\n\n
+        Aenean nunc velit, lacinia sed dolor sed, ultrices viverra nulla. Etiam a venenatis nibh.
+        Morbi laoreet, tortor sed facilisis varius, nibh orci rhoncus nulla, id elementum leo dui
+        non lorem. Nam mollis ipsum quis auctor varius. Quisque elementum eu libero sed commodo. In
+        eros nisl, imperdiet vel imperdiet et, scelerisque a mauris. Pellentesque varius ex nunc,
+        quis imperdiet eros placerat ac. Duis finibus orci et est auctor tincidunt. Sed non viverra
+        ipsum. Nunc quis augue egestas, cursus lorem at, molestie sem. Morbi a consectetur ipsum, a
+        placerat diam. Etiam vulputate dignissim convallis. Integer faucibus mauris sit amet finibus
+        convallis.\n\n
+        Phasellus in aliquet mi. Pellentesque habitant morbi tristique senectus et netus et
+        malesuada fames ac turpis egestas. In volutpat arcu ut felis sagittis, in finibus massa
+        gravida. Pellentesque id tellus orci. Integer dictum, lorem sed efficitur ullamcorper,
+        libero justo consectetur ipsum, in mollis nisl ex sed nisl. Donec maximus ullamcorper
+        sodales. Praesent bibendum rhoncus tellus nec feugiat. In a ornare nulla. Donec rhoncus
+        libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
+        vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
+    </string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="total">Total</string>
+    <string name="searching_for_a_boy">Searching for a boy</string>
+    <string name="shop_category">Shop Category</string>
+    <string name="choose_shop_category_type">Choose Shop Category Type</string>
+    <string name="cancel1">Cancel</string>
+    <string name="remove_product">Remove Product</string>
+    <string name="earnings">Earnings</string>
+    <string name="please_enter_your_otp_number">Please enter your otp number</string>
+    <string name="password">Password</string>
+    <string name="restaurant_email">Restaurant Email</string>
+    <string name="restaurant_mobile_number">Restaurant Mobile Number</string>
+    <string name="restaurant_password">Restaurant Password</string>
+    <string name="restaurant_street">Restaurant Street</string>
+    <string name="restaurant_city">Restaurant City</string>
+    <string name="restaurant_landmark">Restaurant LandMark</string>
+    <string name="tradeid">TradeId</string>
+
+</resources>

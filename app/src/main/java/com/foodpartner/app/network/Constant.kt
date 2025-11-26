@@ -1,0 +1,41 @@
+package com.foodpartner.app.network
+
+object Constant {
+    var userid: String = ""
+    var position: String = ""
+    var starttime: String = ""
+    var endtime: String = ""
+    var restaurantname: String = ""
+    var restaurantcategory: String = ""
+    var grandtotal: String = ""
+    var deliverytype: String = ""
+    var orderid: String = ""
+    var status: String = ""
+    var delivercharege: String = ""
+    var orderstatus: String = ""
+    var shopid: String = ""
+    var bank_id: Int = 0
+    var shopchecked: String = ""
+    var fooditemcheck: String = ""
+    var scheduletime: String = ""
+    var boyid: String = ""
+    var historypage: String = ""
+    var orderlocation: String = ""
+    var dicount: String = ""
+    var logoutdelete: String = ""
+    var km: String = ""
+    var admincharge: String = ""
+    var foodcount: String = ""
+    var foodid: String = ""
+    var maincat: Int = 0
+    var shopmaincat: Int = 0
+    var fcm: String = ""
+    var image: String = ""
+    var foodname: String = ""
+    var price: String = ""
+    var desc: String = ""
+    var desc1: String = ""
+    var category: String = ""
+    var categoryid: String = ""
+    var type: String = ""
+}

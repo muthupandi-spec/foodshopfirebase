@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "158570605801",
+    "project_id": "bhashabhai-da0a6",
+    "storage_bucket": "bhashabhai-da0a6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:158570605801:android:202818ec9d166e939fd478",
+        "android_client_info": {
+          "package_name": "com.bashabhaicustomer.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOlSv-7K_jHjL9Ez7zpI4-UXkZojlOwqU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:158570605801:android:9e2dd8861b812aa99fd478",
+        "android_client_info": {
+          "package_name": "com.foodpartner.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOlSv-7K_jHjL9Ez7zpI4-UXkZojlOwqU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

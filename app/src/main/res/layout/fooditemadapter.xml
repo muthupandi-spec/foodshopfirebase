@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/detailcontainer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/_15sdp">
+    >
+
+    <CheckBox
+        android:id="@+id/logChkBox"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:button="@drawable/check_box_inactive"
+        android:buttonTint="@color/colorPrimary"
+        android:padding="@dimen/_10sdp"
+
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/detailcontainer"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="@+id/detailcontainer"
+        app:layout_constraintTop_toTopOf="@id/detailcontainer" />
+
+    <TextView
+        android:id="@+id/fooditem"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginEnd="@dimen/_4sdp"
+        android:text="chicken 65"
+        android:textColor="@color/Black"
+        android:textSize="@dimen/_12sdp"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toBottomOf="@id/logChkBox"
+        app:layout_constraintEnd_toStartOf="@+id/foodamt"
+        app:layout_constraintStart_toEndOf="@id/logChkBox"
+        app:layout_constraintTop_toTopOf="@id/logChkBox"
+        tools:ignore="TextSizeCheck" />
+
+    <TextView
+        android:id="@+id/foodCount"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_24sdp"
+        android:layout_marginEnd="@dimen/_8sdp"
+        android:textSize="@dimen/_13sdp"
+
+        android:gravity="center_horizontal"
+        app:layout_constraintBottom_toBottomOf="@+id/fooditem"
+        app:layout_constraintEnd_toStartOf="@+id/foodamt"
+        app:layout_constraintStart_toEndOf="@+id/fooditem"
+        app:layout_constraintTop_toTopOf="@+id/fooditem" />
+
+    <TextView
+        android:id="@+id/foodamt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/Black"
+        android:text="3$"
+        android:textSize="@dimen/_13sdp"
+        android:textStyle="normal"
+        app:layout_constraintEnd_toEndOf="@id/detailcontainer"
+        app:layout_constraintStart_toEndOf="@+id/foodCount"
+        app:layout_constraintTop_toTopOf="@id/detailcontainer"
+        tools:ignore="TextSizeCheck" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

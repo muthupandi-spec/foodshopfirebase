@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/White"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+ >
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/accLMargin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.05" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/accRMargin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent=".95" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/accTMargin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.02" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/accBMargin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.98" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/toolabarcontainer"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_40sdp"
+                app:layout_constraintEnd_toEndOf="@id/accRMargin"
+                app:layout_constraintStart_toStartOf="@id/accLMargin"
+                app:layout_constraintTop_toTopOf="@id/accTMargin">
+
+                <ImageView
+                    android:id="@+id/backBtn"
+                    android:layout_width="@dimen/_36sdp"
+                    android:layout_height="@dimen/_24sdp"
+                    android:background="@drawable/ic_logo"
+                    app:layout_constraintBottom_toBottomOf="@+id/toolabarcontainer"
+                    app:layout_constraintStart_toStartOf="@+id/toolabarcontainer"
+                    app:layout_constraintTop_toTopOf="@+id/toolabarcontainer"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/accountHead"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:textColor="@color/Black"
+                    android:text="@string/profile"
+                    android:textSize="@dimen/_14sdp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@id/toolabarcontainer"
+                    app:layout_constraintLeft_toRightOf="@+id/backBtn"
+                    app:layout_constraintTop_toTopOf="@+id/toolabarcontainer" />
+
+                <ImageView
+                    android:id="@+id/notification"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:background="@drawable/notification"
+                    android:padding="@dimen/_45sdp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@id/toolabarcontainer"
+                    app:layout_constraintEnd_toEndOf="@+id/toolabarcontainer"
+                    app:layout_constraintTop_toTopOf="@+id/toolabarcontainer"
+                    tools:ignore="ContentDescription" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profileimg"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:background="@drawable/profile"
+                android:src="@drawable/ic_logo"
+                android:visibility="visible"
+                app:civ_border_color="@color/LightGrey"
+                app:civ_border_width="2dp"
+                app:layout_constraintEnd_toEndOf="@id/accRMargin"
+                app:layout_constraintStart_toStartOf="@id/accLMargin"
+                app:layout_constraintTop_toBottomOf="@id/toolabarcontainer" />
+
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:textSize="@dimen/_18sdp"
+                android:textStyle="bold"
+                android:text="Muthupandi R"
+                android:textColor="@color/Black"
+                app:layout_constraintEnd_toEndOf="@id/accRMargin"
+                app:layout_constraintStart_toStartOf="@id/accLMargin"
+                app:layout_constraintTop_toBottomOf="@id/profileimg" />
+
+            <TextView
+                android:id="@+id/phoneno"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:textSize="@dimen/_14sdp"
+                android:textStyle="normal"
+                app:layout_constraintEnd_toEndOf="@id/accRMargin"
+                app:layout_constraintStart_toStartOf="@id/accLMargin"
+                app:layout_constraintTop_toBottomOf="@id/username" />
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/profilecontainer"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_45sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                app:layout_constraintEnd_toEndOf="@id/accRMargin"
+                app:layout_constraintStart_toStartOf="@id/accLMargin"
+                app:layout_constraintTop_toBottomOf="@+id/phoneno">
+
+                <ImageView
+                    android:id="@+id/profile"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_45sdp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/prof"
+                    app:layout_constraintBottom_toBottomOf="@+id/profilecontainer"
+                    app:layout_constraintStart_toStartOf="@id/profilecontainer"
+                    app:layout_constraintTop_toTopOf="@+id/profilecontainer" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:textColor="@color/Black"
+                    android:text="@string/profile"
+                    android:textSize="@dimen/_12sdp"
+                    android:textStyle="normal"
+                    app:layout_constraintBottom_toBottomOf="@id/profilecontainer"
+                    app:layout_constraintStart_toEndOf="@id/profile"
+                    app:layout_constraintTop_toTopOf="@id/profilecontainer" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/sideicon"
+                    app:layout_constraintBottom_toBottomOf="@id/profilecontainer"
+                    app:layout_constraintEnd_toEndOf="@id/profilecontainer"
+                    app:layout_constraintTop_toTopOf="@id/profilecontainer" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/businesscontainer"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_45sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                app:layout_constraintEnd_toEndOf="@id/accRMargin"
+                app:layout_constraintStart_toStartOf="@id/accLMargin"
+                app:layout_constraintTop_toBottomOf="@+id/profilecontainer">
+
+                <ImageView
+                    android:id="@+id/business"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_45sdp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/prof"
+                    app:layout_constraintBottom_toBottomOf="@+id/businesscontainer"
+                    app:layout_constraintStart_toStartOf="@id/businesscontainer"
+                    app:layout_constraintTop_toTopOf="@+id/businesscontainer" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:text="@string/business"
+                    android:textSize="@dimen/_12sdp"
+                    android:textStyle="normal"
+                    android:textColor="@color/Black"
+                    app:layout_constraintBottom_toBottomOf="@id/businesscontainer"
+                    app:layout_constraintStart_toEndOf="@id/business"
+                    app:layout_constraintTop_toTopOf="@id/businesscontainer" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/sideicon"
+                    app:layout_constraintBottom_toBottomOf="@id/businesscontainer"
+                    app:layout_constraintEnd_toEndOf="@id/businesscontainer"
+                    app:layout_constraintTop_toTopOf="@id/businesscontainer" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/bankcontainer"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_45sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                app:layout_constraintEnd_toEndOf="@id/accRMargin"
+                app:layout_constraintStart_toStartOf="@id/accLMargin"
+                app:layout_constraintTop_toBottomOf="@+id/businesscontainer">
+
+                <ImageView
+                    android:id="@+id/bank"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/bank"
+                    app:layout_constraintBottom_toBottomOf="@+id/bankcontainer"
+                    app:layout_constraintStart_toStartOf="@id/bankcontainer"
+                    app:layout_constraintTop_toTopOf="@+id/bankcontainer" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:text="@string/bankdetail"
+                    android:textSize="@dimen/_12sdp"
+                    android:textColor="@color/Black"
+                    android:textStyle="normal"
+                    app:layout_constraintBottom_toBottomOf="@id/bankcontainer"
+                    app:layout_constraintStart_toEndOf="@id/bank"
+                    app:layout_constraintTop_toTopOf="@id/bankcontainer" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/sideicon"
+                    app:layout_constraintBottom_toBottomOf="@id/bankcontainer"
+                    app:layout_constraintEnd_toEndOf="@id/bankcontainer"
+                    app:layout_constraintTop_toTopOf="@id/bankcontainer" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/shopcontainer"
+                android:layout_width="0dp"
+                android:visibility="gone"
+                android:layout_height="@dimen/_45sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                app:layout_constraintEnd_toEndOf="@id/accRMargin"
+                app:layout_constraintStart_toStartOf="@id/accLMargin"
+                app:layout_constraintTop_toBottomOf="@+id/bankcontainer">
+
+                <ImageView
+                    android:id="@+id/shop"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/bank"
+                    app:layout_constraintBottom_toBottomOf="@+id/shopcontainer"
+                    app:layout_constraintStart_toStartOf="@id/shopcontainer"
+                    app:layout_constraintTop_toTopOf="@+id/shopcontainer" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:text="@string/shopdedit"
+                    android:textSize="@dimen/_12sdp"
+                    android:textColor="@color/Black"
+                    android:textStyle="normal"
+                    app:layout_constraintBottom_toBottomOf="@id/shopcontainer"
+                    app:layout_constraintStart_toEndOf="@id/shop"
+                    app:layout_constraintTop_toTopOf="@id/shopcontainer" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/sideicon"
+                    app:layout_constraintBottom_toBottomOf="@id/shopcontainer"
+                    app:layout_constraintEnd_toEndOf="@id/shopcontainer"
+                    app:layout_constraintTop_toTopOf="@id/shopcontainer" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/earningsContainer"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_45sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                app:layout_constraintEnd_toEndOf="@id/accRMargin"
+                app:layout_constraintStart_toStartOf="@id/accLMargin"
+                app:layout_constraintTop_toBottomOf="@+id/shopcontainer">
+
+                <ImageView
+                    android:id="@+id/earningImg"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/bank"
+                    app:layout_constraintBottom_toBottomOf="@+id/earningsContainer"
+                    app:layout_constraintStart_toStartOf="@id/earningsContainer"
+                    app:layout_constraintTop_toTopOf="@+id/earningsContainer" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:text="Earnings"
+                    android:textColor="@color/Black"
+                    android:textSize="@dimen/_12sdp"
+                    android:textStyle="normal"
+                    app:layout_constraintBottom_toBottomOf="@id/earningsContainer"
+                    app:layout_constraintStart_toEndOf="@id/earningImg"
+                    app:layout_constraintTop_toTopOf="@id/earningsContainer" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/sideicon"
+                    app:layout_constraintBottom_toBottomOf="@id/earningsContainer"
+                    app:layout_constraintEnd_toEndOf="@id/earningsContainer"
+                    app:layout_constraintTop_toTopOf="@id/earningsContainer" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/accountcontainer"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_45sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                app:layout_constraintEnd_toEndOf="@id/accRMargin"
+                app:layout_constraintStart_toStartOf="@id/accLMargin"
+                app:layout_constraintTop_toBottomOf="@+id/earningsContainer">
+
+                <ImageView
+                    android:id="@+id/account"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/account"
+                    app:layout_constraintBottom_toBottomOf="@+id/accountcontainer"
+                    app:layout_constraintStart_toStartOf="@id/accountcontainer"
+                    app:layout_constraintTop_toTopOf="@+id/accountcontainer" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:text="@string/accsetting"
+                    android:textSize="@dimen/_12sdp"
+                    android:textStyle="normal"
+                    android:textColor="@color/Black"
+                    app:layout_constraintBottom_toBottomOf="@id/accountcontainer"
+                    app:layout_constraintStart_toEndOf="@id/account"
+                    app:layout_constraintTop_toTopOf="@id/accountcontainer" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/sideicon"
+                    app:layout_constraintBottom_toBottomOf="@id/accountcontainer"
+                    app:layout_constraintEnd_toEndOf="@id/accountcontainer"
+                    app:layout_constraintTop_toTopOf="@id/accountcontainer" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/loader"
+                android:layout_width="@dimen/_90sdp"
+                android:layout_height="@dimen/_90sdp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+              />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</FrameLayout>
+</layout>

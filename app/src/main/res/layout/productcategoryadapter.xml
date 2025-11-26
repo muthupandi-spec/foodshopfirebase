@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+<com.google.android.material.card.MaterialCardView
+
+    android:id="@+id/activeCV"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/_2sdp"
+    android:layout_marginTop="@dimen/_5sdp"
+    android:layout_marginEnd="@dimen/_2sdp"
+    app:cardCornerRadius="@dimen/_15sdp"
+    app:cardElevation="@dimen/_2sdp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constaraint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_2sdp">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/topcontainer"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_45sdp"
+            app:layout_constraintEnd_toEndOf="@id/constaraint"
+            app:layout_constraintStart_toStartOf="@id/constaraint"
+            app:layout_constraintTop_toTopOf="@id/constaraint"
+            app:layout_constraintBottom_toTopOf="@+id/foodrecycler">
+
+            <TextView
+                android:id="@+id/accountHead"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/Black"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:text="@string/productcate"
+                android:textSize="@dimen/_12sdp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@id/topcontainer"
+                app:layout_constraintStart_toStartOf="@+id/topcontainer"
+                app:layout_constraintTop_toTopOf="@id/topcontainer" />
+
+            <ImageView
+                android:id="@+id/downimage"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_marginEnd="@dimen/_16sdp"
+                android:src="@drawable/arrow___down_2"
+                app:layout_constraintBottom_toBottomOf="@id/topcontainer"
+                app:layout_constraintEnd_toEndOf="@id/topcontainer"
+                app:layout_constraintTop_toTopOf="@id/topcontainer" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/view1"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_2sdp"
+            android:background="@color/LightGrey1"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/topcontainer" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/foodrecycler"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="@+id/constaraint"
+            app:layout_constraintStart_toStartOf="@+id/constaraint"
+            app:layout_constraintTop_toBottomOf="@id/topcontainer"
+            tools:listitem="@layout/foodadapter" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</com.google.android.material.card.MaterialCardView>
+</layout>

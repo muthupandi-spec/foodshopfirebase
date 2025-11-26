@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FDFDFD"
+    android:clickable="true"
+    android:focusable="true"
+   >
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/accLMargin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.02" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/accRMargin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.98" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/accTMargin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.02" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/accBMargin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.98" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/toolabarcontainer"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_40sdp"
+                app:layout_constraintEnd_toEndOf="@id/accRMargin"
+                app:layout_constraintStart_toStartOf="@id/accLMargin"
+                app:layout_constraintTop_toTopOf="@id/accTMargin">
+
+                <ImageView
+                    android:id="@+id/backBtn"
+                    android:layout_width="@dimen/_36sdp"
+                    android:layout_height="@dimen/_24sdp"
+                    android:layout_marginStart="@dimen/_9sdp"
+                    android:background="@drawable/ic_logo"
+                    app:layout_constraintBottom_toBottomOf="@+id/toolabarcontainer"
+                    app:layout_constraintStart_toStartOf="@+id/toolabarcontainer"
+                    app:layout_constraintTop_toTopOf="@+id/toolabarcontainer"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/accountHead"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:text="@string/orderhistory"
+                    android:textSize="@dimen/_14sdp"
+                    android:textColor="@color/Black"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@id/toolabarcontainer"
+                    app:layout_constraintLeft_toRightOf="@+id/backBtn"
+                    app:layout_constraintTop_toTopOf="@+id/toolabarcontainer" />
+
+                <ImageView
+                    android:id="@+id/notification"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_marginEnd="@dimen/_9sdp"
+                    android:background="@drawable/notification"
+                    android:padding="@dimen/_45sdp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@id/toolabarcontainer"
+                    app:layout_constraintEnd_toEndOf="@+id/toolabarcontainer"
+                    app:layout_constraintTop_toTopOf="@+id/toolabarcontainer"
+                    tools:ignore="ContentDescription" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabs"
+                style="@style/TabLayoutStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:background="@color/White"
+                app:layout_constraintEnd_toEndOf="@id/accRMargin"
+                app:layout_constraintStart_toStartOf="@id/accLMargin"
+                app:layout_constraintTop_toBottomOf="@+id/toolabarcontainer"
+                app:tabGravity="fill"
+                app:tabMode="fixed"
+                app:tabSelectedTextColor="@color/colorPrimary"
+                app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
+                app:tabTextColor="@color/LightGrey" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="@dimen/_9sdp"
+                android:layout_marginEnd="@dimen/_9sdp"
+                android:background="@color/line"
+                app:layout_constraintTop_toBottomOf="@+id/tabs" />
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/viewpager"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:background="@color/White"
+                android:visibility="visible"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                app:layout_constraintBottom_toBottomOf="@+id/accBMargin"
+                app:layout_constraintEnd_toEndOf="@id/accRMargin"
+                app:layout_constraintStart_toStartOf="@id/accLMargin"
+                app:layout_constraintTop_toBottomOf="@+id/view" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

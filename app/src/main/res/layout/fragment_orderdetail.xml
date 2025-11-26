@@ -1,0 +1,783 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="viewmodel"
+            type="com.foodpartner.app.viewModel.HomeViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/ic_rounded_dialog">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/logLMargin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.05" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/logRMargin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.95" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/logTMargin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_percent="0.02" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/logBMargin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_percent="0.98" />
+
+
+                <TextView
+                    android:id="@+id/orderid"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp" android:textColor="@color/Semi_Black"
+                    android:textSize="@dimen/_13sdp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="@+id/logRMargin"
+                    app:layout_constraintStart_toStartOf="@+id/logLMargin"
+                    app:layout_constraintTop_toTopOf="@+id/logTMargin" />
+
+
+                <TextView
+                    android:id="@+id/decline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:maxLines="2"
+                    android:text="@string/declineorder"
+                    android:textColor="@color/Semi_Black"
+                    android:textSize="@dimen/_13sdp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="@+id/logRMargin"
+                    app:layout_constraintStart_toStartOf="@+id/logLMargin"
+                    app:layout_constraintTop_toTopOf="@+id/logTMargin" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cancelCV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:visibility="gone"
+                    app:cardBackgroundColor="@color/White"
+                    app:cardCornerRadius="@dimen/_15sdp"
+                    app:cardElevation="@dimen/_5sdp"
+                    app:cardUseCompatPadding="true"
+                    app:layout_constraintTop_toBottomOf="@+id/decline">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <androidx.constraintlayout.widget.Guideline
+                            android:id="@+id/LMargin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintGuide_percent="0.04" />
+
+                        <androidx.constraintlayout.widget.Guideline
+                            android:id="@+id/RMargin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintGuide_percent="0.96" />
+
+                        <androidx.constraintlayout.widget.Guideline
+                            android:id="@+id/TMargin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            app:layout_constraintGuide_percent="0.06" />
+
+                        <androidx.constraintlayout.widget.Guideline
+                            android:id="@+id/BMargin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            app:layout_constraintGuide_percent="0.94" />
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/foodImg"
+                            android:layout_width="@dimen/_80sdp"
+                            android:layout_height="@dimen/_80sdp"
+                            app:cardCornerRadius="@dimen/_10sdp"
+                            app:layout_constraintBottom_toTopOf="@+id/view2"
+                            app:layout_constraintLeft_toLeftOf="@+id/LMargin"
+                            app:layout_constraintTop_toTopOf="@+id/TMargin">
+
+                            <ImageView
+                                android:id="@+id/foodImgBg"
+                                android:layout_width="@dimen/_80sdp"
+                                android:layout_height="@dimen/_80sdp"
+                                android:background="@drawable/ic_samplefood"
+                                android:scaleType="centerCrop"
+                                tools:ignore="ContentDescription" />
+
+                        </androidx.cardview.widget.CardView>
+
+                        <TextView
+                            android:id="@+id/orderidd"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:text="Order ID:154444"
+                            android:textColor="@color/Semi_Black"
+                            android:textSize="@dimen/_13sdp"
+                            android:textStyle="bold"
+                            app:layout_constraintLeft_toRightOf="@+id/foodImg"
+                            app:layout_constraintTop_toTopOf="@+id/foodImg" />
+
+                        <TextView
+                            android:id="@+id/restaurantnam"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:text="Veg noodles"
+                            android:textColor="@color/Black"
+                            android:textFontWeight="500"
+                            android:textSize="@dimen/_11sdp"
+                            android:textStyle="normal"
+                            app:layout_constraintLeft_toRightOf="@+id/foodImg"
+                            app:layout_constraintTop_toBottomOf="@+id/orderidd"
+                            tools:ignore="TextSizeCheck" />
+
+
+                        <TextView
+                            android:id="@+id/foodCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/_3_items"
+                            android:textSize="@dimen/_11sdp"
+                            app:layout_constraintBottom_toTopOf="@+id/foodCost"
+                            app:layout_constraintStart_toStartOf="@+id/restaurantnam"
+                            app:layout_constraintTop_toBottomOf="@+id/restaurantnam"
+                            tools:ignore="TextSizeCheck" />
+
+                        <View
+                            android:id="@+id/view1"
+                            android:layout_width="@dimen/_1sdp"
+                            android:layout_height="12dp"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:background="@color/Gray"
+                            android:orientation="horizontal"
+                            app:layout_constraintBottom_toBottomOf="@+id/foodCount"
+                            app:layout_constraintLeft_toRightOf="@+id/foodCount"
+                            app:layout_constraintTop_toTopOf="@+id/foodCount" />
+
+                        <TextView
+                            android:id="@+id/km"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:text="@string/_2_4km"
+                            android:textSize="@dimen/_11sdp"
+                            app:layout_constraintBottom_toBottomOf="@+id/foodCount"
+                            app:layout_constraintLeft_toLeftOf="@+id/view1"
+                            app:layout_constraintTop_toTopOf="@+id/foodCount" />
+
+                        <TextView
+                            android:id="@+id/foodCost"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/_42_22"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/_13sdp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="@+id/foodImg"
+                            app:layout_constraintStart_toStartOf="@+id/foodCount"
+                            app:layout_constraintTop_toBottomOf="@+id/foodCount"
+                            app:layout_constraintVertical_chainStyle="spread" />
+
+                        <TextView
+                            android:id="@+id/status"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:background="@drawable/text_view_with_bgcolor"
+                            android:paddingStart="@dimen/_10sdp"
+                            android:paddingTop="@dimen/_2sdp"
+                            android:paddingEnd="@dimen/_10sdp"
+                            android:paddingBottom="@dimen/_2sdp"
+                            android:text="cod"
+                            android:textColor="@color/White"
+                            android:textSize="@dimen/_10sdp"
+                            app:layout_constraintBottom_toBottomOf="@+id/foodCost"
+                            app:layout_constraintLeft_toRightOf="@+id/foodCost"
+                            app:layout_constraintTop_toTopOf="@+id/foodCost" />
+
+                        <View
+                            android:id="@+id/view2"
+                            android:layout_width="0dp"
+                            android:layout_height="2dp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:background="@drawable/custom_textview_line"
+                            app:layout_constraintLeft_toLeftOf="@+id/LMargin"
+                            app:layout_constraintRight_toRightOf="@+id/RMargin"
+                            app:layout_constraintTop_toBottomOf="@+id/foodImg" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/buttonCons1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:visibility="gone"
+                    app:layout_constraintLeft_toLeftOf="@+id/logLMargin"
+                    app:layout_constraintRight_toRightOf="@+id/logRMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/cancelCV">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/cancelBtn1"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_38sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:layout_marginBottom="@dimen/_5sdp"
+                        android:background="@drawable/button_alter_two"
+                        android:paddingStart="@dimen/_10sdp"
+                        android:paddingEnd="@dimen/_10sdp"
+                        android:text="@string/action_cancel"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_12sdp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/cancelconfirm"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/cancelconfirm"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_38sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:background="@drawable/button_alter"
+                        android:paddingStart="@dimen/_10sdp"
+                        android:paddingEnd="@dimen/_10sdp"
+                        android:text="@string/confirm"
+                        android:textAllCaps="false"
+                        android:textColor="@color/White"
+                        android:textSize="@dimen/_12sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/cancelBtn1"
+                        app:layout_constraintTop_toTopOf="@+id/cancelBtn1" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/orderrv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    app:cardCornerRadius="@dimen/_15sdp"
+                    app:cardElevation="@dimen/_5sdp"
+                    app:layout_constraintEnd_toEndOf="@id/logRMargin"
+                    app:layout_constraintStart_toStartOf="@id/logLMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/orderid">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <androidx.constraintlayout.widget.Guideline
+                            android:id="@+id/LMargin1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintGuide_percent="0.04" />
+
+                        <androidx.constraintlayout.widget.Guideline
+                            android:id="@+id/RMargin1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintGuide_percent="0.96" />
+
+                        <androidx.constraintlayout.widget.Guideline
+                            android:id="@+id/TMargin1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            app:layout_constraintGuide_percent="0.06" />
+
+                        <androidx.constraintlayout.widget.Guideline
+                            android:id="@+id/BMargin1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            app:layout_constraintGuide_percent="0.94" />
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/foodImg1"
+                            android:layout_width="@dimen/_80sdp"
+                            android:layout_height="@dimen/_80sdp"
+                            app:cardCornerRadius="@dimen/_10sdp"
+                            app:cardElevation="0dp"
+                            app:layout_constraintBottom_toTopOf="@+id/view3"
+                            app:layout_constraintLeft_toLeftOf="@+id/LMargin1"
+                            app:layout_constraintTop_toTopOf="@+id/TMargin1">
+
+                            <ImageView
+                                android:id="@+id/foodImgBg1"
+                                android:layout_width="@dimen/_80sdp"
+                                android:layout_height="@dimen/_80sdp"
+                                android:src="@drawable/ic_samplefood"
+                                android:scaleType="centerCrop"
+                                tools:ignore="ContentDescription" />
+
+                        </androidx.cardview.widget.CardView>
+
+                        <TextView
+                            android:id="@+id/orderid1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:textColor="@color/Semi_Black"
+                            android:textSize="@dimen/_13sdp"
+                            android:textStyle="bold"
+                            app:layout_constraintLeft_toRightOf="@+id/foodImg1"
+                            app:layout_constraintTop_toTopOf="@+id/foodImg1" />
+
+                        <TextView
+                            android:id="@+id/restaurantname"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:textColor="@color/Black"
+                            android:textSize="@dimen/_13sdp"
+                            android:textStyle="bold"
+                            app:layout_constraintLeft_toRightOf="@+id/foodImg1"
+                            app:layout_constraintTop_toBottomOf="@+id/orderid1"
+                            tools:ignore="TextSizeCheck" />
+
+
+                        <TextView
+                            android:id="@+id/foodCount1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/_11sdp"
+                            android:text="2 item"
+                            app:layout_constraintBottom_toTopOf="@+id/foodCost1"
+                            app:layout_constraintStart_toStartOf="@+id/restaurantname"
+                            app:layout_constraintTop_toBottomOf="@+id/restaurantname"
+                            tools:ignore="TextSizeCheck" />
+
+                        <View
+                            android:id="@+id/view11"
+                            android:layout_width="@dimen/_1sdp"
+                            android:layout_height="12dp"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:background="@color/Gray"
+                            android:orientation="horizontal"
+                            app:layout_constraintBottom_toBottomOf="@+id/foodCount1"
+                            app:layout_constraintLeft_toRightOf="@+id/foodCount1"
+                            app:layout_constraintTop_toTopOf="@+id/foodCount1" />
+
+                        <TextView
+                            android:id="@+id/km1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:text="@string/_2_4km"
+                            android:textSize="@dimen/_11sdp"
+                            app:layout_constraintBottom_toBottomOf="@+id/foodCount1"
+                            app:layout_constraintLeft_toLeftOf="@+id/view11"
+                            app:layout_constraintTop_toTopOf="@+id/foodCount1" />
+
+                        <TextView
+                            android:id="@+id/foodCost1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorPrimary"
+                            android:text="4$"
+                            android:textSize="@dimen/_13sdp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="@+id/foodImg1"
+                            app:layout_constraintStart_toStartOf="@+id/foodCount1"
+                            app:layout_constraintTop_toBottomOf="@+id/foodCount1"
+                            app:layout_constraintVertical_chainStyle="spread" />
+
+                        <TextView
+                            android:id="@+id/status1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:background="@drawable/text_view_with_bgcolor"
+                            android:paddingStart="@dimen/_10sdp"
+                            android:text="active"
+                            android:paddingEnd="@dimen/_10sdp"
+                            android:paddingBottom="@dimen/_2sdp"
+                            android:textColor="@color/White"
+                            android:textSize="@dimen/_10sdp"
+                            app:layout_constraintBottom_toBottomOf="@+id/foodCost1"
+                            app:layout_constraintLeft_toRightOf="@+id/foodCost1"
+                            app:layout_constraintTop_toTopOf="@+id/foodCost1" />
+
+                        <View
+                            android:id="@+id/view3"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/_1sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:background="@color/LightGrey"
+                            app:layout_constraintLeft_toLeftOf="@+id/LMargin1"
+                            app:layout_constraintRight_toRightOf="@+id/RMargin1"
+                            app:layout_constraintTop_toBottomOf="@+id/foodImg1" />
+
+                        <TextView
+                            android:id="@+id/location1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:drawablePadding="@dimen/_10sdp"
+                            android:maxLines="2"
+                            android:text="oasis dubai"
+                            android:textColor="@color/Semi_Black"
+                            android:textSize="@dimen/_12sdp"
+                            android:textStyle="normal"
+                            app:layout_constraintLeft_toLeftOf="@+id/LMargin1"
+                            app:layout_constraintRight_toRightOf="@id/RMargin1"
+                            app:layout_constraintTop_toBottomOf="@+id/view3"
+                            app:drawableStartCompat="@drawable/location" />
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/help"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_marginBottom="@dimen/_5sdp"
+                            android:background="@drawable/button_alter"
+                            android:gravity="center"
+                            android:paddingStart="@dimen/_10sdp"
+                            android:paddingEnd="@dimen/_10sdp"
+                            android:text="@string/help"
+                            android:textAllCaps="false"
+                            android:textColor="@color/White"
+                            android:textSize="@dimen/_12sdp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/RMargin1"
+                            app:layout_constraintStart_toStartOf="@id/LMargin1"
+                            app:layout_constraintTop_toBottomOf="@id/location1" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_10sdp"
+                            app:layout_constraintTop_toBottomOf="@+id/help" />
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:background="@color/White"
+                    android:backgroundTint="@color/White"
+                    app:cardCornerRadius="@dimen/_15sdp"
+                    app:cardElevation="@dimen/_5sdp"
+                    app:layout_constraintEnd_toEndOf="@id/logRMargin"
+                    app:layout_constraintStart_toStartOf="@id/logLMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/orderrv">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/detailcontainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_10sdp">
+
+                        <TextView
+                            android:id="@+id/orderdetailtxt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/orderdetails"
+                            android:textColor="@color/Black"
+                            android:textSize="@dimen/_14sdp"
+                            android:textStyle="normal"
+                            app:layout_constraintStart_toStartOf="@id/detailcontainer"
+                            app:layout_constraintTop_toTopOf="@id/detailcontainer"
+                            tools:ignore="TextSizeCheck" />
+
+                        <ImageView
+                            android:id="@+id/viewdetail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/arrow___down_2"
+                            app:layout_constraintEnd_toEndOf="@id/detailcontainer"
+                            app:layout_constraintTop_toTopOf="@id/detailcontainer" />
+
+                        <View
+                            android:id="@+id/view"
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:background="@drawable/custom_textview_line"
+                            app:layout_constraintStart_toStartOf="@id/detailcontainer"
+                            app:layout_constraintTop_toBottomOf="@id/orderdetailtxt" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/foodlist"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:visibility="visible"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintStart_toStartOf="@+id/detailcontainer"
+                            app:layout_constraintTop_toBottomOf="@id/view"
+                            tools:itemCount="1"
+                            tools:listitem="@layout/fooditemadapter" />
+
+                        <TextView
+                            android:id="@+id/deliverytxt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_15sdp"
+                            android:text="@string/delcharge"
+                            android:textColor="@color/Black"
+                            android:textFontWeight="500"
+                            android:textSize="@dimen/_12sdp"
+                            android:textStyle="normal"
+                            app:layout_constraintStart_toStartOf="@id/detailcontainer"
+                            app:layout_constraintTop_toBottomOf="@id/foodlist"
+                            tools:ignore="TextSizeCheck" />
+
+                        <TextView
+                            android:id="@+id/deliveryamt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_15sdp"
+                            android:text="0.3$"
+                            android:textColor="@color/Black"
+                            android:textFontWeight="500"
+                            android:textSize="@dimen/_13sdp"
+                            android:textStyle="normal"
+                            app:layout_constraintEnd_toEndOf="@id/detailcontainer"
+                            app:layout_constraintTop_toBottomOf="@id/foodlist"
+                            tools:ignore="TextSizeCheck" />
+
+                        <TextView
+                            android:id="@+id/promotxt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_15sdp"
+                            android:text="@string/promocode"
+                            android:textColor="@color/Black"
+                            android:textFontWeight="500"
+                            android:textSize="@dimen/_12sdp"
+                            android:textStyle="normal"
+                            app:layout_constraintStart_toStartOf="@id/detailcontainer"
+                            app:layout_constraintTop_toBottomOf="@id/deliverytxt"
+                            tools:ignore="TextSizeCheck" />
+
+                        <TextView
+                            android:id="@+id/promovalue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_15sdp"
+                            android:text="0.1$"
+                            android:textColor="@color/Black"
+                            android:textSize="@dimen/_13sdp"
+                            android:textStyle="normal"
+                            app:layout_constraintEnd_toEndOf="@id/detailcontainer"
+                            app:layout_constraintTop_toBottomOf="@id/deliverytxt"
+                            tools:ignore="TextSizeCheck" />
+
+                        <TextView
+                            android:id="@+id/adminchargetxt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_15sdp"
+                            android:text="@string/admin"
+                            android:textColor="@color/Black"
+                            android:textSize="@dimen/_12sdp"
+                            android:textStyle="normal"
+                            app:layout_constraintStart_toStartOf="@id/detailcontainer"
+                            app:layout_constraintTop_toBottomOf="@id/promotxt"
+                            tools:ignore="TextSizeCheck" />
+
+                        <TextView
+                            android:id="@+id/adminchargevalue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_15sdp"
+                            android:text="0.22$"
+                            android:textColor="@color/Black"
+                            android:textFontWeight="500"
+                            android:textSize="@dimen/_13sdp"
+                            android:textStyle="normal"
+                            app:layout_constraintEnd_toEndOf="@id/detailcontainer"
+                            app:layout_constraintTop_toBottomOf="@id/promovalue"
+                            tools:ignore="TextSizeCheck" />
+
+                        <TextView
+                            android:id="@+id/totaltxt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_15sdp"
+                            android:text="@string/total"
+                            android:textColor="@color/Black"
+                            android:textFontWeight="500"
+                            android:textSize="@dimen/_12sdp"
+                            android:textStyle="normal"
+                            app:layout_constraintStart_toStartOf="@id/detailcontainer"
+                            app:layout_constraintTop_toBottomOf="@id/adminchargetxt"
+                            tools:ignore="TextSizeCheck" />
+
+                        <TextView
+                            android:id="@+id/totalvalue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_15sdp"
+                            android:text="3$"
+                            android:textColor="@color/Black"
+                            android:textFontWeight="500"
+                            android:textSize="@dimen/_13sdp"
+                            android:textStyle="normal"
+                            app:layout_constraintEnd_toEndOf="@id/detailcontainer"
+                            app:layout_constraintTop_toBottomOf="@id/adminchargevalue"
+                            tools:ignore="TextSizeCheck" />
+
+                        <androidx.constraintlayout.widget.Group
+                            android:id="@+id/group"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="visible"
+
+                            app:constraint_referenced_ids="deliveryamt,
+                totaltxt,totalvalue,promotxt,promovalue,view,deliverytxt,adminchargetxt,adminchargevalue" />
+
+
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/buttonCons"
+                    android:layout_width="0dp"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_14sdp"
+                    app:layout_constraintLeft_toLeftOf="@+id/logLMargin"
+                    app:layout_constraintRight_toRightOf="@+id/logRMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/card1">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/cancelBtn"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_38sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:layout_marginBottom="@dimen/_5sdp"
+                        android:background="@drawable/button_alter_two"
+                        android:paddingStart="@dimen/_10sdp"
+                        android:paddingEnd="@dimen/_10sdp"
+                        android:text="@string/action_cancel"
+                        android:textAllCaps="false"
+                        android:textColor="@color/Black"
+                        android:textSize="@dimen/_12sdp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/acceptbtn"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/acceptbtn"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_38sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:background="@drawable/button_alter"
+                        android:paddingStart="@dimen/_10sdp"
+                        android:paddingEnd="@dimen/_10sdp"
+                        android:text="@string/accept"
+                        android:textAllCaps="false"
+                        android:textColor="@color/White"
+                        android:textSize="@dimen/_12sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/cancelBtn"
+                        app:layout_constraintTop_toTopOf="@+id/cancelBtn" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_20sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/buttonCons" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/packing"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_38sdp"
+                    android:layout_marginTop="@dimen/_14sdp"
+                    android:background="@drawable/button_alter"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:text="@string/searching_for_a_boy"
+                    android:textAllCaps="false"
+                    android:textColor="@color/White"
+                    android:textSize="@dimen/_12sdp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="@id/logRMargin"
+                    app:layout_constraintStart_toEndOf="@id/logLMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/card1" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_20sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/packing" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/loader"
+            android:layout_width="@dimen/_90sdp"
+            android:layout_height="@dimen/_90sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loder"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>

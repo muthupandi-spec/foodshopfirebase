@@ -1,0 +1,590 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/White"
+        android:clickable="true"
+        android:focusable="true"
+        >
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/accLMargin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.05" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/accRMargin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent=".95" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/accTMargin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_percent="0.02" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/accBMargin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_percent="0.98" />
+
+                <ImageView
+                    android:id="@+id/backBtn"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:background="@drawable/back_arrow"
+                    app:layout_constraintStart_toStartOf="@+id/accLMargin"
+                    app:layout_constraintTop_toTopOf="@+id/accTMargin"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/accountHead"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:text="@string/fill_your_profile"
+                    android:textSize="@dimen/_14sdp"
+                    android:textStyle="bold"
+                    android:textColor="@color/Black"
+                    app:layout_constraintLeft_toRightOf="@+id/backBtn"
+                    app:layout_constraintTop_toTopOf="@+id/accTMargin" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/accProfileCons"
+                    android:layout_width="@dimen/_100sdp"
+                    android:layout_height="@dimen/_100sdp"
+                    android:layout_marginTop="@dimen/_30sdp"
+                    android:visibility="gone"
+                    app:cardCornerRadius="@dimen/_50sdp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintLeft_toLeftOf="@+id/accLMargin"
+                    app:layout_constraintRight_toRightOf="@+id/accRMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/accountHead"
+                    app:layout_constraintVertical_chainStyle="packed">
+
+            <!--        <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/accProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/profile"
+                        app:civ_border_color="@color/LightGrey"
+                        app:civ_border_width="2dp"
+                        tools:ignore="ContentDescription" />-->
+
+                </androidx.cardview.widget.CardView>
+
+            <!--    <ImageView
+                    android:id="@+id/accProfileEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/edit"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/accProfileCons"
+                    app:layout_constraintRight_toRightOf="@+id/accProfileCons" />
+
+-->
+
+                <LinearLayout
+                    android:id="@+id/personaltxt"
+                    android:layout_marginTop="@dimen/_14sdp"
+                    android:layout_width="0dp"
+                    app:layout_constraintEnd_toEndOf="@id/accRMargin"
+                    android:orientation="horizontal"
+                    android:layout_height="match_parent"
+                    app:layout_constraintStart_toStartOf="@id/accLMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/accountHead">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/personaldetails"
+                    android:textSize="@dimen/_12sdp"
+                    android:textStyle="bold"
+                    android:textColor="@color/Black"
+                    />
+                    <ImageView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:src="@drawable/line"
+                        />
+
+                </LinearLayout>
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/firstname"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:background="@drawable/custom_selector"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+                    android:drawableEnd="@drawable/profile"
+                    android:hint="@string/firstname"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:textColor="@color/Black"
+                    android:maxLength="50"
+                    android:maxLines="1"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:textCursorDrawable="@drawable/custom_cursor"
+                    android:textSelectHandle="@drawable/custom_cursor"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintLeft_toLeftOf="@+id/accLMargin"
+                    app:layout_constraintRight_toRightOf="@+id/accRMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/personaltxt"
+                    tools:ignore="Autofill" />
+
+                <EditText
+                    android:id="@+id/lastname"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:background="@drawable/custom_selector"
+                    android:clickable="true"
+                    android:cursorVisible="true"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+                    android:drawableEnd="@drawable/profile"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:hint="@string/lastname"
+                    android:textColor="@color/Black"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:textCursorDrawable="@drawable/custom_cursor"
+                    android:textSelectHandle="@drawable/custom_cursor"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintLeft_toLeftOf="@+id/accLMargin"
+                    app:layout_constraintRight_toRightOf="@+id/accRMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/firstname"
+                    tools:ignore="Autofill" />
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/accCons"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:background="@drawable/custom_textview"
+                    app:layout_constraintLeft_toLeftOf="@id/accLMargin"
+                    app:layout_constraintRight_toRightOf="@+id/accRMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/lastname">
+                    <com.hbb20.CountryCodePicker
+                        android:id="@+id/accNation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_6sdp"
+                        android:paddingStart="@dimen/_6sdp"
+                        android:paddingTop="@dimen/_4sdp"
+                        android:paddingEnd="@dimen/_1sdp"
+                        android:paddingBottom="@dimen/_4sdp"
+                        app:ccp_arrowSize="@dimen/_1sdp"
+                        app:ccp_defaultNameCode="in"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ContentDescription" />
+
+               <!--     <com.rilixtech.widget.countrycodepicker.CountryCodePicker
+                        android:id="@+id/accNation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_6sdp"
+                        android:paddingStart="@dimen/_6sdp"
+                        android:paddingTop="@dimen/_4sdp"
+                        android:paddingEnd="@dimen/_1sdp"
+                        android:paddingBottom="@dimen/_4sdp"
+                        app:ccp_arrowSize="@dimen/_1sdp"
+                        app:ccp_defaultNameCode="in"
+                        app:ccp_enablePhoneAutoFormatter="true"
+                        app:ccp_hideNameCode="true"
+                        app:ccp_hidePhoneCode="true"
+                        app:ccp_keyboardAutoPopOnSearch="false"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ContentDescription" />
+-->
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/accMobNum"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_24sdp"
+                        android:background="@color/transparent"
+                        android:clickable="true"
+                        android:drawableEnd="@drawable/call"
+                        android:focusable="true"
+                        android:hint="@string/mob_num_text"
+                        android:imeOptions="actionDone"
+                        android:textColor="@color/Black"
+                        android:inputType="numberDecimal"
+                        android:maxLength="10"
+                        android:paddingStart="@dimen/_10sdp"
+                        android:paddingEnd="@dimen/_10sdp"
+                        android:textCursorDrawable="@drawable/custom_cursor"
+                        android:textSelectHandle="@drawable/custom_cursor"
+                        android:textSize="@dimen/_10sdp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/accNation"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="Autofill" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/emailedt"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:background="@drawable/custom_selector"
+                    android:drawableEnd="@drawable/message"
+                    android:hint="@string/email"
+                    android:imeOptions="actionNext"
+                    android:inputType="textEmailAddress"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:textColor="@color/Black"
+                    android:textCursorDrawable="@drawable/custom_cursor"
+                    android:textSelectHandle="@drawable/custom_cursor"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintLeft_toLeftOf="@+id/accLMargin"
+                    app:layout_constraintRight_toRightOf="@+id/accRMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/accCons"
+                    tools:ignore="Autofill" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/aadharno"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:background="@drawable/custom_selector"
+                    android:drawableEnd="@drawable/message"
+                    android:hint="@string/aadharno"
+                    android:imeOptions="actionNext"
+                    android:textColor="@color/Black"
+                    android:inputType="number"
+                    android:maxLength="12"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:textCursorDrawable="@drawable/custom_cursor"
+                    android:textSelectHandle="@drawable/custom_cursor"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintLeft_toLeftOf="@+id/accLMargin"
+                    app:layout_constraintRight_toRightOf="@+id/accRMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/emailedt"
+                    tools:ignore="Autofill" />
+                <LinearLayout
+                    android:id="@+id/businesstxt"
+                    android:layout_marginTop="@dimen/_14sdp"
+                    android:layout_width="0dp"
+                    app:layout_constraintEnd_toEndOf="@id/accRMargin"
+                    android:orientation="horizontal"
+                    android:layout_height="match_parent"
+                    app:layout_constraintStart_toStartOf="@id/accLMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/aadharno">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/Black"
+                    android:text="@string/businessdetail"
+                    android:textSize="@dimen/_12sdp"
+                    android:textStyle="bold"
+                  />
+                <ImageView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:src="@drawable/line"
+                    />
+
+            </LinearLayout>
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/businessname"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:background="@drawable/custom_selector"
+                    android:drawableEnd="@drawable/businessname"
+                    android:hint="@string/businessname"
+                    android:imeOptions="actionNext"
+                    android:textColor="@color/Black"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:textCursorDrawable="@drawable/custom_cursor"
+                    android:textSelectHandle="@drawable/custom_cursor"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintLeft_toLeftOf="@+id/accLMargin"
+                    app:layout_constraintRight_toRightOf="@+id/accRMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/businesstxt"
+                    tools:ignore="Autofill" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/businessaddress"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:background="@drawable/custom_selector"
+                    android:drawableEnd="@drawable/address"
+                    android:gravity="start|center"
+                    android:hint="@string/businessaddress"
+                    android:imeOptions="actionNext"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:textColor="@color/Black"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintLeft_toLeftOf="@+id/accLMargin"
+                    app:layout_constraintRight_toRightOf="@+id/accRMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/businessname"
+                    tools:ignore="Autofill" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/fssainumber"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:background="@drawable/custom_selector"
+                    android:drawableEnd="@drawable/gstin"
+                    android:hint="@string/fssanumber"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
+                    android:maxLength="14"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:textColor="@color/Black"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:textCursorDrawable="@drawable/custom_cursor"
+                    android:textSelectHandle="@drawable/custom_cursor"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintLeft_toLeftOf="@+id/accLMargin"
+                    app:layout_constraintRight_toRightOf="@+id/accRMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/businessaddress"
+                    tools:ignore="Autofill" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/pannumber"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:background="@drawable/custom_selector"
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0987654321"
+                    android:drawableEnd="@drawable/gstin"
+                    android:hint="@string/panno"
+                    android:imeOptions="actionNext"
+                    android:textColor="@color/Black"
+                    android:maxLength="10"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:textCursorDrawable="@drawable/custom_cursor"
+                    android:textSelectHandle="@drawable/custom_cursor"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintLeft_toLeftOf="@+id/accLMargin"
+                    app:layout_constraintRight_toRightOf="@+id/accRMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/fssainumber"
+                    tools:ignore="Autofill" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/gstno"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:background="@drawable/custom_selector"
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0987654321"
+                    android:drawableEnd="@drawable/gstin"
+                    android:hint="@string/gstno"
+                    android:imeOptions="actionNext"
+                    android:maxLength="15"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:textColor="@color/Black"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:textCursorDrawable="@drawable/custom_cursor"
+                    android:textSelectHandle="@drawable/custom_cursor"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintLeft_toLeftOf="@+id/accLMargin"
+                    app:layout_constraintRight_toRightOf="@+id/accRMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/pannumber"
+                    tools:ignore="Autofill" />
+                <LinearLayout
+                    android:id="@+id/banktxt"
+                    android:layout_marginTop="@dimen/_14sdp"
+                    android:layout_width="0dp"
+                    app:layout_constraintEnd_toEndOf="@id/accRMargin"
+                    android:orientation="horizontal"
+                    android:layout_height="match_parent"
+                    app:layout_constraintStart_toStartOf="@id/accLMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/gstno">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bankdetail"
+                    android:textColor="@color/Black"
+                    android:textSize="@dimen/_12sdp"
+                    android:textStyle="bold"
+                    />
+                <ImageView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:src="@drawable/line"
+                    />
+
+            </LinearLayout>
+                <RelativeLayout
+                    android:id="@+id/bancon"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    app:layout_constraintLeft_toLeftOf="@+id/accLMargin"
+                    app:layout_constraintRight_toRightOf="@+id/accRMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/banktxt"
+                    tools:ignore="Autofill">
+
+                    <androidx.appcompat.widget.AppCompatSpinner
+                        android:id="@+id/bankname"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_45sdp"
+                        android:background="@drawable/custom_selector"
+                        android:paddingStart="@dimen/_10sdp"
+                        android:paddingEnd="@dimen/_10sdp"
+                        android:spinnerMode="dropdown"
+                        android:visibility="visible" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/_8sdp"
+                        android:src="@drawable/arrow___down_2" />
+                </RelativeLayout>
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/accname"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:background="@drawable/custom_selector"
+                    android:drawableEnd="@drawable/profile"
+                    android:hint="@string/accname"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:maxLength="16"
+                    android:maxLines="1"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:textCursorDrawable="@drawable/custom_cursor"
+                    android:textSelectHandle="@drawable/custom_cursor"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintLeft_toLeftOf="@+id/accLMargin"
+                    app:layout_constraintRight_toRightOf="@+id/accRMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/bancon"
+                    tools:ignore="Autofill" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/accnumber"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:background="@drawable/custom_selector"
+                    android:drawableEnd="@drawable/accnumber"
+                    android:hint="@string/accnumber"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
+                    android:maxLength="16"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:textCursorDrawable="@drawable/custom_cursor"
+                    android:textSelectHandle="@drawable/custom_cursor"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintLeft_toLeftOf="@+id/accLMargin"
+                    app:layout_constraintRight_toRightOf="@+id/accRMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/accname"
+                    tools:ignore="Autofill" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/ifsccode"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:background="@drawable/custom_selector"
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0987654321"
+                    android:drawableEnd="@drawable/ifsc"
+                    android:hint="@string/ifsccode"
+                    android:imeOptions="actionNext"
+                    android:maxLength="11"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:textCursorDrawable="@drawable/custom_cursor"
+                    android:textSelectHandle="@drawable/custom_cursor"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintBottom_toTopOf="@+id/accConBtn"
+                    app:layout_constraintLeft_toLeftOf="@+id/accLMargin"
+                    app:layout_constraintRight_toRightOf="@+id/accRMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/accnumber"
+                    tools:ignore="Autofill" />
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/accConBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:background="@drawable/custom_border"
+                    android:shadowColor="@color/colorPrimary"
+                    android:shadowDx="0"
+                    android:shadowDy="12"
+                    android:text="@string/continue1"
+                    android:textAllCaps="false"
+                    android:textSize="@dimen/_12sdp"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="@+id/accBMargin"
+                    app:layout_constraintLeft_toLeftOf="@+id/accLMargin"
+                    app:layout_constraintRight_toRightOf="@+id/accRMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/ifsccode"
+                    app:layout_constraintVertical_chainStyle="spread" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/loader"
+            android:layout_width="@dimen/_90sdp"
+            android:layout_height="@dimen/_90sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loder" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

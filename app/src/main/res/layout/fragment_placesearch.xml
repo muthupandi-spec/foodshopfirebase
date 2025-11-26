@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:id="@+id/rootLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusableInTouchMode="true"
+        android:clickable="true"
+        android:background="@color/White"
+        android:orientation="vertical"
+        android:padding="12dp">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/backBtn"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:background="@drawable/back_arrow"
+       />
+    <TextView
+        android:id="@+id/accountHead"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:text="Search the Location"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/_14sdp"
+        android:textColor="@color/Black"
+        android:textStyle="bold"
+      />
+
+</LinearLayout>
+        <!-- Search input -->
+        <EditText
+            android:layout_marginTop="@dimen/_20sdp"
+            android:id="@+id/etSearchPlace"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Search places"
+            android:drawableLeft="@android:drawable/ic_menu_search"
+            android:padding="8dp"
+            android:background="@android:drawable/edit_text"
+            android:inputType="text" />
+
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#CCCCCC"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp" />
+
+        <!-- Results list -->
+        <ListView
+            android:id="@+id/lvPlaceResults"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:divider="@android:color/darker_gray"
+            android:dividerHeight="1dp" />
+
+    </LinearLayout>
+
+</layout>

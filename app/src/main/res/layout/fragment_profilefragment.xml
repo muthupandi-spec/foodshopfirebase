@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/profilepage"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/White"
+    android:clickable="true"
+    android:focusable="true"
+   >
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/accLMargin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.05" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/accRMargin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent=".95" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/accTMargin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.02" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/accBMargin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.98" />
+
+            <ImageView
+                android:id="@+id/edit"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:background="@drawable/edit_button_svgrepo_com"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="@id/accRMargin"
+                app:layout_constraintTop_toTopOf="@+id/accTMargin"
+                tools:ignore="ContentDescription" />
+
+            <ImageView
+                android:id="@+id/delete"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:background="@drawable/delete"
+                android:visibility="gone"
+                app:layout_constraintEnd_toStartOf="@+id/edit"
+                app:layout_constraintTop_toTopOf="@+id/accTMargin"
+                tools:ignore="ContentDescription" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/toolabarcontainer"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_40sdp"
+                app:layout_constraintEnd_toEndOf="@id/accRMargin"
+                app:layout_constraintStart_toStartOf="@id/accLMargin"
+                app:layout_constraintTop_toTopOf="@id/accTMargin">
+
+                <ImageView
+                    android:id="@+id/backBtn"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:background="@drawable/back_arrow"
+                    app:layout_constraintBottom_toBottomOf="@+id/toolabarcontainer"
+                    app:layout_constraintStart_toStartOf="@+id/toolabarcontainer"
+                    app:layout_constraintTop_toTopOf="@+id/toolabarcontainer"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/accountHead"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_30sdp"
+                    android:text="@string/profile"
+                    android:textColor="@color/Black"
+                    android:textSize="@dimen/_14sdp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@id/toolabarcontainer"
+                    app:layout_constraintLeft_toRightOf="@+id/backBtn"
+                    app:layout_constraintTop_toTopOf="@+id/toolabarcontainer" />
+
+                <ImageView
+                    android:id="@+id/notification"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:background="@drawable/notification"
+                    android:padding="@dimen/_45sdp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@id/toolabarcontainer"
+                    app:layout_constraintEnd_toEndOf="@+id/toolabarcontainer"
+                    app:layout_constraintTop_toTopOf="@+id/toolabarcontainer"
+                    tools:ignore="ContentDescription" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+            <TextView
+                android:id="@+id/personaltxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_14sdp"
+                android:text="@string/personaldetails"
+                android:textSize="@dimen/_12sdp"
+                android:visibility="gone"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/accLMargin"
+                app:layout_constraintTop_toBottomOf="@+id/toolabarcontainer" />
+
+            <EditText
+                android:id="@+id/firstname"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:background="@drawable/custom_selector"
+                android:clickable="true"
+                android:cursorVisible="true"
+                android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+                android:drawableEnd="@drawable/profile"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:hint="@string/firstname"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:textCursorDrawable="@drawable/custom_cursor"
+                android:textSelectHandle="@drawable/custom_cursor"
+                android:textSize="@dimen/_10sdp"
+                app:layout_constraintLeft_toLeftOf="@+id/accLMargin"
+                app:layout_constraintRight_toRightOf="@+id/accRMargin"
+                app:layout_constraintTop_toBottomOf="@+id/toolabarcontainer"
+                tools:ignore="Autofill" />
+
+            <EditText
+                android:id="@+id/lastname"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:background="@drawable/custom_selector"
+                android:clickable="true"
+                android:cursorVisible="true"
+                android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+                android:drawableEnd="@drawable/profile"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:hint="@string/lastname"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:textCursorDrawable="@drawable/custom_cursor"
+                android:textSelectHandle="@drawable/custom_cursor"
+                android:textSize="@dimen/_10sdp"
+                app:layout_constraintLeft_toLeftOf="@+id/accLMargin"
+                app:layout_constraintRight_toRightOf="@+id/accRMargin"
+                app:layout_constraintTop_toBottomOf="@+id/firstname"
+                tools:ignore="Autofill" />
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/accCons"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:background="@drawable/custom_textview"
+                app:layout_constraintLeft_toLeftOf="@id/accLMargin"
+                app:layout_constraintRight_toRightOf="@+id/accRMargin"
+                app:layout_constraintTop_toBottomOf="@+id/lastname">
+                <com.hbb20.CountryCodePicker
+                    android:id="@+id/accNation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_6sdp"
+                    android:paddingStart="@dimen/_6sdp"
+                    android:paddingTop="@dimen/_4sdp"
+                    android:paddingEnd="@dimen/_1sdp"
+                    android:paddingBottom="@dimen/_4sdp"
+                    app:ccp_arrowSize="@dimen/_1sdp"
+                    app:ccp_defaultNameCode="in"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription" />
+
+            <!--    <com.rilixtech.widget.countrycodepicker.CountryCodePicker
+                    android:id="@+id/accNation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_6sdp"
+                    android:paddingStart="@dimen/_6sdp"
+                    android:paddingTop="@dimen/_4sdp"
+                    android:paddingEnd="@dimen/_1sdp"
+                    android:paddingBottom="@dimen/_4sdp"
+                    app:ccp_arrowSize="@dimen/_1sdp"
+                    app:ccp_defaultNameCode="in"
+                    app:ccp_enablePhoneAutoFormatter="true"
+                    app:ccp_hideNameCode="true"
+                    app:ccp_hidePhoneCode="true"
+                    app:ccp_keyboardAutoPopOnSearch="false"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription" />-->
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/accMobNum"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_24sdp"
+                    android:background="@color/transparent"
+                    android:clickable="true"
+                    android:drawableEnd="@drawable/call"
+                    android:focusable="true"
+                    android:enabled="false"
+                    android:hint="@string/mob_num_text"
+                    android:imeOptions="actionDone"
+                    android:inputType="numberDecimal"
+                    android:maxLength="10"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:textCursorDrawable="@drawable/custom_cursor"
+                    android:textSelectHandle="@drawable/custom_cursor"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/accNation"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="Autofill" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/emailedt"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:background="@drawable/custom_selector"
+                android:drawableEnd="@drawable/message"
+                android:hint="@string/email"
+                android:imeOptions="actionNext"
+                android:inputType="textEmailAddress"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:textCursorDrawable="@drawable/custom_cursor"
+                android:textSelectHandle="@drawable/custom_cursor"
+                android:textSize="@dimen/_10sdp"
+                app:layout_constraintLeft_toLeftOf="@+id/accLMargin"
+                app:layout_constraintRight_toRightOf="@+id/accRMargin"
+                app:layout_constraintTop_toBottomOf="@+id/accCons"
+                tools:ignore="Autofill" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/aadharno"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:background="@drawable/custom_selector"
+                android:drawableEnd="@drawable/message"
+                android:hint="@string/aadharno"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:maxLength="12"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:textCursorDrawable="@drawable/custom_cursor"
+                android:textSelectHandle="@drawable/custom_cursor"
+                android:textSize="@dimen/_10sdp"
+                app:layout_constraintLeft_toLeftOf="@+id/accLMargin"
+                app:layout_constraintRight_toRightOf="@+id/accRMargin"
+                app:layout_constraintTop_toBottomOf="@+id/emailedt"
+                tools:ignore="Autofill" />
+
+
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/update"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/button_alter"
+                android:text="@string/update"
+                android:textAllCaps="false"
+                android:textColor="@color/White"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintBottom_toTopOf="@+id/accBMargin"
+                app:layout_constraintEnd_toEndOf="@id/accRMargin"
+                app:layout_constraintStart_toEndOf="@+id/accLMargin"
+             />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/loader"
+        android:layout_width="@dimen/_90sdp"
+        android:layout_height="@dimen/_90sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_rawRes="@raw/loder"
+        app:lottie_loop="true" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
