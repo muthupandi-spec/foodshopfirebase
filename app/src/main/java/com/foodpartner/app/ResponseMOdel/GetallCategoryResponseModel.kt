@@ -3,12 +3,12 @@ package com.foodpartner.app.ResponseMOdel
 class GetallCategoryResponseModel : ArrayList<GetallCategoryResponseModelItem>()
 
 data class GetallCategoryResponseModelItem(
-    val isActive: Boolean,
-    val isDelete: Boolean,
-    val restaurantBo: RestaurantBo,
-    val restaurantCatagory: String,
-    val restaurantCatagoryId: Int,
-    val restaurantId: Any
+
+    var categoryId: String = "",
+    var categoryName: String = "",
+    var imageUrl: String = "",
+    var isActive: Boolean =true ,
+    var createdAt: Long = 0L
 ){
     data class RestaurantBo(
         val confirmPassword: Any,

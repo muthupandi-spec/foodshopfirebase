@@ -19,88 +19,101 @@ import com.foodpartner.app.view.adapter.ShopAdapter
 import com.foodpartner.app.view.responsemodel.RestuarantModel
 import com.foodpartner.app.view.responsemodel.UserregisterResponseModel
 import com.foodpartner.app.viewModel.HomeViewModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.kotlintest.app.utility.interFace.CommonInterface
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.Timer
 import kotlin.concurrent.schedule
 
 class Shopfragment : BaseFragment<FragmentShopfragmentBinding>() {
-    private val homeViewModel by viewModel<HomeViewModel>()
+
+    private val db = FirebaseFirestore.getInstance()
 
     override fun initView(mViewDataBinding: ViewDataBinding?) {
-        adapter()
+
+        fetchShopData()  // Fetch shop when page opens
+
         this.mViewDataBinding.apply {
 
-            swipe.setOnRefreshListener {
-
-                homeViewModel.getrestaurant(sharedHelper.getFromUser("userid"))
-                swipe.isRefreshing=false
-            }
             shopcontainer.setOnClickListener {
                 loadFragment(ProductCategoryFragment(), android.R.id.content, "homepage", true)
-
             }
+
             addNewShop.setOnClickListener {
                 loadFragment(ShopCreateFragment(), android.R.id.content, "shopecreate", true)
             }
-        }
-        homeViewModel.getrestaurant(sharedHelper.getFromUser("userid"))
 
-        homeViewModel.response().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            processResponse(it)
-        })
+            shopswitch.setOnCheckedChangeListener { _, isChecked ->
+                updateShopStatus(if (isChecked) "online" else "offline")
+            }
+
+        }
     }
 
     override fun getLayoutId(): Int = R.layout.fragment_shopfragment
 
-
-    fun adapter() {
-        var bannerlist: ArrayList<RestuarantModel> = ArrayList()
-        bannerlist.add(RestuarantModel("Chicken 65", "Order ID: 985451", "", "", 0))
-        bannerlist.add(RestuarantModel("Chicken Thanthuri", "Order ID: 65446", "", "", 0))
-        bannerlist.add(RestuarantModel("Chicken Lollipop", "Order ID: 54622", "", "", 0))
-
-        val bannerAdapter = ShopAdapter(bannerlist, object : CommonInterface {
-            override fun commonCallback(any: Any) {
-                if(any.toString().equals("switch")){
-                    val map:HashMap<String,String> = HashMap()
-                    map["userid"] ="5664"
-                    map["shop"]="update"
-                    homeViewModel.updateshop(map)
-
-                }else{
-                    loadFragment(ProductCategoryFragment(), android.R.id.content, "homepage", true)
-
-                }
-
-
-            }
-
-        })
-
-        this.mViewDataBinding.shoprecycler.adapter = bannerAdapter
-    }
-    private fun processResponse(response: com.foodpartner.app.network.Response) {
-        when (response.status) {
-            Status.SUCCESS -> {
-                this.mViewDataBinding.loader.visibility= View.GONE
-
-                when (response.data) {
-                    is RestaurantResponsemodel -> {
-                        mViewDataBinding.shopname.text=response.data.restaurantName
-                        mViewDataBinding.shop.text=response.data.restaurantCity
-                    }
-
-                }
-            }
-
-            Status.ERROR -> {
-            }
-
-            Status.LOADING -> {}
-            Status.SECONDLOADING -> {}
-            Status.DISMISS -> {}
+    // ---------------------------------------------------------
+    // FETCH SHOP FROM FIRESTORE
+    // ---------------------------------------------------------
+    private fun fetchShopData() {
+         val uid = FirebaseAuth.getInstance().currentUser?.uid
+        println("iddd"+uid.toString())
+        if (uid == null) {
+            showToast("User ID not found")
+            return
         }
+
+        showLoader()
+
+        db.collection("shops")
+            .document(uid)
+            .get()
+            .addOnSuccessListener { document ->
+                hideLoader()
+
+                if (document.exists()) {
+
+                    val name = document.getString("restaurantName") ?: ""
+                    val shopType = document.getString("restaurantType") ?: ""
+                    val status = document.getString("mode") ?: "offline"
+                    val image = document.getString("profileImage") ?: ""
+
+                    // UI Update
+                    mViewDataBinding.shopname.text = name
+                    mViewDataBinding.shop.text = shopType
+
+                    // Switch mode update
+                    mViewDataBinding.shopswitch.isChecked = status == "online"
+
+                } else {
+                    showToast("No shop registered")
+                }
+            }
+            .addOnFailureListener {
+                hideLoader()
+                showToast("Failed to fetch shop: ${it.message}")
+            }
+    }
+
+    // ---------------------------------------------------------
+    // SWITCH TO UPDATE SHOP STATUS
+    // ---------------------------------------------------------
+
+    private fun updateShopStatus(newStatus: String) {
+
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
+        if (uid == null) return
+
+        db.collection("shops")
+            .document(uid)
+            .update("mode", newStatus)
+            .addOnSuccessListener {
+                showToast("Shop is now: $newStatus")
+            }
+            .addOnFailureListener {
+                showToast("Failed to update status")
+            }
     }
 
 }

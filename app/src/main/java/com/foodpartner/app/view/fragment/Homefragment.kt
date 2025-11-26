@@ -44,17 +44,9 @@ class Homefragment : BaseFragment<HomefragmentBinding>() {
 
         println("useriddd" + sharedHelper.getFromUser("userid"))
         homeViewModel.orderrecieve(sharedHelper.getFromUser("userid"), "Order Placed")
-        homeViewModel.response().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            processResponse(it)
-        })
 
         this.mViewDataBinding.apply {
 
-            container.setOnRefreshListener {
-                homeViewModel.orderrecieve(sharedHelper.getFromUser("userid"), "Order Placed")
-
-
-            }
             notification.setOnClickListener {
                 loadFragment(Notificationnfragment(), android.R.id.content, "noti", true)
             }
@@ -71,7 +63,6 @@ class Homefragment : BaseFragment<HomefragmentBinding>() {
         when (response.status) {
             Status.SUCCESS -> {
                 this.mViewDataBinding.loader.visibility = View.GONE // Update UI on the main thread
-                this.mViewDataBinding.container.isRefreshing = false
 
                 when (response.data) {
 

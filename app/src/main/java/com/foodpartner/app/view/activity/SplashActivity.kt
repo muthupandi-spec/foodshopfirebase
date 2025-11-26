@@ -42,7 +42,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
 
 
     protected fun callIntent() {
-        if (sharedHelper.getFromUser("token").isNotEmpty()){
+        if (sharedHelper.getFromUser("userid").isNotEmpty()){
             setIntent(HomeActivity::class.java,2)
 
         }else{

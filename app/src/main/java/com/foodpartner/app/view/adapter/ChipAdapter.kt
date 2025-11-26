@@ -14,50 +14,57 @@ import com.foodpartner.app.databinding.AdapterChipsBinding
 
 import com.kotlintest.app.utility.interFace.CommonInterface
 
-class ChipAdapter (
-    private val aminitylistcategory: ArrayList<GetallCategoryResponseModelItem>,
-    var commonInterface: CommonInterface
-) :
-BaseAdapter<Any>(aminitylistcategory) {
-    lateinit var context: Context
-    private var click = 0
+class ChipAdapter(
+    private val categoryList: ArrayList<GetallCategoryResponseModelItem>,
+    private val commonInterface: CommonInterface
+) : BaseAdapter<Any>(categoryList) {
+
+    private lateinit var context: Context
+    private var selectedPosition = 0
+
     override fun onCreateViewHolderBase(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         context = parent.context
-        return adapterviewholder(
-            LayoutInflater
-                .from(parent.context)
+        return ViewHolder(
+            LayoutInflater.from(parent.context)
                 .inflate(R.layout.adapter_chips, parent, false)
         )
     }
-    class adapterviewholder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var databding: AdapterChipsBinding? = null
-        init {
-            databding = DataBindingUtil.bind<ViewDataBinding>(itemView) as AdapterChipsBinding
-        }
 
-        fun getBinding(): AdapterChipsBinding {
-            return databding!!
-        }
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val binding: AdapterChipsBinding =
+            DataBindingUtil.bind(itemView)!!
     }
+
     override fun onBindViewHolderBase(holder: RecyclerView.ViewHolder, position: Int) {
-        var binding = (holder as ChipAdapter.adapterviewholder).getBinding()
-        binding.foodName.text =aminitylistcategory[position].restaurantCatagory
 
-        if (position == click) {
-            binding.recommendChip.background =context.getDrawable(R.drawable.custom_selected_solidtextview)
-            binding.foodName.setTextColor(R.color.White)
-            commonInterface.commonCallback(aminitylistcategory[position].restaurantCatagoryId)
+        val binding = (holder as ViewHolder).binding
+        val item = categoryList[position]
+
+        // Set category text
+        binding.foodName.text = item.categoryName
+        println("category"+item.categoryName)
+        // Selected / unselected UI
+        if (position == selectedPosition) {
+            binding.recommendChip.background =
+                context.getDrawable(R.drawable.custom_selected_solidtextview)
+            binding.foodName.setTextColor(context.resources.getColor(R.color.White))
+            commonInterface.commonCallback(item.categoryId)
+
         } else {
-            binding.recommendChip.background =context.getDrawable(R.drawable.custom_selected_textview)
-        }
-        holder.itemView.setOnClickListener {
-            click = position
-            notifyDataSetChanged()
-            commonInterface.commonCallback(aminitylistcategory[position].restaurantCatagoryId)
+            binding.recommendChip.background =
+                context.getDrawable(R.drawable.custom_selected_textview)
+            binding.foodName.setTextColor(context.resources.getColor(R.color.Black))
         }
 
+        // Click
+        holder.itemView.setOnClickListener {
+            selectedPosition = position
+            notifyDataSetChanged()
+
+            // **PASS categoryId**
+            commonInterface.commonCallback(item.categoryId)
+        }
     }
-    override fun getItemCount(): Int {
-        return aminitylistcategory.size
-    }
+
+    override fun getItemCount(): Int = categoryList.size
 }

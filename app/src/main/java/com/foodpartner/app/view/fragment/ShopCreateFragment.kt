@@ -305,9 +305,11 @@ showLoader()
         map["gstapplicable"] = gstapplicable
         map["otp"] = generatedOtp
         map["profileImage"] = imageUrl       // 👈 Store URL
+        val uid = FirebaseAuth.getInstance().currentUser!!.uid
 
         db.collection("shops")
-            .add(map)
+            .document(uid)   // <<-- IMPORTANT
+            .set(map)
             .addOnSuccessListener {
                 hideLoader()
                 loadFragment(LoginFragment(), android.R.id.content, "login", false)

@@ -22,6 +22,7 @@ import com.foodpartner.app.view.activity.SplashActivity
 import com.foodpartner.app.view.responsemodel.UserregisterResponseModel
 import com.foodpartner.app.viewModel.HomeViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.firebase.auth.FirebaseAuth
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.Timer
 import kotlin.concurrent.schedule
@@ -33,9 +34,7 @@ class SettingFragment : BaseFragment<FragmentSettingfragmentBinding>() {
         init()
         this.mViewDataBinding.apply {
 
-            homeViewModel.response().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-                processResponse(it)
-            })
+
 backBtn.setOnClickListener{
     fragmentManagers!!.popBackStackImmediate()
 }
@@ -59,12 +58,15 @@ backBtn.setOnClickListener{
             confirmBtn.setOnClickListener {
                 sharedHelper.clearUser()
                 sharedHelper.clearCache()
+                FirebaseAuth.getInstance().signOut()
                 Constant.userid=""
                 Constant.position=""
                 Constant.restaurantname=""
+                Constant.restaurantcategory=""
                 Constant.orderid=""
                 Constant.userid=""
                 Constant.km=""
+
                 dialog.dismiss()
                 setIntent(SplashActivity::class.java,2)
                 showToast("logout successfully")
@@ -79,45 +81,9 @@ backBtn.setOnClickListener{
             dialog.show()
         }
 
-        this.mViewDataBinding.deletaccountcontainer.setOnClickListener {
-            header.text = requireContext().getString(R.string.remove_account)
-            disc.text = requireContext().getString(R.string.remove_acc_content)
-
-            confirmBtn.setOnClickListener {
-                val hashMap :HashMap<String,String> =HashMap()
-                hashMap["userid"] ="6546"
-                homeViewModel.deleteaccount(hashMap)
-                showToast("Accountdeleted successfully")
-            }
-
-            cancelBtn.setOnClickListener {
-                dialog.dismiss()
-            }
-
-            dialog.setContentView(btmView)
-            dialog.show()
-        }
 
         this.mViewDataBinding.backBtn.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStackImmediate()
-        }
-    }
-    private fun processResponse(response: com.foodpartner.app.network.Response) {
-        when (response.status) {
-            Status.SUCCESS -> {
-                when (response.data) {
-                    is UserregisterResponseModel -> {
-                    }
-
-                }
-            }
-
-            Status.ERROR -> {
-            }
-
-            Status.LOADING -> {}
-            Status.SECONDLOADING -> {}
-            Status.DISMISS -> {}
         }
     }
 

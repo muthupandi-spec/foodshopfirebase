@@ -1,221 +1,399 @@
 package com.foodpartner.app.view.fragment
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.AlertDialog
+import android.app.Dialog
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.EditText
+import android.widget.*
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.ViewDataBinding
-import com.app.washeruser.repository.Status
 import com.foodpartner.app.R
-import com.foodpartner.app.ResponseMOdel.CreateFoodResponseModel
-import com.foodpartner.app.ResponseMOdel.GetallCategoryResponseModel
-import com.foodpartner.app.baseClass.BaseActivity.BaseActivity
 import com.foodpartner.app.baseClass.BaseFragment
-import com.foodpartner.app.databinding.FragmentSampleBinding
-import com.foodpartner.app.databinding.FragmentShopfragmentBinding
 import com.foodpartner.app.databinding.ProductdetailfragmentBinding
-import com.foodpartner.app.databinding.ProductfragmentBinding
 import com.foodpartner.app.network.Constant
-import com.foodpartner.app.view.adapter.Activeadapter
-import com.foodpartner.app.view.adapter.ProductCategoryAdapter
-import com.foodpartner.app.view.adapter.ShopAdapter
 import com.foodpartner.app.view.bottomsheetfragment.ScheduleBottomsheetfragment
-import com.foodpartner.app.view.eventmodel.FoodCreateEvent
-import com.foodpartner.app.view.eventmodel.FoodEditEvent
-import com.foodpartner.app.view.eventmodel.Timepickermodel
-import com.foodpartner.app.view.requestmodel.CreateCategoryRequest
-import com.foodpartner.app.view.requestmodel.RestaurantBo
-import com.foodpartner.app.view.responsemodel.CreateCategoryResponseModel
-import com.foodpartner.app.view.responsemodel.RestuarantModel
-import com.foodpartner.app.view.responsemodel.UserregisterResponseModel
-import com.foodpartner.app.viewModel.HomeViewModel
 import com.github.dhaval2404.imagepicker.ImagePicker
-import com.kotlintest.app.utility.interFace.CommonInterface
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
+import com.mukesh.OtpView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QueryDocumentSnapshot
+import com.google.firebase.storage.FirebaseStorage
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import org.json.JSONObject
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
-import java.util.Timer
-import kotlin.concurrent.schedule
+import java.util.*
 
 class ProductDetailFragment : BaseFragment<ProductdetailfragmentBinding>() {
-    private var filebody: MultipartBody.Part? = null
-    private var openclosetime: String? = null
-    var status: String? = "add"
-    private var itemStatus: String? = null
-    var vegg: String? = null
-    var foodid: Int? = 1
-    private val homeViewModel by viewModel<HomeViewModel>()
-    private lateinit var categoryList: MutableList<String>
-    private lateinit var adapter: ArrayAdapter<String>
-    private lateinit var bottomSheetFragment: ScheduleBottomsheetfragment
-    private lateinit var dialogBuilder: AlertDialog.Builder
-    private var alertDialog: AlertDialog? = null
+    var stockStatus = ""
+    var type = ""
 
+    // Firebase
+    private val firestore = FirebaseFirestore.getInstance()
+    private val storage = FirebaseStorage.getInstance().reference
+    private val auth = FirebaseAuth.getInstance()
 
-    override fun initView(mViewDataBinding: ViewDataBinding?) {
-        this.mViewDataBinding.apply {
-homeViewModel.getallcategory(sharedHelper.getFromUser("userid"))
-            homeViewModel.response().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-                processResponse(it)
-            })
-            veg.setOnClickListener {
-                vegg = "veg"
-            }
-            nonveg.setOnClickListener {
-                vegg = "nonveg"
-            }
+    // UI / state
+    private var imageUri: Uri? = null
+    private var uploadedImageUrl: String = ""
+    private var selectedCategoryId: String? = null
+    private var selectedCategoryName: String? = null
 
-            instock.setOnClickListener {
-                itemStatus = "1"
-            }
-            outstock.setOnClickListener {
-                itemStatus = "0"
-            }
-            foodimg.setOnClickListener {
-                ImagePicker.with(activitys).cropSquare().createIntent { intent ->
-                    startForProfileImageResult.launch(intent)
-                }
-            }
-            backBtn.setOnClickListener {
-                requireActivity().supportFragmentManager.popBackStackImmediate()
-            }
-            starttime.setOnClickListener {
-                openclosetime = "opentime"
-                bottomSheetFragment = ScheduleBottomsheetfragment(openclosetime!!)
-                bottomSheetFragment.show(childFragmentManager, "productdetailfragment")
-            }
-            endtime.setOnClickListener {
-                openclosetime = "closetime"
-                bottomSheetFragment = ScheduleBottomsheetfragment(openclosetime!!)
-                bottomSheetFragment.show(childFragmentManager, "productdetailfragment")
-            }
-            categoryList = mutableListOf()
+    // status: "add" or "edit"
+    private var status: String = "add"
+    private var editingFoodId: String? = null
 
+    // local lists
+    private val categoryNames = ArrayList<String>()
+    private val categoryDocs = ArrayList<QueryDocumentSnapshot>()
 
-
-
-            save.setOnClickListener {
-                if (TextUtils.isEmpty(foodname.text.toString())) {
-                    showToast("please enter your food name")
-                } else if (TextUtils.isEmpty(price.text.toString())) {
-                    showToast("please enter your food price")
-                } else if (vegg!!.isEmpty()) {
-                    showToast("please select veg or non veg")
-                } else if (TextUtils.isEmpty(description.text.toString())) {
-                    showToast("please enter your food description ")
-                } else if (TextUtils.isEmpty(briefdescription.text.toString())) {
-                    showToast("please enter your food brief description ")
-                }
-
-              /*  else if (TextUtils.isEmpty(sellingprice.text.toString())) {
-                    showToast("please enter your food selling price")
-                } else if (TextUtils.isEmpty(strikeprice.text.toString())) {
-                    showToast("please enter your food strike price")
-                } else if (TextUtils.isEmpty(gstin.text.toString())) {
-                    showToast("please enter your gstin nunber")
-                } else if (TextUtils.isEmpty(starttime.text.toString())) {
-                    showToast("please select start time")
-                } else if (TextUtils.isEmpty(endtime.text.toString())) {
-                    showToast("please select end time")
-                }  else if (itemStatus!!.isEmpty()) {
-                    showToast("please select stock or out of stock")
-                }*/
-                else {
-                    loader.visibility= View.VISIBLE
-                    val foodJson = JSONObject().apply {
-                        put("foodName", foodname.text.toString())
-                        put("price", price.text.toString())
-                        put("decription", description.text.toString())
-                        put("decription1", briefdescription.text.toString())
-                        put("type", vegg.toString())
-                        put("decription2", description.text.toString())
-                        put("restaurantCatagoryBO", JSONObject().apply {
-                            put("restaurantCatagoryId", sharedHelper.getFromUser("restaurantCatagoryId"))
-                        })
-                    }
-
-                    val foodBody = foodJson.toString()
-                        .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
-
-                     if (filebody != null) {
-                       homeViewModel.addfooditem(filebody!!,foodBody)
-                     }
-                }
-            }
-        }
-
-
-    }
-
+    // Dialog references
+    private var addCategoryDialog: AlertDialog? = null
+    private val categoryList = ArrayList<String>()
+    private lateinit var categoryAdapter: ArrayAdapter<String>
+    // Image picker result
     private val startForProfileImageResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-            val resultCode = result.resultCode
-            val data = result.data
-
-            when (resultCode) {
-                Activity.RESULT_OK -> {
-                    //Image Uri will not be null for RESULT_OK
-                    val fileUri = data?.data!!
-                    this.mViewDataBinding.foodimg.setImageURI(fileUri)
-                    val inputStream = requireActivity().contentResolver.openInputStream(fileUri)
-                    val file = File(requireActivity().cacheDir, "temp_image.jpg")
-                    inputStream?.use { input ->
-                        file.outputStream().use { output ->
-                            input.copyTo(output)
-                        }
-                    }
-                    val requestFile =
-                        file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-                    filebody = MultipartBody.Part.createFormData("file", file.name, requestFile)
-                    println("filepart$filebody")
-
+            if (result.resultCode == android.app.Activity.RESULT_OK) {
+                val uri = result.data?.data
+                if (uri != null) {
+                    imageUri = uri
+                    this.mViewDataBinding.foodimg.setImageURI(uri)
                 }
-
-                ImagePicker.RESULT_ERROR -> {
-
-                    showToast("img set error" + ImagePicker.getError(data))
-
-                }
-
-                else -> {
-                    showToast("Task Cancelled")
-                }
+            } else if (result.resultCode == ImagePicker.RESULT_ERROR) {
+                showToast("ImagePicker error: ${ImagePicker.getError(result.data)}")
+            } else {
+                showToast("Image selection cancelled")
             }
         }
 
     override fun getLayoutId(): Int = R.layout.productdetailfragment
 
-    @SuppressLint("DefaultLocale")
-    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
-    fun onEvent(model: Timepickermodel) {
+    override fun initView(mViewDataBinding: ViewDataBinding?) {
+        // Initialize spinner and listeners
+        setupUi()
+        initCategorySpinner()
+        loadCategoriesFromFirestore()
+    }
 
-        if (Constant.scheduletime == "starttime") {
-            this.mViewDataBinding.starttime.text = model.starttime
+    private fun setupUi() {
+        this.mViewDataBinding.apply {
 
-        } else if (Constant.scheduletime == "endtime") {
-            this.mViewDataBinding.endtime.text = model.endtime
+            // Image click -> pick image
+            foodimg.setOnClickListener {
+                ImagePicker.with(requireActivity()).cropSquare().createIntent { intent ->
+                    startForProfileImageResult.launch(intent)
+                }
+            }
+
+            // Veg / Nonveg toggles (simple)
+            veg.setOnClickListener { type = "veg" }
+            nonveg.setOnClickListener {type = "nonveg" }
+
+            // Stock toggles
+
+            mViewDataBinding.radioGroup.setOnCheckedChangeListener { _, checkedId ->
+                stockStatus = when (checkedId) {
+                    R.id.instock -> "1"
+                    R.id.outstock -> "0"
+                    else -> ""
+                }
+            }
+
+
+            // Start / End time will open your existing bottom sheet (keeps same behavior)
+            starttime.setOnClickListener {
+                Constant.scheduletime = "starttime"
+                val bs = ScheduleBottomsheetfragment("opentime")
+                bs.show(childFragmentManager, "schedule")
+            }
+            endtime.setOnClickListener {
+                Constant.scheduletime = "endtime"
+                val bs = ScheduleBottomsheetfragment("closetime")
+                bs.show(childFragmentManager, "schedule")
+            }
+
+            // Add Category manually button (if present)
+
+
+            // Save button
+            save.setOnClickListener {
+                onSaveClick()
+            }
+
+            // Back
+            backBtn.setOnClickListener {
+                requireActivity().supportFragmentManager.popBackStackImmediate()
+            }
+        }
+    }
+
+    // Validate inputs and save (create or update)
+    private fun onSaveClick() {
+        val foodName = mViewDataBinding.foodname.text.toString().trim()
+        val price = mViewDataBinding.price.text.toString().trim()
+        val description = mViewDataBinding.description.text.toString().trim()
+        val brief = mViewDataBinding.briefdescription.text.toString().trim()
+        val type = type
+        val startTime = mViewDataBinding.starttime.text.toString().trim()
+        val endTime = mViewDataBinding.endtime.text.toString().trim()
+
+        if (foodName.isEmpty()) { showToast("Please enter your food name"); return }
+        if (price.isEmpty()) { showToast("Please enter your food price"); return }
+        if (type.isEmpty()) { showToast("Please select veg or non veg"); return }
+        if (description.isEmpty()) { showToast("Please enter description"); return }
+        if (brief.isEmpty()) { showToast("Please enter brief description"); return }
+        if (selectedCategoryId.isNullOrEmpty()) { showToast("Please select a category"); return }
+
+        showLoader()
+
+        // Upload image first if there is one
+        if (imageUri != null) {
+            uploadImageThenSave(imageUri!!) { imageUrl ->
+                uploadedImageUrl = imageUrl
+                saveFoodToFirestore(
+                    foodName,
+                    price,
+                    description,
+                    brief,
+                    type,
+                    stockStatus,
+                    selectedCategoryId!!,
+                    uploadedImageUrl
+                )
+            }
+        } else {
+            // No image selected — proceed (imageUrl empty)
+            saveFoodToFirestore(
+                foodName,
+                price,
+                description,
+                brief,
+                type,
+                stockStatus,
+                selectedCategoryId!!,
+                ""
+            )
+        }
+    }
+
+    // Upload image to Firebase Storage, then return download URL via callback
+    private fun uploadImageThenSave(uri: Uri, onComplete: (String) -> Unit) {
+        val uid = auth.currentUser?.uid
+        if (uid.isNullOrEmpty()) {
+            hideLoader()
+            showToast("User not logged in")
+            return
         }
 
+        val fileName = "shops/$uid/foods/${System.currentTimeMillis()}.jpg"
+        val ref = storage.child(fileName)
+
+        ref.putFile(uri)
+            .addOnSuccessListener {
+                ref.downloadUrl.addOnSuccessListener { downloadUri ->
+                    onComplete(downloadUri.toString())
+                }.addOnFailureListener { e ->
+                    hideLoader()
+                    showToast("Failed to get image URL: ${e.message}")
+                }
+            }
+            .addOnFailureListener { e ->
+                hideLoader()
+                showToast("Image upload failed: ${e.message}")
+            }
+    }
+
+    // Save food document under shops/{uid}/foods/{foodId}
+    private fun saveFoodToFirestore(
+        foodName: String,
+        price: String,
+        description: String,
+        brief: String,
+        type: String,
+        stockStatus: String,
+
+        categoryId: String,
+        imageUrl: String
+    ) {
+        val uid = auth.currentUser?.uid
+        if (uid.isNullOrEmpty()) {
+            hideLoader()
+            showToast("User not logged in")
+            return
+        }
+
+        val foodData = hashMapOf(
+            "foodName" to foodName,
+            "price" to price,
+            "description" to description,
+            "briefDescription" to brief,
+            "type" to type,
+          //  "status" to stockStatus,          // "1" or "0"
+
+            "categoryId" to categoryId,
+            "imageUrl" to imageUrl,
+            "createdAt" to System.currentTimeMillis(),
+            "isActive" to true
+        )
+
+        val foodsRef = firestore.collection("shops").document(uid).collection("foods")
+
+        if (status == "add") {
+            // create new food
+            val newDoc = foodsRef.document() // auto id
+            foodData["foodId"] = newDoc.id
+            newDoc.set(foodData)
+                .addOnSuccessListener {
+                    hideLoader()
+                    showToast("Food created successfully")
+                    EventBus.getDefault().postSticky(com.foodpartner.app.view.eventmodel.FoodCreateEvent("create"))
+                    requireActivity().supportFragmentManager.popBackStack()
+                }
+                .addOnFailureListener { e ->
+                    hideLoader()
+                    showToast("Failed to create food: ${e.message}")
+                }
+        } else {
+            // update existing food
+            if (editingFoodId.isNullOrEmpty()) {
+                hideLoader()
+                showToast("No food selected to update")
+                return
+            }
+            foodsRef.document(editingFoodId!!)
+                .update(foodData as Map<String, Any>)
+                .addOnSuccessListener {
+                    hideLoader()
+                    showToast("Food updated successfully")
+                    EventBus.getDefault().postSticky(com.foodpartner.app.view.eventmodel.FoodCreateEvent("update"))
+                    requireActivity().supportFragmentManager.popBackStack()
+                }
+                .addOnFailureListener { e ->
+                    hideLoader()
+                    showToast("Failed to update food: ${e.message}")
+                }
+        }
+    }
+
+    // Load categories from shops/{uid}/categories and populate spinner
+    private fun loadCategoriesFromFirestore() {
+        val uid = auth.currentUser?.uid
+        if (uid.isNullOrEmpty()) {
+            showToast("User not logged in")
+            return
+        }
+
+        showLoader()
+
+        firestore.collection("shops")
+            .document(uid)
+            .collection("categories")
+            .orderBy("createdAt")
+            .get()
+            .addOnSuccessListener { query ->
+                hideLoader()
+                categoryNames.clear()
+                categoryDocs.clear()
+
+                for (doc in query.documents) {
+                    categoryDocs.add(doc as QueryDocumentSnapshot)
+                    val name = doc.getString("restaurantCatagory") ?: ""
+                    categoryNames.add(name)
+                }
+
+                // Append Add Category option
+                categoryNames.add("Add Category")
+
+                // Build spinner adapter
+                val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, categoryNames)
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                mViewDataBinding.shopcatspinner.adapter = adapter
+
+                mViewDataBinding.shopcatspinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                        val selected = categoryNames[position]
+                        if (selected == "Add Category") {
+                            // show dialog to add
+                            showAddCategoryDialog()
+                        } else {
+                            // user selected an existing category
+                            val doc = query.documents[position]
+                            selectedCategoryId = doc.id
+                            selectedCategoryName = doc.getString("restaurantCatagory")
+                        }
+                    }
+
+                    override fun onNothingSelected(parent: AdapterView<*>?) {}
+                }
+
+            }
+            .addOnFailureListener { e ->
+                hideLoader()
+                showToast("Failed to load categories: ${e.message}")
+            }
+    }
+
+    // Show a dialog to add category and save to shops/{uid}/categories
+    private fun showAddCategoryDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        val view = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_add_category, null)
+        val etCategory = view.findViewById<EditText>(R.id.etCategory)
+        val btnSubmit = view.findViewById<Button>(R.id.btnSubmit)
+        builder.setView(view)
+        builder.setCancelable(true)
+        addCategoryDialog = builder.create()
+        addCategoryDialog?.show()
+
+        btnSubmit.setOnClickListener {
+            val category = etCategory.text.toString().trim()
+            if (category.isEmpty()) {
+                showToast("Please add the category")
+                return@setOnClickListener
+            }
+            addCategoryDialog?.dismiss()
+            saveCategoryToFirestore(category)
+        }
+    }
+
+    // Save category
+    private fun saveCategoryToFirestore(categoryName: String) {
+        val uid = auth.currentUser?.uid ?: return showToast("User not logged in")
+        showLoader()
+
+        val catRef = firestore.collection("shops").document(uid).collection("categories")
+        val newDoc = catRef.document()
+        val data = hashMapOf(
+            "restaurantCatagoryId" to newDoc.id,
+            "restaurantCatagory" to categoryName,
+            "createdAt" to System.currentTimeMillis()
+        )
+
+        newDoc.set(data)
+            .addOnSuccessListener {
+                hideLoader()
+                showToast("Category added")
+                loadCategoriesFromFirestore() // reload spinner
+            }
+            .addOnFailureListener { e ->
+                hideLoader()
+                showToast("Failed to add category: ${e.message}")
+            }
+    }
+
+    // If your bottomsheet posts start/end times via EventBus
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    fun onTimeEvent(model: com.foodpartner.app.view.eventmodel.Timepickermodel) {
+        if (Constant.scheduletime == "starttime" || Constant.scheduletime == "opentime") {
+            mViewDataBinding.starttime.text = model.starttime
+        } else if (Constant.scheduletime == "endtime" || Constant.scheduletime == "closetime") {
+            mViewDataBinding.endtime.text = model.endtime
+        }
         EventBus.getDefault().removeStickyEvent(model)
     }
 
@@ -229,111 +407,40 @@ homeViewModel.getallcategory(sharedHelper.getFromUser("userid"))
         super.onStop()
     }
 
-    private fun showAddCategoryDialog() {
-        // ✅ Initialize dialogBuilder before using it
-        dialogBuilder = AlertDialog.Builder(requireContext())
 
-        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_add_category, null)
-        val etCategory = dialogView.findViewById<EditText>(R.id.etCategory)
-        val btnSubmit = dialogView.findViewById<Button>(R.id.btnSubmit)
+    private fun initCategorySpinner() {
 
-        dialogBuilder.setView(dialogView)
-        dialogBuilder.setCancelable(true)
+        categoryList.clear()
 
-        // ✅ Create the dialog
-        alertDialog = dialogBuilder.create()
-        alertDialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        alertDialog?.show()
+        categoryList.add("Select Category")
+        categoryList.add("Add New Category") // <-- This will open dialog
 
-        // ✅ Handle submit click
-        btnSubmit.setOnClickListener {
-            val category = etCategory.text.toString().trim()
+        categoryAdapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_dropdown_item,
+            categoryList
+        )
 
-            if (category.isEmpty()) {
-                showToast("Please add the category")
-                return@setOnClickListener
-            }
+        mViewDataBinding.shopcatspinner.adapter = categoryAdapter
 
-            val requestBody = CreateCategoryRequest(
-                restaurantCatagory = category,
-                restaurantBo = RestaurantBo(
-                    restaurantId = sharedHelper.getFromUser("userid")?.toIntOrNull() ?: 0
-                )
-            )
+        mViewDataBinding.shopcatspinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
 
-            homeViewModel.createcategory(requestBody)
-            alertDialog?.dismiss()
-        }
-    }
+                    val selected = categoryList[position]
 
-    private fun processResponse(response: com.foodpartner.app.network.Response) {
-        when (response.status) {
-            Status.SUCCESS -> {
-               mViewDataBinding. loader.visibility= View.GONE
-                when (response.data) {
-
-                    is CreateCategoryResponseModel -> {
-                        alertDialog?.dismiss()
-                        homeViewModel.getallcategory(sharedHelper.getFromUser("userid"))
-
+                    if (selected == "Add New Category") {
+                        showAddCategoryDialog()
                     }
-                    is CreateFoodResponseModel->{
-                        showToast("Food create successfully")
-                        EventBus.getDefault().postSticky(FoodCreateEvent("edit"))
-                        fragmentManagers!!.popBackStack()
-                    }
-                    is GetallCategoryResponseModel -> {
-                        // Clear old data
-                        categoryList.clear()
-
-                        // ✅ Add all category names from response
-                        categoryList.addAll(response.data.map { it.restaurantCatagory })
-
-                        // ✅ Add "Add Category" option at the end
-                        categoryList.add("Add Category")
-
-                        // ✅ Rebuild adapter
-                        adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, categoryList)
-                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                        mViewDataBinding.shopcatspinner.adapter = adapter
-
-                        // ✅ Spinner selection listener
-                        mViewDataBinding.shopcatspinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                            override fun onItemSelected(
-                                parent: AdapterView<*>?,
-                                view: View?,
-                                position: Int,
-                                id: Long
-                            ) {
-                                val selectedItem = categoryList[position]
-                                if (selectedItem == "Add Category") {
-                                    showAddCategoryDialog()
-                                } else {
-                                    // ✅ Optionally, store selected categoryId for later use
-                                    val selectedCategory = response.data[position]
-                                    sharedHelper.putInUser("restaurantCatagoryId", selectedCategory.restaurantCatagoryId.toString())
-                                }
-                            }
-
-                            override fun onNothingSelected(parent: AdapterView<*>?) {}
-                        }
-                    }
-
-
                 }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
-
-            Status.ERROR -> {
-                mViewDataBinding. loader.visibility= View.GONE
-
-            }
-
-            Status.LOADING -> {}
-            Status.SECONDLOADING -> {}
-            Status.DISMISS -> {}
-        }
     }
 
 }
-
-

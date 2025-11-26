@@ -3,20 +3,16 @@ package com.foodpartner.app.ResponseMOdel
 class FoodItemResponemodel : ArrayList<FoodItemResponemodelItem>()
 
 data class FoodItemResponemodelItem(
-    val catagoryId: Int,
-    val catagorybo: Any,
-    val decription: String,
-    val decription1: String,
-    val decription2: String,
-    val foodId: Int,
-    val foodName: String,
-    val image: String,
-    val imageData: Any,
-    val isActive: Boolean,
-    val isDelete: Boolean,
-    val price: Int,
-    val restaurantCatagoryBO: RestaurantCatagoryBO,
-    val type: String
+    var foodId: String = "",
+    var foodName: String = "",
+    var description: String = "",
+    var briefDescription: String = "",
+    var imageUrl: String = "",
+    var price: String = "",
+    var type: String = "",
+    var categoryId: String = "",
+    var isActive: Boolean = true,
+    var createdAt: Long = 0L
 ){
     data class RestaurantCatagoryBO(
         val isActive: Any,

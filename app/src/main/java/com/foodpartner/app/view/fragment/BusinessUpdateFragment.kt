@@ -5,91 +5,109 @@ import android.os.Looper
 import android.text.TextUtils
 import android.view.View
 import androidx.databinding.ViewDataBinding
-import com.app.washeruser.repository.Status
 import com.foodpartner.app.R
 import com.foodpartner.app.baseClass.BaseFragment
 import com.foodpartner.app.databinding.FragmentBusinessupdatefragmentBinding
-import com.foodpartner.app.databinding.FragmentLoginBinding
-import com.foodpartner.app.databinding.FragmentOtpBinding
-import com.foodpartner.app.databinding.FragmentProfilefragmentBinding
-import com.foodpartner.app.databinding.FragmentProfilepagefrgamentBinding
 import com.foodpartner.app.view.responsemodel.UserregisterResponseModel
 import com.foodpartner.app.viewModel.HomeViewModel
+import com.google.firebase.firestore.FirebaseFirestore
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.Timer
 import kotlin.concurrent.schedule
 
 class BusinessUpdateFragment : BaseFragment<FragmentBusinessupdatefragmentBinding>() {
-    private val homeViewModel by viewModel<HomeViewModel>()
+
+    private val firestore = FirebaseFirestore.getInstance()
+
+    override fun getLayoutId(): Int = R.layout.fragment_businessupdatefragment
 
     override fun initView(mViewDataBinding: ViewDataBinding?) {
+            // Observe ViewModel
 
-        homeViewModel.response().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            processResponse(it)
-        })
-        this.mViewDataBinding.apply {
-            backBtn.setOnClickListener {
-                fragmentManagers!!.popBackStackImmediate()
-            }
-            Timer().schedule(5000) {
-                Handler(Looper.getMainLooper()).post {
-                    loader.visibility = View.GONE // Update UI on the main thread
+            // Back button
+            this.mViewDataBinding.backBtn.setOnClickListener { fragmentManagers?.popBackStackImmediate() }
+
+          
+
+            // Load saved values
+            this.mViewDataBinding.businessname.setText(sharedHelper.getFromUser("businessname"))
+            this.mViewDataBinding.businessaddress.setText(sharedHelper.getFromUser("businessaddress"))
+            this.mViewDataBinding.fssainumber.setText(sharedHelper.getFromUser("fssainumber"))
+            this.mViewDataBinding.pannumber.setText(sharedHelper.getFromUser("pannumber"))
+            this.mViewDataBinding.gstno.setText(sharedHelper.getFromUser("gstno"))
+
+            // Update button
+            this.mViewDataBinding.update.setOnClickListener {
+                val businessName = this.mViewDataBinding.businessname.text.toString().trim()
+                val businessAddress = this.mViewDataBinding.businessaddress.text.toString().trim()
+                val fssaiNumber = this.mViewDataBinding.fssainumber.text.toString().trim()
+                val panNumber = this.mViewDataBinding.pannumber.text.toString().trim()
+                val gstNumber = this.mViewDataBinding.gstno.text.toString().trim()
+
+                when {
+                    TextUtils.isEmpty(businessName) -> showToast("Please enter your business name")
+                    TextUtils.isEmpty(businessAddress) -> showToast("Please enter your business address")
+                    TextUtils.isEmpty(fssaiNumber) -> showToast("Please enter your FSSAI number")
+                    !isValidFssai(fssaiNumber) -> showToast("Please enter a valid FSSAI number")
+                    TextUtils.isEmpty(panNumber) -> showToast("Please enter your PAN number")
+                    !isValidPAN(panNumber) -> showToast("Please enter a valid PAN number")
+                    TextUtils.isEmpty(gstNumber) -> showToast("Please enter your GSTIN number")
+                    !isValidGSTIN(gstNumber) -> showToast("Please enter a valid GSTIN number")
+                    else -> {
+                        val businessData = hashMapOf(
+                            "businessname" to businessName,
+                            "businessaddress" to businessAddress,
+                            "fssainumber" to fssaiNumber,
+                            "pannumber" to panNumber,
+                            "gstno" to gstNumber
+                        )
+                        saveBusinessDetailsToFirestore(businessData)
+                    }
                 }
-            }
-            businessname.setText(sharedHelper.getFromUser("businessname"))
-            businessaddress.setText(sharedHelper.getFromUser("businessaddress"))
-            fssainumber.setText(sharedHelper.getFromUser("fssainumber"))
-            pannumber.setText(sharedHelper.getFromUser("pannumber"))
-            gstno.setText(sharedHelper.getFromUser("gstno"))
-            update.setOnClickListener {
-                if(TextUtils.isEmpty(businessname.text.toString())){
-                    showToast("Please enter your business name")
-                }else if(TextUtils.isEmpty(businessaddress.text.toString())){
-                    showToast("Please enter your business address")
-                }else if(TextUtils.isEmpty(fssainumber.text.toString())){
-                    showToast("Please enter your FSSAI number")
-                }else if(!isValidFssai(fssainumber.text.toString())){
-                    showToast("Please enter your valid FSSAI number")
-                }else if(TextUtils.isEmpty(pannumber.text.toString())){
-                    showToast("Please enter your PAN number")
-                }else if(!isValidPAN(pannumber.text.toString())){
-                    showToast("Please enter your valid PAN number")
-                }else if(TextUtils.isEmpty(gstno.text.toString())){
-                    showToast("Please enter your GSTIN number")
-                }else if(!isValidGSTIN(gstno.text.toString())){
-                    showToast("Please enter your valid GSTIN number")
-                }else{
-                    val hashMap :HashMap<String,String> = HashMap()
-                    hashMap["businessname"]=businessname.text.toString()
-                    hashMap["businessaddress"]=businessaddress.text.toString()
-                    hashMap["fssainumber"]=fssainumber.text.toString()
-                    hashMap["pannumber"]=pannumber.text.toString()
-                    hashMap["gstno"]=gstno.text.toString()
-                    homeViewModel.updatebusines(hashMap)
-                    showToast("Business update Sucessfully")
-                }
-            }
+            
         }
     }
 
-    override fun getLayoutId(): Int = R.layout.fragment_businessupdatefragment
-        private fun processResponse(response: com.foodpartner.app.network.Response) {
-            when (response.status) {
-                Status.SUCCESS -> {
-                    when (response.data) {
-                        is UserregisterResponseModel -> {
-                        }
-
-                    }
-                }
-
-                Status.ERROR -> {
-                }
-
-                Status.LOADING -> {}
-                Status.SECONDLOADING -> {}
-                Status.DISMISS -> {}
-            }
+    private fun saveBusinessDetailsToFirestore(businessData: HashMap<String, String>) {
+        val uid = sharedHelper.getFromUser("userid") ?: run {
+            showToast("User not logged in")
+            return
         }
+
+        showLoader()
+
+        firestore.collection("shops")
+            .document(uid)
+            .update(businessData as Map<String, Any>)
+            .addOnSuccessListener {
+                hideLoader()
+                showToast("Business details updated successfully")
+                saveLocally(businessData)
+            }
+            .addOnFailureListener {
+                // If document doesn't exist, create it
+                firestore.collection("shops")
+                    .document(uid)
+                    .set(businessData)
+                    .addOnSuccessListener {
+                        hideLoader()
+                        showToast("Business details updated successfully")
+                        saveLocally(businessData)
+                    }
+                    .addOnFailureListener { ex ->
+                        hideLoader()
+                        showToast("Failed to update business details: ${ex.message}")
+                    }
+            }
+    }
+
+    private fun saveLocally(data: HashMap<String, String>) {
+        sharedHelper.putInUser("businessname", data["businessname"].orEmpty())
+        sharedHelper.putInUser("businessaddress", data["businessaddress"].orEmpty())
+        sharedHelper.putInUser("fssainumber", data["fssainumber"].orEmpty())
+        sharedHelper.putInUser("pannumber", data["pannumber"].orEmpty())
+        sharedHelper.putInUser("gstno", data["gstno"].orEmpty())
+    }
+ 
 
 }

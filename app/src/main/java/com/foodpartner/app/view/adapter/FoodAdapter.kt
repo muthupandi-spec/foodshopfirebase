@@ -52,7 +52,7 @@ class FoodAdapter(
         val item = aminitylistcategory[position]
 
         binding.foodname.text = item.foodName
-        showBase64Image(item.image, binding.foodimage)
+        Glide.with(context).load(item.imageUrl).into(binding.foodimage)
 
         // Make sure the switch reflects current item state (if applicable)
         binding.fooditemcheck.isChecked = item.isActive // Optional if your model has such a field
@@ -81,15 +81,7 @@ class FoodAdapter(
             // item.isSelected = isChecked
         }
         holder.itemView.setOnClickListener {
-            Constant.image = item.image
-            Constant.foodname = item.foodName
-            Constant.price = item.price.toString()
-            Constant.desc = item.decription
-            Constant.desc1 = item.decription1
-            Constant.category = item.restaurantCatagoryBO.restaurantCatagory
-            Constant.categoryid = item.restaurantCatagoryBO.restaurantCatagoryId.toString()
-            println("adadddf"+Constant.categoryid)
-//            Constant.type = item.type.toString()
+
             val map = HashMap<String, Any>()
             map.put("click", "edit")
             map.put("foodid", item.foodId)
