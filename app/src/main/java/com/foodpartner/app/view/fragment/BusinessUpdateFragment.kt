@@ -39,14 +39,12 @@ class BusinessUpdateFragment : BaseFragment<FragmentBusinessupdatefragmentBindin
             // Update button
             this.mViewDataBinding.update.setOnClickListener {
                 val businessName = this.mViewDataBinding.businessname.text.toString().trim()
-                val businessAddress = this.mViewDataBinding.businessaddress.text.toString().trim()
                 val fssaiNumber = this.mViewDataBinding.fssainumber.text.toString().trim()
                 val panNumber = this.mViewDataBinding.pannumber.text.toString().trim()
                 val gstNumber = this.mViewDataBinding.gstno.text.toString().trim()
 
                 when {
                     TextUtils.isEmpty(businessName) -> showToast("Please enter your business name")
-                    TextUtils.isEmpty(businessAddress) -> showToast("Please enter your business address")
                     TextUtils.isEmpty(fssaiNumber) -> showToast("Please enter your FSSAI number")
                     !isValidFssai(fssaiNumber) -> showToast("Please enter a valid FSSAI number")
                     TextUtils.isEmpty(panNumber) -> showToast("Please enter your PAN number")
@@ -56,7 +54,6 @@ class BusinessUpdateFragment : BaseFragment<FragmentBusinessupdatefragmentBindin
                     else -> {
                         val businessData = hashMapOf(
                             "businessname" to businessName,
-                            "businessaddress" to businessAddress,
                             "fssainumber" to fssaiNumber,
                             "pannumber" to panNumber,
                             "gstno" to gstNumber
@@ -82,6 +79,7 @@ class BusinessUpdateFragment : BaseFragment<FragmentBusinessupdatefragmentBindin
             .addOnSuccessListener {
                 hideLoader()
                 showToast("Business details updated successfully")
+                fragmentManagers!!.popBackStackImmediate()
                 saveLocally(businessData)
             }
             .addOnFailureListener {

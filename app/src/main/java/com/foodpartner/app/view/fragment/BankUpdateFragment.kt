@@ -89,6 +89,8 @@ class BankUpdateFragment : BaseFragment<FragmentBankdetaileditfragmentBinding>()
             .addOnSuccessListener {
                 hideLoader()
                 showToast("Bank details updated successfully")
+                fragmentManagers!!.popBackStackImmediate()
+
                 // Save locally for next session
                 sharedHelper.putInUser("accname", bankData["accname"].orEmpty())
                 sharedHelper.putInUser("accnumber", bankData["accnumber"].orEmpty())

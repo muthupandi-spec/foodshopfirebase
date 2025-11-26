@@ -19,6 +19,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.bumptech.glide.Glide
 import com.foodpartner.app.R
 import com.foodpartner.app.baseClass.BaseFragment
 import com.foodpartner.app.databinding.FragmentshopeditBinding
@@ -48,24 +49,66 @@ class ShopeditFragment : BaseFragment<FragmentshopeditBinding>() {
     override fun initView(mViewDataBinding: ViewDataBinding?) {
         val binding = mViewDataBinding as FragmentshopeditBinding
 
-        // Load saved shop data locally
-        binding.restaurantname.setText(sharedHelper.getFromUser("resname"))
-        binding.restaurantemail.setText(sharedHelper.getFromUser("resemail"))
-        binding.restaurantmobilenon.setText(sharedHelper.getFromUser("resmobno"))
-        binding.restaurantStreet.setText(sharedHelper.getFromUser("resstreet"))
-        binding.restaurantCity.setText(sharedHelper.getFromUser("rescity"))
-        binding.restaurantPinCode.setText(sharedHelper.getFromUser("respincode"))
-        binding.restaurantLandMark.setText(sharedHelper.getFromUser("reslandmark"))
-        binding.restaurantDescreption.setText(sharedHelper.getFromUser("resdesc"))
-        binding.tradeId.setText(sharedHelper.getFromUser("restradeid"))
+        val uid = sharedHelper.getFromUser("userid") ?: return
 
-        when(sharedHelper.getFromUser("restype")) {
-            "veg" -> { binding.veg.isChecked = true }
-            "nonveg" -> { binding.nonveg.isChecked = true }
-            "both" -> { binding.both.isChecked = true }
+// Fetch shop data from Firestore
+        db.collection("shops").document(uid).get()
+            .addOnSuccessListener { document ->
+                if (document != null && document.exists()) {
+                    binding.restaurantname.setText(document.getString("restaurantName"))
+                    binding.restaurantemail.setText(document.getString("restaurantEmail"))
+                    binding.restaurantmobilenon.setText(document.getString("mobileNumber"))
+                    binding.password.setText(document.getString("password"))
+                    binding.restaurantStreet.setText(document.getString("restaurantStreet"))
+                    binding.restaurantCity.setText(document.getString("restaurantCity"))
+                    binding.restaurantPinCode.setText(document.getString("restaurantPinCode"))
+                    binding.restaurantLandMark.setText(document.getString("restaurantLandMark"))
+                    binding.tradeId.setText(document.getString("tradeId"))
+                    binding.restaurantDescreption.setText(document.getString("restaurantDescreption"))
+
+                    val type = document.getString("restaurantType") ?: "nonveg"
+                    categorytype = type
+                    binding.veg.isChecked = type == "veg"
+                    binding.nonveg.isChecked = type == "nonveg"
+                    binding.both.isChecked = type == "both"
+
+                    mode = document.getString("mode") ?: "active"
+                    binding.active.isChecked = mode == "active"
+                    binding.inactive.isChecked = mode == "inactive"
+
+                    preorder = document.getString("preorder") ?: "yes"
+                    binding.preorderyes.isChecked = preorder == "yes"
+                    binding.preorderno.isChecked = preorder == "no"
+
+                    gstapplicable = document.getString("gstapplicable") ?: "no"
+                    binding.gstapplicalbleyes.isChecked = gstapplicable == "yes"
+                    binding.gstapplicalbleno.isChecked = gstapplicable == "no"
+
+                    val imageUrl = document.getString("profileImage")
+                    if (!imageUrl.isNullOrEmpty()) {
+                        // Load image using Glide or any image loader
+                        Glide.with(requireContext()).load(imageUrl).into(binding.accProfile)
+                    }
+                }
+            }
+            .addOnFailureListener { e ->
+                showToast("Failed to fetch shop data: ${e.message}")
+            }
+
+// Existing toggle click listeners and update button
+        setupToggleListeners(binding)
+        binding.backBtn.setOnClickListener { fragmentManagers?.popBackStack() }
+        binding.accProfileEdit.setOnClickListener {
+            ImagePicker.with(requireActivity()).cropSquare().createIntent { intent ->
+                startForProfileImageResult.launch(intent)
+            }
         }
+        binding.accConBtn.setOnClickListener { updateShopData(binding) }
 
-        // Toggle buttons
+    }
+
+    // Extract toggle listeners to a separate function for clarity
+    private fun setupToggleListeners(binding: FragmentshopeditBinding) {
         binding.preorderyes.setOnClickListener {
             preorder = "yes"
             binding.preorderyes.isChecked = true
@@ -113,21 +156,6 @@ class ShopeditFragment : BaseFragment<FragmentshopeditBinding>() {
             binding.both.isChecked = true
             binding.veg.isChecked = false
             binding.nonveg.isChecked = false
-        }
-
-        // Back button
-        binding.backBtn.setOnClickListener { fragmentManagers?.popBackStack() }
-
-        // Image picker
-        binding.accProfileEdit.setOnClickListener {
-            ImagePicker.with(requireActivity()).cropSquare().createIntent { intent ->
-                startForProfileImageResult.launch(intent)
-            }
-        }
-
-        // Update shop
-        binding.accConBtn.setOnClickListener {
-            updateShopData(binding)
         }
     }
 
@@ -194,6 +222,7 @@ class ShopeditFragment : BaseFragment<FragmentshopeditBinding>() {
             .addOnSuccessListener {
                 binding.loader.visibility = View.GONE
                 showToast("Shop updated successfully")
+                fragmentManagers!!.popBackStackImmediate()
                 // Save locally
                 sharedHelper.putInUser("resname", binding.restaurantname.text.toString())
                 sharedHelper.putInUser("resemail", binding.restaurantemail.text.toString())

@@ -119,6 +119,7 @@
             android:imeOptions="actionNext"
             android:paddingStart="@dimen/_10sdp"
             android:paddingEnd="@dimen/_10sdp"
+
             android:textSize="@dimen/_10sdp"
             app:layout_constraintLeft_toLeftOf="@+id/accLMargin"
             app:layout_constraintRight_toRightOf="@+id/accRMargin"
@@ -131,6 +132,7 @@
             android:layout_marginTop="@dimen/_12sdp"
             android:gravity="start|center"
             android:background="@drawable/custom_selector"
+          android:visibility="gone"
             android:drawableEnd="@drawable/address"
             android:hint="@string/businessaddress"
             android:imeOptions="actionNext"
@@ -220,17 +222,7 @@
           />
     </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/loader"
-        android:layout_width="@dimen/_90sdp"
-        android:layout_height="@dimen/_90sdp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:lottie_autoPlay="true"
-        app:lottie_rawRes="@raw/loder"
-        app:lottie_loop="true" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
 
