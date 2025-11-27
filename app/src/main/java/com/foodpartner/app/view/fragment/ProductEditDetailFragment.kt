@@ -201,6 +201,7 @@ class ProductEditDetailFragment(private val foodId: String) :
         val data = hashMapOf(
             "restaurantCatagoryId" to newDoc.id,
             "restaurantCatagory" to categoryName,
+            "shopid" to sharedHelper.getFromUser("userid"),
             "createdAt" to System.currentTimeMillis()
         )
 

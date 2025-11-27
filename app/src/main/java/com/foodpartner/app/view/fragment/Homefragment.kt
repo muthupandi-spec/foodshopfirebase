@@ -46,6 +46,10 @@ class Homefragment : BaseFragment<HomefragmentBinding>() {
         homeViewModel.orderrecieve(sharedHelper.getFromUser("userid"), "Order Placed")
 
         this.mViewDataBinding.apply {
+            backBtn.setOnClickListener {
+                loadFragment(Offerfragment(), android.R.id.content, "offer", true)
+
+            }
 
             notification.setOnClickListener {
                 loadFragment(Notificationnfragment(), android.R.id.content, "noti", true)
