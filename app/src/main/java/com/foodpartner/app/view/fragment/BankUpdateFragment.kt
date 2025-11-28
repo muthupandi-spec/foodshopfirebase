@@ -16,63 +16,61 @@ import com.foodpartner.app.view.responsemodel.UserregisterResponseModel
 import com.foodpartner.app.viewModel.HomeViewModel
 import com.google.firebase.firestore.FirebaseFirestore
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import kotlin.sequences.ifEmpty
 
 class BankUpdateFragment : BaseFragment<FragmentBankdetaileditfragmentBinding>() {
 
-    private val homeViewModel by viewModel<HomeViewModel>()
     private val firestore = FirebaseFirestore.getInstance()
     private var bankNameValue: String = "State Bank of India"
 
     override fun getLayoutId(): Int = R.layout.fragment_bankdetaileditfragment
 
     override fun initView(mViewDataBinding: ViewDataBinding?) {
-        
-            // Observe ViewModel Response
+        val binding = mViewDataBinding as FragmentBankdetaileditfragmentBinding
 
-            // Load user bank data
-            this.mViewDataBinding.accname.setText(sharedHelper.getFromUser("accname"))
-            this.mViewDataBinding.accnumber.setText(sharedHelper.getFromUser("accnumber"))
-            this.mViewDataBinding.ifsccode.setText(sharedHelper.getFromUser("ifsccode"))
+        // Load existing bank data from SharedHelper
+        binding.accname.setText(sharedHelper.getFromUser("accname"))
+        binding.accnumber.setText(sharedHelper.getFromUser("accnumber"))
+        binding.ifsccode.setText(sharedHelper.getFromUser("ifsccode"))
 
-            // Setup bank spinner
-            val banks = arrayOf("State Bank of India", "ICICI Bank", "Kotak Mahindra Bank", "Indane Bank")
-            val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, banks)
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            this.mViewDataBinding.bankname.adapter = adapter
-            this.mViewDataBinding.bankname.setSelection(0)
-            this.mViewDataBinding.bankname.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                    bankNameValue = parent.getItemAtPosition(position).toString()
-                }
-                override fun onNothingSelected(parent: AdapterView<*>) {}
+        // Bank spinner
+        val banks = arrayOf("State Bank of India", "ICICI Bank", "Kotak Mahindra Bank", "Indane Bank")
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, banks)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.bankname.adapter = adapter
+        binding.bankname.setSelection(banks.indexOf(sharedHelper.getFromUser("bankname").ifEmpty { "State Bank of India" }))
+        binding.bankname.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                bankNameValue = parent.getItemAtPosition(position).toString()
             }
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
 
-            // Back button
-            this.mViewDataBinding.backBtn.setOnClickListener { fragmentManagers?.popBackStackImmediate() }
+        // Back button
+        binding.backBtn.setOnClickListener { fragmentManagers?.popBackStackImmediate() }
 
-            // Update button
-            this.mViewDataBinding.update.setOnClickListener {
-                val accName = this.mViewDataBinding.accname.text.toString().trim()
-                val accNumber = this.mViewDataBinding.accnumber.text.toString().trim()
-                val ifscCode = this.mViewDataBinding.ifsccode.text.toString().trim()
+        // Update bank details
+        binding.update.setOnClickListener {
+            val accName = binding.accname.text.toString().trim()
+            val accNumber = binding.accnumber.text.toString().trim()
+            val ifscCode = binding.ifsccode.text.toString().trim()
 
-                when {
-                    TextUtils.isEmpty(accName) -> showToast("Please enter your account name")
-                    TextUtils.isEmpty(accNumber) -> showToast("Please enter your account number")
-                    TextUtils.isEmpty(ifscCode) -> showToast("Please enter your IFSC code")
-                    !isValidIFSC(ifscCode) -> showToast("Please enter a valid IFSC code")
-                    else -> {
-                        val bankData = hashMapOf(
-                            "accname" to accName,
-                            "accnumber" to accNumber,
-                            "ifsccode" to ifscCode,
-                            "bankname" to bankNameValue
-                        )
-                        saveBankDetailsToFirestore(bankData)
-                    }
+            when {
+                TextUtils.isEmpty(accName) -> showToast("Please enter your account name")
+                TextUtils.isEmpty(accNumber) -> showToast("Please enter your account number")
+                TextUtils.isEmpty(ifscCode) -> showToast("Please enter your IFSC code")
+                !isValidIFSC(ifscCode) -> showToast("Please enter a valid IFSC code")
+                else -> {
+                    val bankData = hashMapOf(
+                        "accname" to accName,
+                        "accnumber" to accNumber,
+                        "ifsccode" to ifscCode,
+                        "bankname" to bankNameValue
+                    )
+                    saveBankDetailsToFirestore(bankData)
                 }
             }
-        
+        }
     }
 
     private fun saveBankDetailsToFirestore(bankData: HashMap<String, String>) {
@@ -83,38 +81,30 @@ class BankUpdateFragment : BaseFragment<FragmentBankdetaileditfragmentBinding>()
 
         showLoader()
 
+        // Use merge = true to avoid overwriting existing fields
         firestore.collection("shops")
             .document(uid)
-            .update(bankData as Map<String, Any>)
+            .set(bankData, com.google.firebase.firestore.SetOptions.merge())
             .addOnSuccessListener {
                 hideLoader()
                 showToast("Bank details updated successfully")
-                fragmentManagers!!.popBackStackImmediate()
+                fragmentManagers?.popBackStackImmediate()
 
-                // Save locally for next session
+                // Save locally
                 sharedHelper.putInUser("accname", bankData["accname"].orEmpty())
                 sharedHelper.putInUser("accnumber", bankData["accnumber"].orEmpty())
                 sharedHelper.putInUser("ifsccode", bankData["ifsccode"].orEmpty())
+                sharedHelper.putInUser("bankname", bankData["bankname"].orEmpty())
             }
             .addOnFailureListener { e ->
                 hideLoader()
-                // If document doesn't exist, create it
-                firestore.collection("shops")
-                    .document(uid)
-                    .set(bankData)
-                    .addOnSuccessListener {
-                        hideLoader()
-                        showToast("Bank details updated successfully")
-                        sharedHelper.putInUser("accname", bankData["accname"].orEmpty())
-                        sharedHelper.putInUser("accnumber", bankData["accnumber"].orEmpty())
-                        sharedHelper.putInUser("ifsccode", bankData["ifsccode"].orEmpty())
-                    }
-                    .addOnFailureListener { ex ->
-                        hideLoader()
-                        showToast("Failed to update bank details: ${ex.message}")
-                    }
+                showToast("Failed to update bank details: ${e.message}")
             }
     }
 
-
+    // Simple IFSC validation
+    private fun isValidIFSC(code: String): Boolean {
+        val regex = Regex("^[A-Z]{4}0[A-Z0-9]{6}$")
+        return regex.matches(code)
+    }
 }
