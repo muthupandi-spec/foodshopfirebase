@@ -18,8 +18,11 @@ import com.foodpartner.app.view.fragment.HistoryFragment
 import com.foodpartner.app.view.fragment.Homefragment
 import com.foodpartner.app.view.fragment.ProfilepageFragment
 import com.foodpartner.app.view.fragment.Shopfragment
+import com.foodpartner.app.view.responsemodel.Shop
 import com.foodpartner.app.viewModel.HomeViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import org.json.JSONObject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
@@ -34,7 +37,7 @@ class HomeActivity :AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         bottomNavigation = findViewById(R.id.bottom_navigation)
-
+getShopDetails()
         // Default fragment
         switchFragment(Homefragment())
 
@@ -69,4 +72,40 @@ class HomeActivity :AppCompatActivity() {
         currentFragment = fragment
         return true
     }
+    private fun getShopDetails() {
+        val db = FirebaseFirestore.getInstance()
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
+
+        db.collection("shops")
+            .document(uid.toString())
+            .get()
+            .addOnSuccessListener { doc ->
+                if (doc != null && doc.exists()) {
+                    val shop = Shop(
+                        restaurantId = doc.getString("restaurantId") ?: "",
+                        restaurantName = doc.getString("restaurantName") ?: "",
+                        restaurantLat = doc.getString("restaurantLat") ?: "",
+                        restaurantLng = doc.getString("restaurantLng") ?: "",
+                        mobileNumber = doc.getString("mobileNumber") ?: "",
+                        profileImage = doc.getString("profileImage") ?: "",
+                        restaurantLandMark = doc.getString("restaurantLandMark") ?: "",
+                        restaurantStreet = doc.getString("restaurantStreet") ?: "",
+                        restaurantCity = doc.getString("restaurantCity") ?: "",
+                        restaurantPinCode = doc.getString("restaurantPinCode") ?: "",
+                        restaurantEmail = doc.getString("restaurantEmail") ?: "",
+                        restaurantType = doc.getString("restaurantType") ?: "",
+                        tradeId = doc.getString("tradeId") ?: ""
+                    )
+                    println("dataaa"+shop)
+                } else {
+                }
+            }
+            .addOnFailureListener { e ->
+                e.printStackTrace()
+
+            }
+
+    }
+
+
 }

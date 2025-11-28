@@ -1,206 +1,186 @@
 package com.foodpartner.app.view.fragment
 
-import android.annotation.SuppressLint
-import android.app.Dialog
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.text.TextUtils
-import android.view.View
-import android.view.Window
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
+import android.location.Location
 import androidx.databinding.ViewDataBinding
-import com.app.washeruser.repository.Status
 import com.foodpartner.app.R
-import com.foodpartner.app.ResponseMOdel.AcceptOrderResponsemodel
-import com.foodpartner.app.ResponseMOdel.AssignorderModel
-import com.foodpartner.app.ResponseMOdel.CancelledOrderResponsemodel
-import com.foodpartner.app.ResponseMOdel.EnablePackingModel
-import com.foodpartner.app.ResponseMOdel.OrderRecieveModell
-import com.foodpartner.app.ResponseMOdel.OrderRecieveModellItem
-import com.foodpartner.app.ResponseMOdel.Orderresponsenmodel
-import com.foodpartner.app.ResponseMOdel.RestaurantResponsemodel
 import com.foodpartner.app.baseClass.BaseFragment
 import com.foodpartner.app.databinding.HomefragmentBinding
-import com.foodpartner.app.network.Constant
+import com.foodpartner.app.network.OrderStatus
 import com.foodpartner.app.view.adapter.Activeadapter
-import com.foodpartner.app.view.bottomsheetfragment.OrderDetailFragment
-import com.foodpartner.app.view.bottomsheetfragment.OrderdetailBottomsheetFragment
-import com.foodpartner.app.viewModel.HomeViewModel
+import com.foodpartner.app.view.responsemodel.Shop
 import com.kotlintest.app.utility.interFace.CommonInterface
-import com.mukesh.OtpView
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class Homefragment : BaseFragment<HomefragmentBinding>() {
-    lateinit var bottomSheetFragment: OrderDetailFragment
-    private val homeViewModel by viewModel<HomeViewModel>()
-    var activelist: ArrayList<OrderRecieveModellItem> = ArrayList()
-    lateinit var dialog: Dialog  // class-level declaration
-
-    override fun initView(mViewDataBinding: ViewDataBinding?) {
-        adapter()
-        homeViewModel.getrestaurant(sharedHelper.getFromUser("userid"))
-
-        println("useriddd" + sharedHelper.getFromUser("userid"))
-        homeViewModel.orderrecieve(sharedHelper.getFromUser("userid"), "Order Placed")
-
-        this.mViewDataBinding.apply {
-            backBtn.setOnClickListener {
-                loadFragment(Offerfragment(), android.R.id.content, "offer", true)
-
-            }
-
-            notification.setOnClickListener {
-                loadFragment(Notificationnfragment(), android.R.id.content, "noti", true)
-            }
-        }
-    }
+    private val db = FirebaseFirestore.getInstance()
+    private val orders = ArrayList<Map<String, Any>>()
 
     override fun getLayoutId(): Int = R.layout.homefragment
-    fun adapter() {
 
-
+    override fun initView(mViewDataBinding: ViewDataBinding?) {
+        val restId = sharedHelper.getFromUser("userid") ?: return
+        listenRestaurantOrders(restId)
     }
 
-    private fun processResponse(response: com.foodpartner.app.network.Response) {
-        when (response.status) {
-            Status.SUCCESS -> {
-                this.mViewDataBinding.loader.visibility = View.GONE // Update UI on the main thread
-
-                when (response.data) {
-
-                    is OrderRecieveModell -> {
-
-                        activelist.clear()
-                        activelist.addAll(response.data)
-                        if (activelist.isEmpty() || activelist == null) {
-                            mViewDataBinding.emptyimg.visibility = View.VISIBLE
-                            mViewDataBinding.emptytxt.visibility = View.VISIBLE
-                            mViewDataBinding.activeRV.visibility = View.GONE
-                        } else {
-                            mViewDataBinding.emptyimg.visibility = View.GONE
-                            mViewDataBinding.emptytxt.visibility = View.GONE
-                            mViewDataBinding.activeRV.visibility = View.VISIBLE
-                            val activeadapter = Activeadapter(activelist, object : CommonInterface {
-                                override fun commonCallback(any: Any) {
-                                    if (any.toString().equals("detail")) {
-                                        bottomSheetFragment =
-                                            OrderDetailFragment(Constant.orderid)
-                                        bottomSheetFragment.show(
-                                            childFragmentManager,
-                                            "BSDialogFragment"
-                                        )
-                                    } else {
-                                        if (any.toString().equals("cancel")) {
-                                            mViewDataBinding.loader.visibility= View.VISIBLE
-                                            homeViewModel.cancelorder(Constant.orderid)
-
-                                        }
-                                        else if (any.toString().equals("Accept Order")) {
-                                            mViewDataBinding.loader.visibility= View.VISIBLE
-
-                                            homeViewModel.acceptorder(Constant.orderid)
-
-                                        } else if (any.toString().equals("Enable Packing")) {
-                                            mViewDataBinding.loader.visibility= View.VISIBLE
-                                            homeViewModel.enablepacking(Constant.orderid)
-                                        } else if (any.toString().equals("Searching for a boy")) {
-                                            mViewDataBinding.loader.visibility= View.VISIBLE
-                                            homeViewModel.assignpartnner(Constant.orderid)
-                                        } else if (any.toString().equals("Handover to delivery boy")
-                                        ) {
-
-                                        }
-
-                                    }
-
-
-                                }
-
-                            })
-
-                            this.mViewDataBinding.activeRV.adapter = activeadapter
+    private fun listenRestaurantOrders(restId: String) {
+        db.collection("orders")
+            .whereEqualTo("restaurantId", restId)
+            .whereIn(
+                "orderStatus", listOf(
+                    OrderStatus.ORDER_PLACED,
+                    OrderStatus.ACCEPTED_BY_RESTAURANT,
+                    OrderStatus.PREPARING,
+                    OrderStatus.READY_FOR_PICKUP
+                )
+            )
+            .addSnapshotListener { snaps, err ->
+                if (err != null) return@addSnapshotListener
+                orders.clear()
+                snaps?.documents?.forEach { orders.add(it.data ?: emptyMap()) }
+                mViewDataBinding?.activeRV?.adapter = Activeadapter(orders, object : CommonInterface {
+                    override fun commonCallback(any: Any) {
+                        if (any is Map<*, *>) {
+                            val action = any["action"].toString()
+                            val orderId = any["orderId"].toString()
+                            when (action) {
+                                "accept" -> updateOrderStatus(orderId, OrderStatus.ACCEPTED_BY_RESTAURANT)
+                                "start_preparing" -> updateOrderStatus(orderId, OrderStatus.PREPARING)
+                                "ready" -> updateOrderStatus(orderId, OrderStatus.READY_FOR_PICKUP)
+                                "assign_delivery" -> assignDeliveryBoy(orderId)
+                            }
                         }
+                    }
+                })
+            }
+    }
 
+    private fun updateOrderStatus(orderId: String, status: String) {
+        db.collection("orders").document(orderId)
+            .update(mapOf("orderStatus" to status, "updatedAt" to System.currentTimeMillis()))
+    }
+
+    private fun assignDeliveryBoy(orderId: String) {
+        db.collection("orders").document(orderId).get()
+            .addOnSuccessListener { orderSnap ->
+                val shopId = orderSnap.getString("restaurantId") ?: return@addOnSuccessListener
+
+                // Get shop details before assigning delivery boy
+                getShopDetails(shopId) { shop ->
+                    if (shop == null) {
+                        showToast("Shop details not found")
+                        return@getShopDetails
                     }
 
-                    is CancelledOrderResponsemodel ->{
-                        showToast("cancel order")
+                    val restLat = shop.restaurantLat.toDoubleOrNull() ?: 0.0
+                    val restLng = shop.restaurantLng.toDoubleOrNull() ?: 0.0
 
-                        homeViewModel.orderrecieve(
-                            sharedHelper.getFromUser("userid"),
-                            "Order Placed"
-                        )
-                    }
+                    db.collection("deliveryboys")
+                        .whereEqualTo("status", "Online")
+                        .whereEqualTo("verify", "true")
+                        .get()
+                        .addOnSuccessListener { boysSnap ->
 
-                    is AcceptOrderResponsemodel -> {
-                        this.mViewDataBinding.loader.visibility = View.VISIBLE // Update UI on the main thread
+                            if (boysSnap.isEmpty) {
+                                showToast("No delivery boy is available right now")
+                                return@addOnSuccessListener
+                            }
 
-                        showToast("accept order")
-                        homeViewModel.orderrecieve(
-                            sharedHelper.getFromUser("userid"),
-                            "Order Placed"
-                        )
+                            var nearestBoyDoc: Map<String, Any>? = null
+                            var shortestDistance = Double.MAX_VALUE
 
-                    }
+                            for (doc in boysSnap.documents) {
+                                val lat = doc.getDouble("latitude") ?: 0.0
+                                val lng = doc.getDouble("longitude") ?: 0.0
+                                val distance = getDistanceInKm(restLat, restLng, lat, lng)
+                                if (distance < shortestDistance && distance <= 10.0) {
+                                    shortestDistance = distance
+                                    nearestBoyDoc = mapOf(
+                                        "uid" to (doc.getString("uid") ?: ""),
+                                        "name" to (doc.getString("name") ?: ""),
+                                        "mobileNumber" to (doc.getString("mobileNumber") ?: ""),
+                                        "profileImage" to (doc.getString("profileImage") ?: ""),
+                                        "landmark" to (doc.getString("landmark") ?: ""),
+                                        "latitude" to lat,
+                                        "longitude" to lng
+                                    )
+                                }
+                            }
 
-                    is EnablePackingModel -> {
-                        this.mViewDataBinding.loader.visibility = View.VISIBLE // Update UI on the main thread
+                            if (nearestBoyDoc == null) {
+                                showToast("No delivery boy found within 10 km")
+                                return@addOnSuccessListener
+                            }
 
-                        homeViewModel.orderrecieve(
-                            sharedHelper.getFromUser("userid"),
-                            "Order Placed"
-                        )
+                            showToast("Nearest delivery boy is ${"%.2f".format(shortestDistance)} km away")
+                            val otp = (1000..9999).random().toString()
 
-                    }
+                            val orderData = mapOf(
+                                "orderStatus" to OrderStatus.DELIVERY_ASSIGNED,
+                                "deliveryBoy" to nearestBoyDoc,
+                                "shop" to shop,
+                                "otp" to otp,
+                                "updatedAt" to System.currentTimeMillis()
+                            )
 
-                    is AssignorderModel -> {
-                        this.mViewDataBinding.loader.visibility = View.VISIBLE // Update UI on the main thread
-//956366
-                        homeViewModel.orderrecieve(
-                            sharedHelper.getFromUser("userid"),
-                            "Order Placed"
-                        )
-
-                    }
-
-
-
-                    is RestaurantResponsemodel -> {
-                        sharedHelper.putInUser("resname", response.data.restaurantName)
-                        sharedHelper.putInUser("resemail", response.data.restaurantEMail)
-                        sharedHelper.putInUser("resmobno", response.data.mobileNumber)
-                        sharedHelper.putInUser("resstreet", response.data.restaurantStreet)
-                        sharedHelper.putInUser("rescity", response.data.restaurantCity)
-                        sharedHelper.putInUser("reslat", response.data.restaurantLat.toString())
-                        sharedHelper.putInUser("reslong", response.data.restaurantLng.toString())
-                        sharedHelper.putInUser(
-                            "respincode",
-                            response.data.restaurantPinCode.toString()
-                        )
-                        sharedHelper.putInUser(
-                            "reslandmark",
-                            response.data.restaurantLandMark.toString()
-                        )
-                        sharedHelper.putInUser("resdesc", response.data.restaurantDescreption)
-                        sharedHelper.putInUser("restradeid", response.data.tradeId.toString())
-                        sharedHelper.putInUser("restype", response.data.restaurantType.toString())
-                    }
-
+                            db.collection("orders").document(orderId)
+                                .update(orderData)
+                                .addOnSuccessListener {
+                                    showToast("Delivery boy assigned successfully")
+                                    db.collection("orders")
+                                        .document(orderId)
+                                        .collection("orderDeliveryBoys")
+                                        .document(nearestBoyDoc["uid"].toString())
+                                        .set(nearestBoyDoc)
+                                }
+                                .addOnFailureListener {
+                                    showToast("Failed to assign delivery boy")
+                                }
+                        }
                 }
             }
-
-            Status.ERROR -> {
-                this.mViewDataBinding.loader.visibility = View.GONE // Update UI on the main thread
-
-            }
-
-            Status.LOADING -> {}
-            Status.SECONDLOADING -> {}
-            Status.DISMISS -> {}
-        }
     }
 
+    private fun getShopDetails(shopId: String, onResult: (Shop?) -> Unit) {
+        val db = FirebaseFirestore.getInstance()
+
+        db.collection("shops")
+            .document(shopId)
+            .get()
+            .addOnSuccessListener { doc ->
+                if (doc != null && doc.exists()) {
+                    val shop = Shop(
+                        restaurantId = doc.getString("restaurantId") ?: "",
+                        restaurantName = doc.getString("restaurantName") ?: "",
+                        restaurantLat = doc.getString("restaurantLat") ?: "",
+                        restaurantLng = doc.getString("restaurantLng") ?: "",
+                        mobileNumber = doc.getString("mobileNumber") ?: "",
+                        profileImage = doc.getString("profileImage") ?: "",
+                        restaurantLandMark = doc.getString("restaurantLandMark") ?: "",
+                        restaurantStreet = doc.getString("restaurantStreet") ?: "",
+                        restaurantCity = doc.getString("restaurantCity") ?: "",
+                        restaurantPinCode = doc.getString("restaurantPinCode") ?: "",
+                        restaurantEmail = doc.getString("restaurantEmail") ?: "",
+                        restaurantType = doc.getString("restaurantType") ?: "",
+                        tradeId = doc.getString("tradeId") ?: ""
+                    )
+                    onResult(shop)
+                } else {
+                    onResult(null)
+                }
+            }
+            .addOnFailureListener { e ->
+                e.printStackTrace()
+                onResult(null)
+            }
+    }
+
+    private fun getDistanceInKm(
+        lat1: Double, lon1: Double, lat2: Double, lon2: Double
+    ): Double {
+        val results = FloatArray(1)
+        Location.distanceBetween(lat1, lon1, lat2, lon2, results)
+        return results[0] / 1000.0
+    }
 
 }
