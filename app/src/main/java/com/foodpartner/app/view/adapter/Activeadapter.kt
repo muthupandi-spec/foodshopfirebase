@@ -32,19 +32,38 @@ class Activeadapter (
         return VH(bind)
     }
     override fun onBindViewHolder(holder: VH, position: Int) {
+
+
         val item = items[position]
         val status = item["orderStatus"] as? String ?: ""
+        val foodName = item["foodName"] as? String ?: ""
+        val price = item["price"] as? String ?: ""
+        val image = item["foodimage"] as? String ?: ""
+        val orderId = item["orderId"].toString()
+        val otp = item["otp"]?.toString() ?: ""
+        holder.binding.otp.text = "OTP : $otp"
+        Glide.with(holder.binding.root).load(image).into(holder.binding.foodImgBg)
+
         holder.binding.status.text = status
-        holder.binding.orderid.text = item["orderId"].toString()
+        holder.binding.foodName.text = foodName
+        holder.binding.foodCost.text = "₹ "+price
+        holder.binding.foodCount.text = item.size .toString()+"qty"
+        holder.binding.orderid.text = "Order ID: #$orderId"
+
 
         when (status) {
-            OrderStatus.ORDER_PLACED -> holder.binding.trackOrderBtn.text = "Accept Order"
-            OrderStatus.ACCEPTED_BY_RESTAURANT -> holder.binding.trackOrderBtn.text = "Start Preparing"
-            OrderStatus.PREPARING -> holder.binding.trackOrderBtn.text = "Mark Ready"
-            OrderStatus.READY_FOR_PICKUP -> holder.binding.trackOrderBtn.text = "Assign Delivery"
+            OrderStatus.ORDER_PLACED -> holder.binding.statusbtnn.text = "Accept Order"
+            OrderStatus.ACCEPTED_BY_RESTAURANT -> holder.binding.statusbtnn.text = "Start Preparing"
+            OrderStatus.PREPARING -> holder.binding.statusbtnn.text = "Mark Ready"
+            OrderStatus.READY_FOR_PICKUP -> holder.binding.statusbtnn.text = "Assign Delivery"
         }
+if(status.equals("DELIVERY_ASSIGNED")){
+    holder.binding.statusbtnn.visibility= View.GONE
+}else{
+    holder.binding.statusbtnn.visibility= View.VISIBLE
 
-        holder.binding.trackOrderBtn.setOnClickListener {
+}
+        holder.binding.statusbtnn.setOnClickListener {
             when (status) {
                 OrderStatus.ORDER_PLACED -> callback.commonCallback(mapOf("action" to "accept", "orderId" to item["orderId"].toString()))
                 OrderStatus.ACCEPTED_BY_RESTAURANT -> callback.commonCallback(mapOf("action" to "start_preparing", "orderId" to item["orderId"].toString()))

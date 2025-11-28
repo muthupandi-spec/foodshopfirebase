@@ -31,7 +31,9 @@ class Homefragment : BaseFragment<HomefragmentBinding>() {
                     OrderStatus.ORDER_PLACED,
                     OrderStatus.ACCEPTED_BY_RESTAURANT,
                     OrderStatus.PREPARING,
-                    OrderStatus.READY_FOR_PICKUP
+                    OrderStatus.READY_FOR_PICKUP,
+                    OrderStatus.DELIVERY_ASSIGNED,
+                    OrderStatus.DELIVERY_BOY_ARRIVED,
                 )
             )
             .addSnapshotListener { snaps, err ->
@@ -157,12 +159,7 @@ class Homefragment : BaseFragment<HomefragmentBinding>() {
                         mobileNumber = doc.getString("mobileNumber") ?: "",
                         profileImage = doc.getString("profileImage") ?: "",
                         restaurantLandMark = doc.getString("restaurantLandMark") ?: "",
-                        restaurantStreet = doc.getString("restaurantStreet") ?: "",
-                        restaurantCity = doc.getString("restaurantCity") ?: "",
-                        restaurantPinCode = doc.getString("restaurantPinCode") ?: "",
-                        restaurantEmail = doc.getString("restaurantEmail") ?: "",
-                        restaurantType = doc.getString("restaurantType") ?: "",
-                        tradeId = doc.getString("tradeId") ?: ""
+
                     )
                     onResult(shop)
                 } else {
