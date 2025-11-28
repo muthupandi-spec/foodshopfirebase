@@ -87,7 +87,6 @@
                     <ImageView
                         android:id="@+id/accProfile"
                         android:layout_width="match_parent"
-                        android:visibility="gone"
                         android:layout_height="match_parent"
                         android:src="@drawable/profile"
                         tools:ignore="ContentDescription" />

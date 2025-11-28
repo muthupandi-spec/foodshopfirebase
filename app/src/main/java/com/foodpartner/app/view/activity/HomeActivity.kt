@@ -14,6 +14,7 @@ import com.foodpartner.app.baseClass.BaseActivity.BaseActivity
 import com.foodpartner.app.databinding.ActivityHomeBinding
 import com.foodpartner.app.databinding.ActivityMainBinding
 import com.foodpartner.app.network.Response
+import com.foodpartner.app.view.fragment.CompletedOrderFragment
 import com.foodpartner.app.view.fragment.HistoryFragment
 import com.foodpartner.app.view.fragment.Homefragment
 import com.foodpartner.app.view.fragment.ProfilepageFragment
@@ -45,7 +46,7 @@ getShopDetails()
             when (it.itemId) {
                 R.id.navHomeBtn -> switchFragment(Homefragment())
                 R.id.shopbtn -> switchFragment(Shopfragment())
-                R.id.navhistoryBtn -> switchFragment(HistoryFragment())
+                R.id.navhistoryBtn -> switchFragment(CompletedOrderFragment())
                 R.id.navProfBtn -> switchFragment(ProfilepageFragment())
                 else -> false
             }

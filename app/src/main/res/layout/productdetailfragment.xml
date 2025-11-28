@@ -542,7 +542,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
-    <com.airbnb.lottie.LottieAnimationView
+    <ProgressBar
         android:id="@+id/loader"
         android:layout_width="@dimen/_90sdp"
         android:layout_height="@dimen/_90sdp"
@@ -550,9 +550,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:lottie_autoPlay="true"
-        app:lottie_rawRes="@raw/loder"
+
         android:visibility="gone"
-        app:lottie_loop="true" />
+   />
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

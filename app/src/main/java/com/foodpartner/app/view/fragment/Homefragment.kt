@@ -1,7 +1,9 @@
 package com.foodpartner.app.view.fragment
 
 import android.location.Location
+import android.view.View
 import androidx.databinding.ViewDataBinding
+import androidx.transition.Visibility
 import com.foodpartner.app.R
 import com.foodpartner.app.baseClass.BaseFragment
 import com.foodpartner.app.databinding.HomefragmentBinding
@@ -40,21 +42,32 @@ class Homefragment : BaseFragment<HomefragmentBinding>() {
                 if (err != null) return@addSnapshotListener
                 orders.clear()
                 snaps?.documents?.forEach { orders.add(it.data ?: emptyMap()) }
-                mViewDataBinding?.activeRV?.adapter = Activeadapter(orders, object : CommonInterface {
-                    override fun commonCallback(any: Any) {
-                        if (any is Map<*, *>) {
-                            val action = any["action"].toString()
-                            val orderId = any["orderId"].toString()
-                            when (action) {
-                                "accept" -> updateOrderStatus(orderId, OrderStatus.ACCEPTED_BY_RESTAURANT)
-                                "start_preparing" -> updateOrderStatus(orderId, OrderStatus.PREPARING)
-                                "ready" -> updateOrderStatus(orderId, OrderStatus.READY_FOR_PICKUP)
-                                "assign_delivery" -> assignDeliveryBoy(orderId)
+
+                if(orders.isEmpty()){
+                    mViewDataBinding.activeRV.visibility= View.GONE
+                    mViewDataBinding.emptyimg.visibility= View.VISIBLE
+                    mViewDataBinding.emptytxt.visibility= View.VISIBLE
+                }else{
+                    mViewDataBinding.activeRV.visibility= View.VISIBLE
+                    mViewDataBinding.emptyimg.visibility= View.GONE
+                    mViewDataBinding.emptytxt.visibility= View.GONE
+                    mViewDataBinding?.activeRV?.adapter = Activeadapter(orders, object : CommonInterface {
+                        override fun commonCallback(any: Any) {
+                            if (any is Map<*, *>) {
+                                val action = any["action"].toString()
+                                val orderId = any["orderId"].toString()
+                                when (action) {
+                                    "accept" -> updateOrderStatus(orderId, OrderStatus.ACCEPTED_BY_RESTAURANT)
+                                    "start_preparing" -> updateOrderStatus(orderId, OrderStatus.PREPARING)
+                                    "ready" -> updateOrderStatus(orderId, OrderStatus.READY_FOR_PICKUP)
+                                    "assign_delivery" -> assignDeliveryBoy(orderId)
+                                }
                             }
                         }
-                    }
-                })
-            }
+                    })
+
+                }
+               }
     }
 
     private fun updateOrderStatus(orderId: String, status: String) {

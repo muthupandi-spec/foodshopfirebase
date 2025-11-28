@@ -33,23 +33,35 @@ class Activeadapter (
     }
     override fun onBindViewHolder(holder: VH, position: Int) {
 
-
         val item = items[position]
-        val status = item["orderStatus"] as? String ?: ""
-        val foodName = item["foodName"] as? String ?: ""
-        val price = item["price"] as? String ?: ""
-        val image = item["foodimage"] as? String ?: ""
         val orderId = item["orderId"].toString()
-        val otp = item["otp"]?.toString() ?: ""
-        holder.binding.otp.text = "OTP : $otp"
-        Glide.with(holder.binding.root).load(image).into(holder.binding.foodImgBg)
+        val otp = "OTP: "+item["otp"]?.toString() ?: ""
+        holder.binding.otp.text = otp
+        val status = item["orderStatus"] as? String ?: ""
+        // FULL orderItems list
+        val orderItems = item["orderItems"] as? List<Map<String, Any>> ?: emptyList()
 
-        holder.binding.status.text = status
-        holder.binding.foodName.text = foodName
-        holder.binding.foodCost.text = "₹ "+price
-        holder.binding.foodCount.text = item.size .toString()+"qty"
+        // show first item for main display
+        val firstItem = orderItems.firstOrNull()
+
+        if (firstItem != null) {
+            val foodName = firstItem["foodName"].toString()
+            val price = firstItem["price"].toString()
+            val qty = firstItem["quantity"].toString()
+            val image = firstItem["foodimage"].toString()
+
+
+            holder.binding.foodName.text = foodName
+            holder.binding.foodCost.text = "₹ $price"
+            holder.binding.foodCount.text = "$qty qty"
+
+            Glide.with(holder.binding.root)
+                .load(image)
+                .into(holder.binding.foodImgBg)
+        }
+
         holder.binding.orderid.text = "Order ID: #$orderId"
-
+        holder.binding.status.text = status
 
         when (status) {
             OrderStatus.ORDER_PLACED -> holder.binding.statusbtnn.text = "Accept Order"
@@ -63,6 +75,10 @@ if(status.equals("DELIVERY_ASSIGNED")){
     holder.binding.statusbtnn.visibility= View.VISIBLE
 
 }
+        if(status.equals("DELIVERED")){
+            holder.binding.statusbtnn.text = "Delivered"
+            holder.binding.statusbtnn.visibility = View.VISIBLE
+        }
         holder.binding.statusbtnn.setOnClickListener {
             when (status) {
                 OrderStatus.ORDER_PLACED -> callback.commonCallback(mapOf("action" to "accept", "orderId" to item["orderId"].toString()))

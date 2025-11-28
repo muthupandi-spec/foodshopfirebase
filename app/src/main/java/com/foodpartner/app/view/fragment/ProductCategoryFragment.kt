@@ -211,6 +211,7 @@ class ProductCategoryFragment : BaseFragment<ProductfragmentBinding>() {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun foodcreate(event: FoodCreateEvent) {
         loadCategories()
+        println("prinnttt")
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -234,6 +235,11 @@ class ProductCategoryFragment : BaseFragment<ProductfragmentBinding>() {
             }.addOnFailureListener {
                 
             }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        hideLoader()
     }
 
 }
