@@ -1,56 +1,50 @@
-package com.foodpartner.app.view.adapter
+package com.foodboy.app.view.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.foodpartner.app.R
-import com.foodpartner.app.ResponseMOdel.OrderDetailResponsemodel
-import com.foodpartner.app.baseClass.BaseAdapter
-import com.foodpartner.app.databinding.FooditemadapterBinding
-import com.kotlintest.app.utility.interFace.CommonInterface
+import com.bumptech.glide.Glide
 
-class FoodItemAdapter (
-    private val aminitylistcategory: ArrayList<OrderDetailResponsemodel.OrderItem>,
-    var commonInterface: CommonInterface
-) : BaseAdapter<Any>(aminitylistcategory) {
-    lateinit var context: Context
-    override fun onCreateViewHolderBase(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        context = parent.context
-        return adapterviewholder(
-            LayoutInflater
-                .from(parent.context)
-                .inflate(R.layout.fooditemadapter, parent, false)
-        )
+class FoodItemAdapter(
+    private val items: ArrayList<HashMap<String, Any>>
+) : RecyclerView.Adapter<FoodItemAdapter.FoodVH>() {
+
+    inner class FoodVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val foodImg: ImageView = itemView.findViewById(R.id.foodImage)
+        val foodName: TextView = itemView.findViewById(R.id.foodName)
+        val foodQty: TextView = itemView.findViewById(R.id.foodQty)
+        val foodPrice: TextView = itemView.findViewById(R.id.foodPrice)
     }
 
-    class adapterviewholder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var databding: FooditemadapterBinding? = null
-
-        init {
-            databding = DataBindingUtil.bind<ViewDataBinding>(itemView) as FooditemadapterBinding
-        }
-
-        fun getBinding(): FooditemadapterBinding {
-            return databding!!
-        }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodVH {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.adapter_order_list, parent, false)
+        return FoodVH(view)
     }
 
-    override fun onBindViewHolderBase(holder: RecyclerView.ViewHolder, position: Int) {
-        var binding = (holder as FoodItemAdapter.adapterviewholder).getBinding()
-binding.fooditem.text=aminitylistcategory[position].foodName
-binding.foodCount.text=aminitylistcategory[position].quantity.toString()+" qty"
-binding.foodamt.text=aminitylistcategory[position].price.toString()+" AED"
-        holder.itemView.setOnClickListener {
-            commonInterface.commonCallback(aminitylistcategory[position])
+    override fun getItemCount(): Int = items.size
+
+    override fun onBindViewHolder(holder: FoodVH, position: Int) {
+        val item = items[position]
+
+        val name = item["foodName"]?.toString() ?: "Food"
+        val qty = item["quantity"]?.toString() ?: "0"
+        val price = item["price"]?.toString() ?: "0"
+        val img = item["foodimage"]?.toString()
+
+        holder.foodName.text = name
+        holder.foodQty.text = "x$qty"
+        holder.foodPrice.text = "₹$price"
+
+        if (!img.isNullOrEmpty()) {
+            Glide.with(holder.itemView.context)
+                .load(img)
+                .placeholder(R.drawable.ic_logo)
+                .into(holder.foodImg)
         }
-
-    }
-
-    override fun getItemCount(): Int {
-        return aminitylistcategory.size
     }
 }

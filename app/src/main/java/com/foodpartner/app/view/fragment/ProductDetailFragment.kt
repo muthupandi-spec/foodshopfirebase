@@ -14,9 +14,11 @@ import com.foodpartner.app.baseClass.BaseFragment
 import com.foodpartner.app.databinding.ProductdetailfragmentBinding
 import com.foodpartner.app.network.Constant
 import com.foodpartner.app.view.bottomsheetfragment.ScheduleBottomsheetfragment
+import com.foodpartner.app.view.eventmodel.FoodCreateEvent
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.storage.FirebaseStorage
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -176,7 +178,8 @@ class ProductDetailFragment : BaseFragment<ProductdetailfragmentBinding>() {
             .addOnSuccessListener {
                 hideLoader()
                 showToast("Food added successfully")
-                requireActivity().onBackPressed()
+                EventBus.getDefault().postSticky(FoodCreateEvent())
+                    requireActivity().onBackPressed()
             }
             .addOnFailureListener {
                 hideLoader()
@@ -191,22 +194,32 @@ class ProductDetailFragment : BaseFragment<ProductdetailfragmentBinding>() {
         firestore.collection("shops")
             .document(uid)
             .collection("categories")
-            .orderBy("createdAt")
+            .orderBy("createdAt", Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { query ->
-                categoryList.clear()
-                categoryList.add("Select Category")
+
+                val tempList = ArrayList<String>()   // Store category names
 
                 for (doc in query.documents) {
-                    categoryList.add(doc.getString("restaurantCatagory") ?: "")
+                    val categoryName = doc.getString("restaurantCatagory") ?: ""
+                    if (categoryName.isNotEmpty()) {
+                        tempList.add(categoryName)
+                    }
                 }
 
+                categoryList.clear()
+
+                // ✅ All actual categories first
+                categoryList.addAll(tempList)
+
+                // ✅ Then "Select Category" in middle
+
+                // ✅ Then last item = "Add New Category"
                 categoryList.add("Add New Category")
 
                 categoryAdapter.notifyDataSetChanged()
             }
     }
-
     private fun initCategorySpinner() {
         categoryAdapter = ArrayAdapter(
             requireContext(),

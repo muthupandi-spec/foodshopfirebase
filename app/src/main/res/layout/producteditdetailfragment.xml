@@ -126,7 +126,8 @@
                         app:layout_constraintTop_toBottomOf="@id/productdettxt" />
 
 
-                    <ImageView
+                    <com.google.android.material.imageview.ShapeableImageView
+                        app:shapeAppearanceOverlay="@style/RoundedCorner10dp"
                         android:id="@+id/foodimg"
                         android:layout_width="@dimen/_150sdp"
                         android:layout_height="@dimen/_150sdp"

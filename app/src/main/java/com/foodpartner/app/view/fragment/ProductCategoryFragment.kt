@@ -126,7 +126,7 @@ class ProductCategoryFragment : BaseFragment<ProductfragmentBinding>() {
                 for (doc in querySnapshot.documents) {
 
                     val item = FoodItemResponemodelItem(
-                        foodId = doc.getString("foodId") ?: "",
+                        foodId = doc.id,
                         foodName = doc.getString("foodName") ?: "",
                         categoryId = doc.getString("categoryId") ?: "",
                         description = doc.getString("description") ?: "",
@@ -176,7 +176,7 @@ class ProductCategoryFragment : BaseFragment<ProductfragmentBinding>() {
                             )
 
                             "update" -> {
-                                
+
                                 updateFoodStatus(
                                     any["foodid"].toString(),
                                     any["isActive"].toString()

@@ -11,7 +11,6 @@ import com.foodpartner.app.databinding.ActivitySplashBinding
 import com.foodpartner.app.network.Constant
 import com.foodpartner.app.view.fragment.LoginFragment
 import com.foodpartner.app.view.fragment.PlaceSearchFragment
-import com.foodpartner.app.view.fragment.TrackMapFragment
 import com.google.firebase.messaging.FirebaseMessaging
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers

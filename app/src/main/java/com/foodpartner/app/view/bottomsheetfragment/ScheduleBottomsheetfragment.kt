@@ -14,7 +14,6 @@ import com.foodpartner.app.appControl.AppController
 import com.foodpartner.app.databinding.FragmentOrderdetailBinding
 import com.foodpartner.app.databinding.FragmentScheduleBinding
 import com.foodpartner.app.network.Constant
-import com.foodpartner.app.view.adapter.FoodItemAdapter
 import com.foodpartner.app.view.eventmodel.Timepickermodel
 import com.foodpartner.app.view.responsemodel.RestuarantModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment

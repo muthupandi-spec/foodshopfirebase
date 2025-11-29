@@ -18,7 +18,6 @@ import com.foodpartner.app.ResponseMOdel.Orderresponsenmodel
 import com.foodpartner.app.appControl.AppController
 import com.foodpartner.app.databinding.FragmentOrderdetailBinding
 import com.foodpartner.app.network.Constant
-import com.foodpartner.app.view.adapter.FoodItemAdapter
 import com.foodpartner.app.view.responsemodel.RestuarantModel
 import com.foodpartner.app.view.responsemodel.UserregisterResponseModel
 import com.foodpartner.app.viewModel.HomeViewModel
@@ -172,12 +171,7 @@ class OrderdetailBottomsheetFragment(
 
                         orderlist.clear()
                         orderlist.addAll(data.orderItems)
-                        val adapter = FoodItemAdapter(orderlist, object : CommonInterface {
-                            override fun commonCallback(any: Any) {
-                                selecteditem = any.toString()
-                            }
-                        })
-                        binding.foodlist.adapter = adapter
+
                     }
 
                 }

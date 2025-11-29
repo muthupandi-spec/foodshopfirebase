@@ -15,7 +15,6 @@ import com.foodpartner.app.ResponseMOdel.OrderDetailResponsemodel
 
 import com.foodpartner.app.appControl.AppController
 import com.foodpartner.app.databinding.FragmentOrderdetailBinding
-import com.foodpartner.app.view.adapter.FoodItemAdapter
 import com.foodpartner.app.viewModel.HomeViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.kotlintest.app.utility.interFace.CommonInterface
@@ -82,12 +81,7 @@ class OrderDetailFragment(var orderid: String) :  BottomSheetDialogFragment() {
 
                         orderlist.clear()
                         orderlist.addAll(data.orderItems)
-                        val adapter = FoodItemAdapter(orderlist, object : CommonInterface {
-                            override fun commonCallback(any: Any) {
-                                selecteditem = any.toString()
-                            }
-                        })
-                        binding.foodlist.adapter = adapter
+
                     }
                 }
 
