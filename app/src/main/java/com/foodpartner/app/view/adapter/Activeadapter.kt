@@ -35,8 +35,15 @@ class Activeadapter (
 
         val item = items[position]
         val orderId = item["orderId"].toString()
-        val otp = "OTP: "+item["otp"]?.toString() ?: ""
-        holder.binding.otp.text = otp
+        val otpValue = item["otp"]?.toString() ?: ""
+
+        if (otpValue.isNotEmpty()) {
+            holder.binding.otp.visibility = View.VISIBLE
+            holder.binding.otp.text = "OTP: $otpValue"
+        } else {
+            holder.binding.otp.visibility = View.GONE
+        }
+
         val status = item["orderStatus"] as? String ?: ""
         // FULL orderItems list
         val orderItems = item["orderItems"] as? List<Map<String, Any>> ?: emptyList()

@@ -1,6 +1,7 @@
 package com.foodpartner.app.view.fragment
 
 import androidx.databinding.ViewDataBinding
+import com.bumptech.glide.Glide
 import com.foodpartner.app.R
 import com.foodpartner.app.baseClass.BaseFragment
 import com.foodpartner.app.databinding.FragmentLoginBinding
@@ -28,6 +29,10 @@ class ProfilepageFragment : BaseFragment<FragmentProfilepagefrgamentBinding>() {
             accountcontainer.setOnClickListener {
                 loadFragment(SettingFragment(), android.R.id.content, "homepage", true)
             }
+            Glide.with(requireContext()).load(sharedHelper.getFromUser("profileImage")).into(profileimg)
+username.text=sharedHelper.getFromUser("restaurantName")
+phoneno.text=sharedHelper.getFromUser("mobileNumber")
+
 
         }
     }

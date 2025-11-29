@@ -14,6 +14,7 @@ import com.foodpartner.app.baseClass.BaseActivity.BaseActivity
 import com.foodpartner.app.databinding.ActivityHomeBinding
 import com.foodpartner.app.databinding.ActivityMainBinding
 import com.foodpartner.app.network.Response
+import com.foodpartner.app.utility.SharedHelper
 import com.foodpartner.app.view.fragment.CompletedOrderFragment
 import com.foodpartner.app.view.fragment.HistoryFragment
 import com.foodpartner.app.view.fragment.Homefragment
@@ -32,10 +33,12 @@ import java.util.Observer
 class HomeActivity :AppCompatActivity() {
     private var currentFragment: Fragment? = null
     private lateinit var bottomNavigation: BottomNavigationView
+    private lateinit var sharedHelper: SharedHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+        sharedHelper = SharedHelper(application)
 
         bottomNavigation = findViewById(R.id.bottom_navigation)
 getShopDetails()
@@ -97,6 +100,10 @@ getShopDetails()
                         restaurantType = doc.getString("restaurantType") ?: "",
                         tradeId = doc.getString("tradeId") ?: ""
                     )
+                    sharedHelper.putInUser("restaurantName", doc.getString("restaurantName") ?: "")
+                    sharedHelper.putInUser("profileImage", doc.getString("profileImage") ?: "")
+                    sharedHelper.putInUser("mobileNumber", doc.getString("mobileNumber") ?: "")
+
                     println("dataaa"+shop)
                 } else {
                 }

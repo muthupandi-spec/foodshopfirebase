@@ -59,13 +59,7 @@ backBtn.setOnClickListener{
                 sharedHelper.clearUser()
                 sharedHelper.clearCache()
                 FirebaseAuth.getInstance().signOut()
-                Constant.userid=""
-                Constant.position=""
-                Constant.restaurantname=""
                 Constant.restaurantcategory=""
-                Constant.orderid=""
-                Constant.userid=""
-                Constant.km=""
 
                 dialog.dismiss()
                 setIntent(SplashActivity::class.java,2)

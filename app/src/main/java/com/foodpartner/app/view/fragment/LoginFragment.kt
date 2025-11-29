@@ -19,52 +19,60 @@ import java.util.Timer
 import kotlin.concurrent.schedule
 import kotlin.toString
 
-class LoginFragment: BaseFragment<FragmentLoginBinding>(){
+class LoginFragment : BaseFragment<FragmentLoginBinding>() {
+
     private val auth = FirebaseAuth.getInstance()
 
     override fun initView(mViewDataBinding: ViewDataBinding?) {
 
-this.mViewDataBinding.apply {
+        val binding = this.mViewDataBinding!!   // FIXED
 
-    signUpBtn.setOnClickListener {
-        loadFragment(ShopCreateFragment(),android.R.id.content, "register",true)
-    }
-    logInBtn.setOnClickListener {
-        val emailStr = email.text.toString()
-        val passStr = password.text.toString()
+        binding.signUpBtn.setOnClickListener {
+            loadFragment(
+                ShopCreateFragment(),
+                android.R.id.content,
+                "register",
+                true
+            )
+        }
 
-        if (TextUtils.isEmpty(emailStr)) {
-            showToast("Please enter your Email")
-        } else if (TextUtils.isEmpty(passStr)) {
-            showToast("Please enter your Password")
-        } else {
-            signInUser(emailStr, passStr)
+        binding.logInBtn.setOnClickListener {
+
+            val emailStr = binding.email.text.toString().trim()
+            val passStr = binding.password.text.toString().trim()
+
+            when {
+                emailStr.isEmpty() -> showToast("Please enter your Email")
+                passStr.isEmpty() -> showToast("Please enter your Password")
+                else -> signInUser(emailStr, passStr)
+            }
         }
     }
-}
-    }
-    override fun getLayoutId(): Int = R.layout.fragment_login
 
+    override fun getLayoutId(): Int = R.layout.fragment_login
 
     private fun signInUser(email: String, password: String) {
 
-        showLoader()
+        showLoader()   // Show loader
 
         auth.signInWithEmailAndPassword(email, password)
             .addOnSuccessListener {
 
+                if (!isAdded) return@addOnSuccessListener   // FIXED crash issue
+
                 hideLoader()
                 showToast("Login Successful")
-                val uid = FirebaseAuth.getInstance().currentUser?.uid
 
-                sharedHelper.putInUser("userid",uid.toString())
+                val uid = auth.currentUser?.uid ?: ""
 
-                // Move to Home after login
-                setIntent(HomeActivity::class.java,2)
+                sharedHelper.putInUser("userid", uid)
 
-
+                setIntent(HomeActivity::class.java, 2)
             }
             .addOnFailureListener {
+
+                if (!isAdded) return@addOnFailureListener   // FIXED
+
                 hideLoader()
                 showToast("Login failed: ${it.message}")
             }

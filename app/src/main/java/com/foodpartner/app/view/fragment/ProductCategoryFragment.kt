@@ -169,17 +169,25 @@ class ProductCategoryFragment : BaseFragment<ProductfragmentBinding>() {
 
                         when (any["click"].toString()) {
 
-                            "edit" -> loadFragment(
-                                ProductEditDetailFragment(any["foodid"].toString()),
-                                android.R.id.content,
-                                "product", true
-                            )
+                            "edit" -> {
+                                loadFragment(
+                                    ProductEditDetailFragment(any["foodid"].toString()),
+                                    android.R.id.content,
+                                    "product", true
+                                )
+                            }
 
                             "update" -> {
-
                                 updateFoodStatus(
                                     any["foodid"].toString(),
                                     any["isActive"].toString()
+                                )
+                            }
+
+                            "delete" -> {
+                                showDeleteFoodDialog(
+                                    any["foodid"].toString(),
+                                    any["foodname"].toString()
                                 )
                             }
                         }
@@ -241,5 +249,40 @@ class ProductCategoryFragment : BaseFragment<ProductfragmentBinding>() {
         super.onDestroy()
         hideLoader()
     }
+    private fun showDeleteFoodDialog(foodId: String, name: String) {
+
+        val dialog = android.app.AlertDialog.Builder(requireContext())
+            .setTitle("Delete Food")
+            .setMessage("Are you sure you want to delete \"$name\" ?")
+            .setPositiveButton("Delete") { _, _ ->
+                deleteFood(foodId)
+            }
+            .setNegativeButton("Cancel", null)
+            .create()
+
+        dialog.show()
+    }
+    private fun deleteFood(foodId: String) {
+
+        val restaurantId = sharedHelper.getFromUser("userid")
+
+        db.collection("shops")
+            .document(restaurantId)
+            .collection("foods")
+            .document(foodId)
+            .delete()
+            .addOnSuccessListener {
+
+                showToast("Food deleted successfully")
+
+                // Refresh list
+                getFoods(Constant.restaurantcategory)
+            }
+            .addOnFailureListener {
+                showToast("Failed to delete food")
+            }
+    }
+
+
 
 }

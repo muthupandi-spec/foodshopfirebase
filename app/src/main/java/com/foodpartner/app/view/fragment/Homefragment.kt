@@ -23,6 +23,10 @@ class Homefragment : BaseFragment<HomefragmentBinding>() {
     override fun initView(mViewDataBinding: ViewDataBinding?) {
         val restId = sharedHelper.getFromUser("userid") ?: return
         listenRestaurantOrders(restId)
+        this.mViewDataBinding.backBtn.setOnClickListener {
+            loadFragment(Offerfragment(), android.R.id.content, "produ", true)
+
+        }
     }
 
     private fun listenRestaurantOrders(restId: String) {
@@ -108,7 +112,7 @@ class Homefragment : BaseFragment<HomefragmentBinding>() {
                                 val lat = doc.getDouble("latitude") ?: 0.0
                                 val lng = doc.getDouble("longitude") ?: 0.0
                                 val distance = getDistanceInKm(restLat, restLng, lat, lng)
-                                if (distance < shortestDistance && distance <= 10.0) {
+                                if (distance < shortestDistance && distance <= 100.0) {
                                     shortestDistance = distance
                                     nearestBoyDoc = mapOf(
                                         "uid" to (doc.getString("uid") ?: ""),

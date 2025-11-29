@@ -48,15 +48,20 @@ abstract class BaseFragment<T : ViewDataBinding>  : Fragment() {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         mViewDataBinding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false)
-        mViewDataBinding.lifecycleOwner = this
-        initView(mViewDataBinding)
-        views=mViewDataBinding.root
+        mViewDataBinding.lifecycleOwner = viewLifecycleOwner
         return mViewDataBinding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initView(mViewDataBinding)   // ✔️ UI is ready now
+    }
+
     protected abstract fun initView(mViewDataBinding: ViewDataBinding?)
     @LayoutRes
     protected abstract fun getLayoutId(): Int

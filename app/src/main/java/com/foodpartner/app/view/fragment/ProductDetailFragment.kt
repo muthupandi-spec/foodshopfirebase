@@ -194,11 +194,11 @@ class ProductDetailFragment : BaseFragment<ProductdetailfragmentBinding>() {
         firestore.collection("shops")
             .document(uid)
             .collection("categories")
-            .orderBy("createdAt", Query.Direction.DESCENDING)
+            .orderBy("createdAt", Query.Direction.DESCENDING) // newest first
             .get()
             .addOnSuccessListener { query ->
 
-                val tempList = ArrayList<String>()   // Store category names
+                val tempList = ArrayList<String>()   // temporarily store categories
 
                 for (doc in query.documents) {
                     val categoryName = doc.getString("restaurantCatagory") ?: ""
@@ -209,12 +209,13 @@ class ProductDetailFragment : BaseFragment<ProductdetailfragmentBinding>() {
 
                 categoryList.clear()
 
-                // ✅ All actual categories first
+                // ✅ 1. All actual categories FIRST (newest comes first because of DESC)
                 categoryList.addAll(tempList)
 
-                // ✅ Then "Select Category" in middle
+                // ✅ 2. Add "Select Category" AFTER real categories
+                categoryList.add("Select Category")
 
-                // ✅ Then last item = "Add New Category"
+                // ✅ 3. Add "Add New Category" ALWAYS LAST
                 categoryList.add("Add New Category")
 
                 categoryAdapter.notifyDataSetChanged()

@@ -48,44 +48,41 @@ class FoodAdapter(
     }
 
     override fun onBindViewHolderBase(holder: RecyclerView.ViewHolder, position: Int) {
-        val binding = (holder as FoodAdapter.adapterviewholder).getBinding()
+        val binding = (holder as adapterviewholder).getBinding()
         val item = aminitylistcategory[position]
 
         binding.foodname.text = item.foodName
         Glide.with(context).load(item.imageUrl).into(binding.foodimage)
 
-        // Make sure the switch reflects current item state (if applicable)
-        binding.fooditemcheck.isChecked = item.isActive // Optional if your model has such a field
+        // Switch state
+        binding.fooditemcheck.isChecked = item.isActive
 
-        // Handle switch state changes
         binding.fooditemcheck.setOnCheckedChangeListener { _, isChecked ->
-            // Send true or false based on switch state
-            if (isChecked) {
-                println("ischeckeddd"+isChecked)
-                val map = HashMap<String, Any>()
-                map.put("foodid", item.foodId)
-                map.put("isActive", "true")
-                map.put("click", "update")
-                commonInterface.commonCallback(map)
-            } else {
-                val map = HashMap<String, Any>()
-                map.put("foodid", item.foodId)
-                map.put("isActive", "false")
-                map.put("click", "update")
-
-                commonInterface.commonCallback(map)
-            }
-
-
-            // Optionally update your model if you want to preserve state
-            // item.isSelected = isChecked
+            val map = HashMap<String, Any>()
+            map["foodid"] = item.foodId
+            map["isActive"] = isChecked.toString()
+            map["click"] = "update"
+            commonInterface.commonCallback(map)
         }
+
+        // Normal click → edit
         holder.itemView.setOnClickListener {
+            val map = HashMap<String, Any>()
+            map["click"] = "edit"
+            map["foodid"] = item.foodId
+            commonInterface.commonCallback(map)
+        }
+
+        // LONG PRESS → DELETE
+        holder.itemView.setOnLongClickListener {
 
             val map = HashMap<String, Any>()
-            map.put("click", "edit")
-            map.put("foodid", item.foodId)
+            map["click"] = "delete"
+            map["foodid"] = item.foodId
+            map["foodname"] = item.foodName
+
             commonInterface.commonCallback(map)
+            true
         }
     }
 
