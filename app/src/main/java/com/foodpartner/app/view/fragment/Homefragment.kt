@@ -131,7 +131,6 @@ class Homefragment : BaseFragment<HomefragmentBinding>() {
                                 return@addOnSuccessListener
                             }
 
-                            showToast("Nearest delivery boy is ${"%.2f".format(shortestDistance)} km away")
                             val otp = (1000..9999).random().toString()
 
                             val orderData = mapOf(
@@ -142,10 +141,18 @@ class Homefragment : BaseFragment<HomefragmentBinding>() {
                                 "updatedAt" to System.currentTimeMillis()
                             )
 
+                            // Assign order to boy
                             db.collection("orders").document(orderId)
                                 .update(orderData)
                                 .addOnSuccessListener {
                                     showToast("Delivery boy assigned successfully")
+
+                                    // Mark delivery boy as busy
+                                    db.collection("deliveryboys")
+                                        .document(nearestBoyDoc["uid"].toString())
+                                        .update("isBusy", true)
+
+                                    // Optionally, store the assignment for reference
                                     db.collection("orders")
                                         .document(orderId)
                                         .collection("orderDeliveryBoys")
