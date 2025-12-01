@@ -26,6 +26,7 @@ import com.foodpartner.app.view.adapter.FoodItemsearchAdapter
 import com.foodpartner.app.view.bottomsheetfragment.OrderdetailBottomsheetFragment
 import com.foodpartner.app.view.responsemodel.RestuarantModel
 import com.foodpartner.app.viewModel.HomeViewModel
+import com.google.firebase.firestore.FirebaseFirestore
 import com.kotlintest.app.utility.interFace.CommonInterface
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.Locale
@@ -34,35 +35,30 @@ import kotlin.concurrent.schedule
 import kotlin.getValue
 
 class SearchFragment : BaseFragment<SearchfoodfragmentBinding>() {
-    lateinit var bottomSheetFragment: OrderdetailBottomsheetFragment
     private var adapter: FoodAdapter? = null
-    private val homeViewModel by viewModel<HomeViewModel>()
     var foodlist: ArrayList<FoodItemResponemodelItem> = ArrayList()
+    private val db = FirebaseFirestore.getInstance()
 
     override fun initView(mViewDataBinding: ViewDataBinding?) {
-        homeViewModel.response().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            processResponse(it)
-        })
         this.mViewDataBinding.apply {
-            val map: HashMap<String, String> = HashMap()
-            map.put("restaurantCatagoryId", Constant.restaurantcategory)
-            map.put("isActive", "true")
-            homeViewModel.getcategoryfooditem(map)
-            backBtn.setOnClickListener{
+
+            backBtn.setOnClickListener {
                 fragmentManagers!!.popBackStackImmediate()
             }
-          search.addTextChangedListener(object : TextWatcher {
-                override fun afterTextChanged(s: Editable?) {
-                }
 
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                }
+            search.addTextChangedListener(object : TextWatcher {
+                override fun afterTextChanged(s: Editable?) {}
+
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     filterlist(s.toString())
                 }
             })
         }
+
+        // 🔥 Load all food items without category filter
+        getAllFoods()
     }
 
     override fun getLayoutId(): Int = R.layout.searchfoodfragment
@@ -82,37 +78,43 @@ class SearchFragment : BaseFragment<SearchfoodfragmentBinding>() {
     }
 
 
-    private fun processResponse(response: com.foodpartner.app.network.Response) {
-        when (response.status) {
-            Status.SUCCESS -> {
-                when (response.data) {
+    private fun getAllFoods() {
 
-                    is FoodItemResponemodel -> {
-                        this.mViewDataBinding.loader.visibility = View.GONE
-                        foodlist.clear()
-                        foodlist.addAll(response.data)
+        val restaurantId = sharedHelper.getFromUser("userid") ?: return
 
-                        adapter = FoodAdapter(foodlist,object: CommonInterface {
-                            override fun commonCallback(any: Any) {
+        db.collection("shops")
+            .document(restaurantId)
+            .collection("foods")
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                foodlist.clear()
 
+                for (doc in querySnapshot.documents) {
 
-                            }
+                    val item = FoodItemResponemodelItem(
+                        foodId = doc.id,
+                        foodName = doc.getString("foodName") ?: "",
+                        categoryId = doc.getString("categoryId") ?: "",
+                        description = doc.getString("description") ?: "",
+                        briefDescription = doc.getString("briefDescription") ?: "",
+                        price = doc.getString("price") ?: "",
+                        type = doc.getString("type") ?: "",
+                        isActive = doc.getBoolean("isActive") ?: false,
+                        imageUrl = doc.getString("imageUrl") ?: ""
+                    )
 
-                        })
-
-                        this. mViewDataBinding.filterrecycler.adapter=adapter
-                    }
-
+                    foodlist.add(item)
                 }
-            }
 
-            Status.ERROR -> {
-            }
+                // Set adapter
+                adapter = FoodAdapter(foodlist, object : CommonInterface {
+                    override fun commonCallback(any: Any) {}
+                })
 
-            Status.LOADING -> {}
-            Status.SECONDLOADING -> {}
-            Status.DISMISS -> {}
-        }
+                mViewDataBinding.filterrecycler.adapter = adapter
+            }
+            .addOnFailureListener {
+            }
     }
 
 

@@ -35,7 +35,6 @@ import org.koin.android.ext.android.inject
 
 abstract class BaseFragment<T : ViewDataBinding>  : Fragment() {
     lateinit var mViewDataBinding : T
-    //    lateinit var activity: Activity
     lateinit var disposable: CompositeDisposable
     var fragmentActivity: FragmentActivity? = null
     var fragmentManagers: FragmentManager? = null

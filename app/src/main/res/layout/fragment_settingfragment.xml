@@ -136,6 +136,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/deletaccountcontainer"
                 android:layout_width="0dp"
+                android:visibility="gone"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_height="@dimen/_45sdp"
                 app:layout_constraintTop_toBottomOf="@+id/logoutcontainer"

@@ -170,7 +170,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_5sdp"
-            android:text="@string/empty"
+            android:text="No Items"
             android:textColor="@color/Semi_Black"
             android:textSize="@dimen/_13sdp"
             android:textStyle="bold"

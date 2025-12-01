@@ -162,17 +162,6 @@
                 android:visibility="gone"
                 android:layout_height="wrap_content"
                 app:constraint_referenced_ids="notfoundimg,notftxt,desc" />
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/loader"
-                android:layout_width="@dimen/_90sdp"
-                android:layout_height="@dimen/_90sdp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:lottie_autoPlay="true"
-                app:lottie_rawRes="@raw/loder"
-                app:lottie_loop="true"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
