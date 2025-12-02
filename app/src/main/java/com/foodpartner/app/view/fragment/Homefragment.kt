@@ -4,6 +4,7 @@ import android.location.Location
 import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.transition.Visibility
+import com.foodboy.app.view.fragment.TrackMapFragment
 import com.foodpartner.app.R
 import com.foodpartner.app.baseClass.BaseFragment
 import com.foodpartner.app.databinding.HomefragmentBinding
@@ -65,6 +66,10 @@ class Homefragment : BaseFragment<HomefragmentBinding>() {
                                     "start_preparing" -> updateOrderStatus(orderId, OrderStatus.PREPARING)
                                     "ready" -> updateOrderStatus(orderId, OrderStatus.READY_FOR_PICKUP)
                                     "assign_delivery" -> assignDeliveryBoy(orderId)
+                                    "track"->{
+                                        loadFragment(TrackMapFragment(orderId),android.R.id.content, "",true)
+
+                                    }
                                 }
                             }
                         }

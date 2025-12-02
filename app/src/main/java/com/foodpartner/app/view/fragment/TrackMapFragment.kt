@@ -69,10 +69,9 @@ class TrackMapFragment(
         this.mViewDataBinding.foodCost.text = "₹${snap.getDouble("totalAmount") ?: 0.0}"
         this.mViewDataBinding.status.text = snap.getString("orderStatus") ?: "Pending"
 
-        val img = snap.getString("foodImage")
-        if (!img.isNullOrEmpty()) {
-            Glide.with(requireContext()).load(img).into(this.mViewDataBinding.foodImgBg)
-        }
+        Glide.with(this)
+            .load(sharedHelper.getFromUser("profileImage"))
+            .into(mViewDataBinding.foodImgBg)
 
         this.mViewDataBinding.deliveryamt.text = "₹${snap.getDouble("deliveryCharge") ?: 0.0}"
         this.mViewDataBinding.promovalue.text = "₹${snap.getDouble("promoDiscount") ?: 0.0}"

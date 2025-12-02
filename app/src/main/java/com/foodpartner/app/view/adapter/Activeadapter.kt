@@ -76,15 +76,18 @@ class Activeadapter (
             OrderStatus.PREPARING -> holder.binding.statusbtnn.text = "Mark Ready"
             OrderStatus.READY_FOR_PICKUP -> holder.binding.statusbtnn.text = "Assign Delivery"
         }
-if(status.equals("DELIVERY_ASSIGNED")){
+if(status.equals("DELIVERY_ASSIGNED")|| status.equals("DELIVERY_BOY_ARRIVED")){
     holder.binding.statusbtnn.visibility= View.GONE
 }else{
     holder.binding.statusbtnn.visibility= View.VISIBLE
 
 }
-        if(status.equals("DELIVERED")){
+        if(status.equals("DELIVERED") ){
             holder.binding.statusbtnn.text = "Delivered"
             holder.binding.statusbtnn.visibility = View.VISIBLE
+        }
+        holder.binding.root.setOnClickListener {
+            callback.commonCallback( mapOf("action" to "track", "orderId" to orderId))
         }
         holder.binding.statusbtnn.setOnClickListener {
             when (status) {
