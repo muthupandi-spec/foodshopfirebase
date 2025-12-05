@@ -102,6 +102,7 @@ class Homefragment : BaseFragment<HomefragmentBinding>() {
                     db.collection("deliveryboys")
                         .whereEqualTo("status", "Online")
                         .whereEqualTo("verify", "true")
+                        .whereEqualTo("isBusy", false)   // <-- NEW CONDITION
                         .get()
                         .addOnSuccessListener { boysSnap ->
 
@@ -158,11 +159,11 @@ class Homefragment : BaseFragment<HomefragmentBinding>() {
                                         .update("isBusy", true)
 
                                     // Optionally, store the assignment for reference
-                                    db.collection("orders")
+                              /*      db.collection("orders")
                                         .document(orderId)
                                         .collection("orderDeliveryBoys")
                                         .document(nearestBoyDoc["uid"].toString())
-                                        .set(nearestBoyDoc)
+                                        .set(nearestBoyDoc)*/
                                 }
                                 .addOnFailureListener {
                                     showToast("Failed to assign delivery boy")
