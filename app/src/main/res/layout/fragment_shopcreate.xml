@@ -337,6 +337,36 @@
                     app:layout_constraintRight_toRightOf="@+id/accRMargin"
                     app:layout_constraintTop_toBottomOf="@+id/restaurantDescreption"
                     tools:ignore="Autofill" />
+                <TextView
+                    android:id="@+id/shopStartTime"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:background="@drawable/custom_selector"
+                    android:gravity="center_vertical"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:text="Select Shop Start Time"
+                    android:textSize="@dimen/_10sdp"
+                    android:drawableEnd="@drawable/ic_clock"
+                    app:layout_constraintStart_toStartOf="@id/accLMargin"
+                    app:layout_constraintEnd_toEndOf="@id/accRMargin"
+                    app:layout_constraintTop_toBottomOf="@id/tradeId" />
+
+                <TextView
+                    android:id="@+id/shopEndTime"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:background="@drawable/custom_selector"
+                    android:gravity="center_vertical"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:text="Select Shop End Time"
+                    android:textSize="@dimen/_10sdp"
+                    android:drawableEnd="@drawable/ic_clock"
+                    app:layout_constraintStart_toStartOf="@id/accLMargin"
+                    app:layout_constraintEnd_toEndOf="@id/accRMargin"
+                    app:layout_constraintTop_toBottomOf="@id/shopStartTime" />
+
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/restaurantaddress"
                     android:layout_width="0dp"
@@ -546,7 +576,7 @@
                     android:orientation="horizontal"
                     android:layout_height="match_parent"
                     app:layout_constraintStart_toStartOf="@id/accLMargin"
-                    app:layout_constraintTop_toBottomOf="@+id/radioGroup">
+                    app:layout_constraintTop_toBottomOf="@+id/shopEndTime">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -797,26 +827,6 @@
                         app:layout_constraintTop_toTopOf="parent"
                         tools:ignore="ContentDescription" />
 
-                   <!-- <com.rilixtech.widget.countrycodepicker.CountryCodePicker
-                        android:id="@+id/accNation"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_6sdp"
-                        android:paddingStart="@dimen/_6sdp"
-                        android:paddingTop="@dimen/_4sdp"
-                        android:paddingEnd="@dimen/_1sdp"
-                        android:paddingBottom="@dimen/_4sdp"
-                        app:ccp_arrowSize="@dimen/_1sdp"
-                        app:ccp_defaultNameCode="in"
-                        app:ccp_enablePhoneAutoFormatter="true"
-                        app:ccp_hideNameCode="true"
-                        app:ccp_hidePhoneCode="true"
-                        app:ccp_keyboardAutoPopOnSearch="false"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="ContentDescription" />
--->
                     <EditText
                         android:id="@+id/accMobNum"
                         android:layout_width="0dp"
@@ -857,454 +867,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/accCons" />
 
 
-             <!--   <CheckBox
-                    android:id="@+id/logChkBox"
-                    android:layout_width="@dimen/_20sdp"
-
-                    android:layout_height="@dimen/_20sdp"
-                    android:layout_marginTop="@dimen/_15sdp"
-                    android:gravity="center"
-                    android:button="@drawable/check_box_inactive"
-                    android:buttonTint="@color/colorPrimary"
-                    android:paddingStart="@dimen/_10sdp"
-                    android:textSize="@dimen/_14sdp"
-                    android:visibility="gone"
-                    app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintStart_toStartOf="@id/accLMargin"
-                    app:layout_constraintTop_toBottomOf="@id/mode"
-                    tools:ignore="ContentDescription" />
-
-                <TextView
-                    android:id="@+id/tv1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:background="@color/transparent"
-                    android:text="@string/monday"
-                    android:textSize="@dimen/_10sdp"
-                    android:textColor="@color/Black"
-                    android:visibility="visible"
-                    app:layout_constraintBottom_toBottomOf="@+id/logChkBox"
-                    app:layout_constraintLeft_toRightOf="@+id/logChkBox"
-                    app:layout_constraintTop_toTopOf="@+id/logChkBox" />
-
-
-                <LinearLayout
-                    android:id="@+id/mondaycontainer"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_12sdp"
-                    android:orientation="horizontal"
-                    android:visibility="visible"
-                    android:weightSum="2"
-                    app:layout_constraintEnd_toEndOf="@id/accRMargin"
-                    app:layout_constraintStart_toStartOf="@id/accLMargin"
-                    app:layout_constraintTop_toBottomOf="@+id/logChkBox">
-
-                    <TextView
-                        android:id="@+id/monstarttime"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/_5sdp"
-                        android:layout_weight="1"
-                        android:background="@drawable/custom_selector"
-                        android:hint="@string/startime"
-                        android:padding="@dimen/_10sdp"
-                        android:textColor="@color/Black" />
-
-                    <TextView
-                        android:id="@+id/monendtime"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/custom_selector"
-                        android:hint="@string/endtime"
-                        android:padding="@dimen/_10sdp"
-                        android:textColor="@color/Black" />
-                </LinearLayout>
-
-                <CheckBox
-                    android:id="@+id/tuesdaycheck"
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
-                    android:layout_marginTop="@dimen/_15sdp"
-                    android:button="@drawable/check_box_inactive"
-                    android:buttonTint="@color/colorPrimary"
-                    android:paddingStart="@dimen/_10sdp"
-                    android:textSize="@dimen/_14sdp"
-                    android:visibility="visible"
-                    app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintStart_toStartOf="@id/accLMargin"
-                    app:layout_constraintTop_toBottomOf="@id/mondaycontainer"
-                    tools:ignore="ContentDescription" />
-
-                <TextView
-                    android:id="@+id/tv2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_15sdp"
-                    android:textColor="@color/Black"
-                    android:background="@color/transparent"
-                    android:text="@string/tuesday"
-                    android:textSize="@dimen/_10sdp"
-                    android:visibility="visible"
-                    app:layout_constraintBottom_toBottomOf="@+id/tuesdaycheck"
-                    app:layout_constraintStart_toEndOf="@+id/tuesdaycheck"
-                    app:layout_constraintTop_toBottomOf="@+id/mondaycontainer" />
-
-                <LinearLayout
-                    android:id="@+id/tuesdaycontainer"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_12sdp"
-                    android:orientation="horizontal"
-                    android:visibility="visible"
-                    android:weightSum="2"
-                    app:layout_constraintEnd_toEndOf="@id/accRMargin"
-                    app:layout_constraintStart_toStartOf="@id/accLMargin"
-                    app:layout_constraintTop_toBottomOf="@+id/tuesdaycheck">
-
-                    <TextView
-                        android:id="@+id/tuesstarttime"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/_5sdp"
-                        android:layout_weight="1"
-                        android:background="@drawable/custom_selector"
-                        android:hint="@string/startime"
-                        android:padding="@dimen/_10sdp"
-                        android:textColor="@color/Black" />
-
-                    <TextView
-                        android:id="@+id/tuesendtime"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/custom_selector"
-                        android:hint="@string/endtime"
-                        android:padding="@dimen/_10sdp"
-                        android:textColor="@color/Black" />
-                </LinearLayout>
-
-                <CheckBox
-                    android:id="@+id/wednesdaycheck"
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
-                    android:layout_marginTop="@dimen/_15sdp"
-                    android:button="@drawable/check_box_inactive"
-                    android:buttonTint="@color/colorPrimary"
-                    android:paddingStart="@dimen/_10sdp"
-                    android:textSize="@dimen/_14sdp"
-                    android:visibility="visible"
-                    app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintStart_toStartOf="@id/accLMargin"
-                    app:layout_constraintTop_toBottomOf="@id/tuesdaycontainer"
-                    tools:ignore="ContentDescription" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_15sdp"
-                    android:textColor="@color/Black"
-                    android:background="@color/transparent"
-                    android:text="@string/wednesday"
-                    android:textSize="@dimen/_10sdp"
-                    android:visibility="visible"
-                    app:layout_constraintBottom_toBottomOf="@+id/wednesdaycheck"
-                    app:layout_constraintStart_toEndOf="@+id/wednesdaycheck"
-                    app:layout_constraintTop_toBottomOf="@+id/tuesdaycontainer" />
-
-                <LinearLayout
-                    android:id="@+id/wednesdaycontainer"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_12sdp"
-                    android:orientation="horizontal"
-                    android:visibility="visible"
-                    android:weightSum="2"
-                    app:layout_constraintEnd_toEndOf="@id/accRMargin"
-                    app:layout_constraintStart_toStartOf="@id/accLMargin"
-                    app:layout_constraintTop_toBottomOf="@+id/wednesdaycheck">
-
-                    <TextView
-                        android:id="@+id/wednesstarttime"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/_5sdp"
-                        android:layout_weight="1"
-
-                        android:background="@drawable/custom_selector"
-                        android:hint="@string/startime"
-                        android:padding="@dimen/_10sdp"
-                        android:textColor="@color/Black" />
-
-                    <TextView
-                        android:id="@+id/wednesdayendtime"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/custom_selector"
-                        android:hint="@string/endtime"
-                        android:padding="@dimen/_10sdp"
-                        android:textColor="@color/Black" />
-                </LinearLayout>
-
-                <CheckBox
-                    android:id="@+id/thursdaycheck"
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
-                    android:layout_marginTop="@dimen/_15sdp"
-                    android:button="@drawable/check_box_inactive"
-                    android:buttonTint="@color/colorPrimary"
-                    android:paddingStart="@dimen/_10sdp"
-                    android:textSize="@dimen/_14sdp"
-                    android:visibility="visible"
-                    app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintStart_toStartOf="@id/accLMargin"
-                    app:layout_constraintTop_toBottomOf="@id/wednesdaycontainer"
-                    tools:ignore="ContentDescription" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_15sdp"
-                    android:background="@color/transparent"
-                    android:textColor="@color/Black"
-                    android:text="@string/thursday"
-                    android:textSize="@dimen/_10sdp"
-                    android:visibility="visible"
-                    app:layout_constraintBottom_toBottomOf="@+id/thursdaycheck"
-                    app:layout_constraintStart_toEndOf="@+id/thursdaycheck"
-                    app:layout_constraintTop_toBottomOf="@+id/wednesdaycontainer" />
-
-                <LinearLayout
-                    android:id="@+id/thursdaycontainer"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_12sdp"
-                    android:orientation="horizontal"
-                    android:visibility="visible"
-                    android:weightSum="2"
-                    app:layout_constraintEnd_toEndOf="@id/accRMargin"
-                    app:layout_constraintStart_toStartOf="@id/accLMargin"
-                    app:layout_constraintTop_toBottomOf="@+id/thursdaycheck">
-
-                    <TextView
-                        android:id="@+id/thursstarttime"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/_5sdp"
-                        android:layout_weight="1"
-                        android:background="@drawable/custom_selector"
-                        android:hint="@string/startime"
-                        android:padding="@dimen/_10sdp"
-                        android:textColor="@color/Black" />
-
-                    <TextView
-                        android:id="@+id/thursdayendtime"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/custom_selector"
-                        android:hint="@string/endtime"
-                        android:padding="@dimen/_10sdp"
-                        android:textColor="@color/Black" />
-                </LinearLayout>
-
-                <CheckBox
-                    android:id="@+id/fridaycheck"
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
-                    android:layout_marginTop="@dimen/_15sdp"
-                    android:button="@drawable/check_box_inactive"
-                    android:buttonTint="@color/colorPrimary"
-                    android:paddingStart="@dimen/_10sdp"
-                    android:textSize="@dimen/_14sdp"
-                    android:visibility="visible"
-                    app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintStart_toStartOf="@id/accLMargin"
-                    app:layout_constraintTop_toBottomOf="@id/thursdaycontainer"
-                    tools:ignore="ContentDescription" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_15sdp"
-                    android:background="@color/transparent"
-                    android:textColor="@color/Black"
-                    android:text="@string/friday"
-                    android:textSize="@dimen/_10sdp"
-                    android:visibility="visible"
-                    app:layout_constraintBottom_toBottomOf="@+id/fridaycheck"
-                    app:layout_constraintStart_toEndOf="@+id/fridaycheck"
-                    app:layout_constraintTop_toBottomOf="@+id/thursdaycontainer" />
-
-                <LinearLayout
-                    android:id="@+id/fridaycontainer"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_12sdp"
-                    android:orientation="horizontal"
-                    android:visibility="visible"
-                    android:weightSum="2"
-                    app:layout_constraintEnd_toEndOf="@id/accRMargin"
-                    app:layout_constraintStart_toStartOf="@id/accLMargin"
-                    app:layout_constraintTop_toBottomOf="@+id/fridaycheck">
-
-                    <TextView
-                        android:id="@+id/fridastarttime"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/_5sdp"
-                        android:layout_weight="1"
-                        android:background="@drawable/custom_selector"
-                        android:hint="@string/startime"
-                        android:padding="@dimen/_10sdp"
-                        android:textColor="@color/Black" />
-
-                    <TextView
-                        android:id="@+id/fridayendtime"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/custom_selector"
-                        android:hint="@string/endtime"
-                        android:padding="@dimen/_10sdp"
-                        android:textColor="@color/Black" />
-                </LinearLayout>
-
-                <CheckBox
-                    android:id="@+id/saturdaycheck"
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
-                    android:layout_marginTop="@dimen/_15sdp"
-                    android:button="@drawable/check_box_inactive"
-                    android:buttonTint="@color/colorPrimary"
-                    android:paddingStart="@dimen/_10sdp"
-                    android:textSize="@dimen/_14sdp"
-                    android:visibility="visible"
-                    app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintStart_toStartOf="@id/accLMargin"
-                    app:layout_constraintTop_toBottomOf="@id/fridaycontainer"
-                    tools:ignore="ContentDescription" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_15sdp"
-                    android:background="@color/transparent"
-                    android:text="@string/saturday"
-                    android:textSize="@dimen/_10sdp"
-                    android:textColor="@color/Black"
-
-                    android:visibility="visible"
-                    app:layout_constraintBottom_toBottomOf="@+id/saturdaycheck"
-                    app:layout_constraintStart_toEndOf="@+id/saturdaycheck"
-                    app:layout_constraintTop_toBottomOf="@+id/fridaycontainer" />
-
-                <LinearLayout
-                    android:id="@+id/saturdaycontainer"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_12sdp"
-                    android:orientation="horizontal"
-                    android:visibility="visible"
-                    android:weightSum="2"
-                    app:layout_constraintEnd_toEndOf="@id/accRMargin"
-                    app:layout_constraintStart_toStartOf="@id/accLMargin"
-                    app:layout_constraintTop_toBottomOf="@+id/saturdaycheck">
-
-                    <TextView
-                        android:id="@+id/saturstarttime"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/_5sdp"
-                        android:layout_weight="1"
-                        android:background="@drawable/custom_selector"
-                        android:hint="@string/startime"
-                        android:padding="@dimen/_10sdp"
-                        android:textColor="@color/Black" />
-
-                    <TextView
-                        android:id="@+id/saturdayendtime"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/custom_selector"
-                        android:hint="@string/endtime"
-                        android:padding="@dimen/_10sdp"
-                        android:textColor="@color/Black" />
-                </LinearLayout>
-
-                <CheckBox
-                    android:id="@+id/sundaycheck"
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
-                    android:layout_marginTop="@dimen/_15sdp"
-                    android:button="@drawable/check_box_inactive"
-                    android:buttonTint="@color/colorPrimary"
-                    android:paddingStart="@dimen/_10sdp"
-                    android:textSize="@dimen/_14sdp"
-                    android:visibility="visible"
-                    app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintStart_toStartOf="@id/accLMargin"
-                    app:layout_constraintTop_toBottomOf="@id/saturdaycontainer"
-                    tools:ignore="ContentDescription" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_15sdp"
-                    android:background="@color/transparent"
-                    android:text="@string/sunday"
-                    android:textColor="@color/Black"
-                    android:textSize="@dimen/_10sdp"
-                    android:visibility="visible"
-                    app:layout_constraintBottom_toBottomOf="@+id/sundaycheck"
-                    app:layout_constraintStart_toEndOf="@+id/sundaycheck"
-                    app:layout_constraintTop_toBottomOf="@+id/saturdaycontainer" />
-
-                <LinearLayout
-                    android:id="@+id/sundaycontainer"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_12sdp"
-                    android:orientation="horizontal"
-                    android:visibility="visible"
-                    android:weightSum="2"
-                    app:layout_constraintEnd_toEndOf="@id/accRMargin"
-                    app:layout_constraintStart_toStartOf="@id/accLMargin"
-                    app:layout_constraintTop_toBottomOf="@+id/sundaycheck">
-
-                    <TextView
-                        android:id="@+id/sundaystarttime"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/_5sdp"
-                        android:layout_weight="1"
-                        android:background="@drawable/custom_selector"
-                        android:hint="@string/startime"
-                        android:padding="@dimen/_10sdp"
-                        android:textColor="@color/Black" />
-
-                    <TextView
-                        android:id="@+id/sundayendtime"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/custom_selector"
-                        android:hint="@string/endtime"
-                        android:padding="@dimen/_10sdp"
-                        android:textColor="@color/Black" />
-                </LinearLayout>
-
--->
 
                 <androidx.constraintlayout.widget.Group
                     android:id="@+id/servicetaxgroup"

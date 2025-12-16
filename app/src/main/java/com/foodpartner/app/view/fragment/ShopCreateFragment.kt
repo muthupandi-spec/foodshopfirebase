@@ -29,6 +29,7 @@ import com.foodpartner.app.view.requestmodel.LocationEvent
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.mukesh.OtpView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.messaging.FirebaseMessaging
 import org.greenrobot.eventbus.EventBus
@@ -40,6 +41,8 @@ class ShopCreateFragment : BaseFragment<FragmentShopcreateBinding>() {
     private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
     private val storage = com.google.firebase.storage.FirebaseStorage.getInstance().reference
+    private var shopStartTime: String = ""
+    private var shopEndTime: String = ""
 
     // NOTIFICATION CONSTANTS
     private val CHANNEL_ID = "manual_otp_channel"
@@ -117,6 +120,14 @@ class ShopCreateFragment : BaseFragment<FragmentShopcreateBinding>() {
             this.mViewDataBinding.nonveg.isChecked = false
             this.mViewDataBinding.both.isChecked = true
         }
+        this.mViewDataBinding.shopStartTime.setOnClickListener {
+            showTimePicker(true)
+        }
+
+       this. mViewDataBinding.shopEndTime.setOnClickListener {
+            showTimePicker(false)
+        }
+
         // ============================================================
         //                     BUTTON CLICK → GENERATE OTP
         // ============================================================
@@ -140,6 +151,12 @@ class ShopCreateFragment : BaseFragment<FragmentShopcreateBinding>() {
                 showToast("Please enter your Restaurant LandMark")
             } else if (TextUtils.isEmpty(this.mViewDataBinding.tradeId.text)) {
                 showToast("Please enter your Restaurant Trade Id")
+            }else  if (shopStartTime.isEmpty()) {
+                showToast("Please select shop start time")
+            }
+
+           else if (shopEndTime.isEmpty()) {
+                showToast("Please select shop end time")
             }
             else {
                 // Generate OTP
@@ -304,6 +321,14 @@ showLoader()
         map["preorder"] = preorder
         map["gstapplicable"] = gstapplicable
         map["otp"] = generatedOtp
+        map["verify"] = false
+        map["shopStartTime"] = shopStartTime
+        map["shopEndTime"] = shopEndTime
+        // ✅ ADD CREATED AT (SERVER TIME)
+        map["createdAt"] = FieldValue.serverTimestamp()
+
+// Optional but useful
+        map["updatedAt"] = FieldValue.serverTimestamp()
         map["profileImage"] = imageUrl       // 👈 Store URL
         val uid = FirebaseAuth.getInstance().currentUser!!.uid
 
@@ -385,4 +410,34 @@ showLoader()
         super.onStop()
         EventBus.getDefault().unregister(this)
     }
+    @SuppressLint("SetTextI18n")
+    private fun showTimePicker(isStart: Boolean) {
+
+        val calendar = java.util.Calendar.getInstance()
+        val hour = calendar.get(java.util.Calendar.HOUR_OF_DAY)
+        val minute = calendar.get(java.util.Calendar.MINUTE)
+
+        val dialog = android.app.TimePickerDialog(
+            requireContext(),
+            { _, selectedHour, selectedMinute ->
+
+                val formatted =
+                    String.format("%02d:%02d", selectedHour, selectedMinute)
+
+                if (isStart) {
+                    shopStartTime = formatted
+                    mViewDataBinding.shopStartTime.text = "Start Time : $formatted"
+                } else {
+                    shopEndTime = formatted
+                    mViewDataBinding.shopEndTime.text = "End Time : $formatted"
+                }
+            },
+            hour,
+            minute,
+            true
+        )
+
+        dialog.show()
+    }
+
 }

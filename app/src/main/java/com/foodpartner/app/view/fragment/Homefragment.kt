@@ -24,6 +24,21 @@ class Homefragment : BaseFragment<HomefragmentBinding>() {
     override fun initView(mViewDataBinding: ViewDataBinding?) {
         val restId = sharedHelper.getFromUser("userid") ?: return
         listenRestaurantOrders(restId)
+        parentFragmentManager.setFragmentResultListener(
+            "driver_selected",
+            viewLifecycleOwner
+        ) { _, bundle ->
+
+            val driver = bundle.getSerializable("driver") as? HashMap<String, Any>
+                ?: return@setFragmentResultListener
+
+            val orderId = bundle.getString("orderId")
+                ?: return@setFragmentResultListener
+
+            assignDriverToOrder(orderId, driver)
+        }
+
+
         this.mViewDataBinding.backBtn.setOnClickListener {
             loadFragment(Offerfragment(), android.R.id.content, "produ", true)
 
@@ -83,87 +98,95 @@ class Homefragment : BaseFragment<HomefragmentBinding>() {
         db.collection("orders").document(orderId)
             .update(mapOf("orderStatus" to status, "updatedAt" to System.currentTimeMillis()))
     }
-
     private fun assignDeliveryBoy(orderId: String) {
-        db.collection("orders").document(orderId).get()
-            .addOnSuccessListener { orderSnap ->
-                val shopId = orderSnap.getString("restaurantId") ?: return@addOnSuccessListener
+        val fragment = SelectDriverFragment(orderId, isPickup = false)
+        loadFragment(fragment, android.R.id.content, "select_driver", true)
+    }
 
-                // Get shop details before assigning delivery boy
-                getShopDetails(shopId) { shop ->
-                    if (shop == null) {
-                        showToast("Shop details not found")
-                        return@getShopDetails
-                    }
 
-                    val restLat = shop.restaurantLat.toDoubleOrNull() ?: 0.0
-                    val restLng = shop.restaurantLng.toDoubleOrNull() ?: 0.0
+    /*
+        private fun assignDeliveryBoy(orderId: String) {
+            db.collection("orders").document(orderId).get()
+                .addOnSuccessListener { orderSnap ->
+                    val shopId = orderSnap.getString("restaurantId") ?: return@addOnSuccessListener
 
-                    db.collection("deliveryboys")
-                        .whereEqualTo("status", "Online")
-                        .whereEqualTo("verify", "true")
-                        .whereEqualTo("isBusy", false)   // <-- NEW CONDITION
-                        .get()
-                        .addOnSuccessListener { boysSnap ->
+                    // Get shop details before assigning delivery boy
+                    getShopDetails(shopId) { shop ->
+                        if (shop == null) {
+                            showToast("Shop details not found")
+                            return@getShopDetails
+                        }
 
-                            if (boysSnap.isEmpty) {
-                                showToast("No delivery boy is available right now")
-                                return@addOnSuccessListener
-                            }
+                        val restLat = shop.restaurantLat.toDoubleOrNull() ?: 0.0
+                        val restLng = shop.restaurantLng.toDoubleOrNull() ?: 0.0
 
-                            var nearestBoyDoc: Map<String, Any>? = null
-                            var shortestDistance = Double.MAX_VALUE
+                        db.collection("deliveryboys")
+                            .whereEqualTo("status", "Online")
+                            .whereEqualTo("verify", "true")
+                            .whereEqualTo("isBusy", false)   // <-- NEW CONDITION
+                            .get()
+                            .addOnSuccessListener { boysSnap ->
 
-                            for (doc in boysSnap.documents) {
-                                val lat = doc.getDouble("latitude") ?: 0.0
-                                val lng = doc.getDouble("longitude") ?: 0.0
-                                val distance = getDistanceInKm(restLat, restLng, lat, lng)
-                                if (distance < shortestDistance && distance <= 100.0) {
-                                    shortestDistance = distance
-                                    nearestBoyDoc = mapOf(
-                                        "uid" to (doc.getString("uid") ?: ""),
-                                        "name" to (doc.getString("name") ?: ""),
-                                        "mobileNumber" to (doc.getString("mobileNumber") ?: ""),
-                                        "profileImage" to (doc.getString("profileImage") ?: ""),
-                                        "landmark" to (doc.getString("landmark") ?: ""),
-                                        "latitude" to lat,
-                                        "longitude" to lng
-                                    )
+                                if (boysSnap.isEmpty) {
+                                    showToast("No delivery boy is available right now")
+                                    return@addOnSuccessListener
                                 }
-                            }
 
-                            if (nearestBoyDoc == null) {
-                                showToast("No delivery boy found within 10 km")
-                                return@addOnSuccessListener
-                            }
+                                var nearestBoyDoc: Map<String, Any>? = null
+                                var shortestDistance = Double.MAX_VALUE
 
-                            val otp = (1000..9999).random().toString()
+                                for (doc in boysSnap.documents) {
+                                    val lat = doc.getDouble("latitude") ?: 0.0
+                                    val lng = doc.getDouble("longitude") ?: 0.0
+                                    val distance = getDistanceInKm(restLat, restLng, lat, lng)
+                                    if (distance < shortestDistance && distance <= 100.0) {
+                                        shortestDistance = distance
+                                        nearestBoyDoc = mapOf(
+                                            "uid" to (doc.getString("uid") ?: ""),
+                                            "name" to (doc.getString("name") ?: ""),
+                                            "mobileNumber" to (doc.getString("mobileNumber") ?: ""),
+                                            "profileImage" to (doc.getString("profileImage") ?: ""),
+                                            "landmark" to (doc.getString("landmark") ?: ""),
+                                            "latitude" to lat,
+                                            "longitude" to lng
+                                        )
+                                    }
+                                }
 
-                            val orderData = mapOf(
-                                "orderStatus" to OrderStatus.DELIVERY_ASSIGNED,
-                                "deliveryBoy" to nearestBoyDoc,
-                                "shop" to shop,
-                                "otp" to otp,
-                                "updatedAt" to System.currentTimeMillis()
-                            )
+                                if (nearestBoyDoc == null) {
+                                    showToast("No delivery boy found within 10 km")
+                                    return@addOnSuccessListener
+                                }
 
-                            // Assign order to boy
-                            db.collection("orders").document(orderId)
-                                .update(orderData)
-                                .addOnSuccessListener {
-                                    showToast("Delivery boy assigned successfully")
+                                val otp = (1000..9999).random().toString()
 
-                                    // Mark delivery boy as busy
-                                    db.collection("deliveryboys")
-                                        .document(nearestBoyDoc["uid"].toString())
-                                        .update("isBusy", true)
+                                val orderData = mapOf(
+                                    "orderStatus" to OrderStatus.DELIVERY_ASSIGNED,
+                                    "deliveryBoy" to nearestBoyDoc,
+                                    "shop" to shop,
+                                    "otp" to otp,
+                                    "updatedAt" to System.currentTimeMillis()
+                                )
 
-                                    // Optionally, store the assignment for reference
-                              /*      db.collection("orders")
+                                // Assign order to boy
+                                db.collection("orders").document(orderId)
+                                    .update(orderData)
+                                    .addOnSuccessListener {
+                                        showToast("Delivery boy assigned successfully")
+
+                                        // Mark delivery boy as busy
+                                        db.collection("deliveryboys")
+                                            .document(nearestBoyDoc["uid"].toString())
+                                            .update("isBusy", true)
+
+                                        // Optionally, store the assignment for reference
+                                  */
+/*      db.collection("orders")
                                         .document(orderId)
                                         .collection("orderDeliveryBoys")
                                         .document(nearestBoyDoc["uid"].toString())
-                                        .set(nearestBoyDoc)*/
+                                        .set(nearestBoyDoc)*//*
+
                                 }
                                 .addOnFailureListener {
                                     showToast("Failed to assign delivery boy")
@@ -172,6 +195,7 @@ class Homefragment : BaseFragment<HomefragmentBinding>() {
                 }
             }
     }
+*/
 
     private fun getShopDetails(shopId: String, onResult: (Shop?) -> Unit) {
         val db = FirebaseFirestore.getInstance()
@@ -209,5 +233,31 @@ class Homefragment : BaseFragment<HomefragmentBinding>() {
         Location.distanceBetween(lat1, lon1, lat2, lon2, results)
         return results[0] / 1000.0
     }
+    private fun assignDriverToOrder(orderId: String, driver: Map<String, Any>) {
+        val driverId = driver["uid"].toString()
+        val otp = (1000..9999).random().toString()
+
+        val driverData = mapOf(
+            "orderStatus" to OrderStatus.DELIVERY_ASSIGNED,
+            "deliveryBoy" to driver,
+            "otp" to otp,
+            "updatedAt" to System.currentTimeMillis()
+        )
+
+        db.collection("orders").document(orderId)
+            .update(driverData)
+            .addOnSuccessListener {
+                showToast("Delivery boy assigned successfully")
+
+                // Mark driver as busy
+                db.collection("deliveryboys")
+                    .document(driverId)
+                    .update("isBusy", true)
+            }
+            .addOnFailureListener {
+                showToast("Failed to assign delivery boy")
+            }
+    }
+
 
 }

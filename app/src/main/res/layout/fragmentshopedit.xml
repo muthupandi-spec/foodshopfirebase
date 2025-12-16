@@ -273,7 +273,7 @@
                     app:layout_constraintRight_toRightOf="@+id/accRMargin"
                     app:layout_constraintTop_toBottomOf="@+id/restaurantCity"
                     tools:ignore="Autofill" />
-                <EditText
+                <TextView
                     android:id="@+id/restaurantLandMark"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/_40sdp"
@@ -282,6 +282,7 @@
                     android:clickable="true"
                     android:drawableEnd="@drawable/businessname"
                     android:focusable="true"
+                    android:gravity="center_vertical"
                     android:hint="@string/restaurant_landmark"
                     android:imeOptions="actionNext"
                     android:paddingStart="@dimen/_10sdp"
@@ -333,6 +334,36 @@
                     app:layout_constraintRight_toRightOf="@+id/accRMargin"
                     app:layout_constraintTop_toBottomOf="@+id/restaurantDescreption"
                     tools:ignore="Autofill" />
+                <TextView
+                    android:id="@+id/shopStartTime"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:background="@drawable/custom_selector"
+                    android:gravity="center_vertical"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:text="Select Shop Start Time"
+                    android:textSize="@dimen/_10sdp"
+                    android:drawableEnd="@drawable/ic_clock"
+                    app:layout_constraintStart_toStartOf="@id/accLMargin"
+                    app:layout_constraintEnd_toEndOf="@id/accRMargin"
+                    app:layout_constraintTop_toBottomOf="@id/tradeId" />
+
+                <TextView
+                    android:id="@+id/shopEndTime"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:background="@drawable/custom_selector"
+                    android:gravity="center_vertical"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:text="Select Shop End Time"
+                    android:textSize="@dimen/_10sdp"
+                    android:drawableEnd="@drawable/ic_clock"
+                    app:layout_constraintStart_toStartOf="@id/accLMargin"
+                    app:layout_constraintEnd_toEndOf="@id/accRMargin"
+                    app:layout_constraintTop_toBottomOf="@id/shopStartTime" />
+
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/restaurantaddress"
                     android:layout_width="0dp"
@@ -542,7 +573,7 @@
                     android:orientation="horizontal"
                     android:layout_height="match_parent"
                     app:layout_constraintStart_toStartOf="@id/accLMargin"
-                    app:layout_constraintTop_toBottomOf="@+id/radioGroup">
+                    app:layout_constraintTop_toBottomOf="@+id/shopEndTime">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

@@ -35,6 +35,8 @@ class ShopeditFragment : BaseFragment<FragmentshopeditBinding>() {
     private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
     private val storage = FirebaseStorage.getInstance().reference
+    private var shopStartTime: String = ""
+    private var shopEndTime: String = ""
 
     private var imagePath: String = ""
     private var preorder: String = "yes"
@@ -50,6 +52,19 @@ class ShopeditFragment : BaseFragment<FragmentshopeditBinding>() {
         val binding = mViewDataBinding as FragmentshopeditBinding
 
         val uid = sharedHelper.getFromUser("userid") ?: return
+        binding.shopStartTime.setOnClickListener {
+            openTimePicker { time ->
+                shopStartTime = time
+                binding.shopStartTime.setText(time)
+            }
+        }
+
+        binding.shopEndTime.setOnClickListener {
+            openTimePicker { time ->
+                shopEndTime = time
+                binding.shopEndTime.setText(time)
+            }
+        }
 
 // Fetch shop data from Firestore
         db.collection("shops").document(uid).get()
@@ -65,6 +80,13 @@ class ShopeditFragment : BaseFragment<FragmentshopeditBinding>() {
                     binding.restaurantLandMark.setText(document.getString("restaurantLandMark"))
                     binding.tradeId.setText(document.getString("tradeId"))
                     binding.restaurantDescreption.setText(document.getString("restaurantDescreption"))
+                    shopStartTime = document.getString("shopStartTime") ?: ""
+                    shopEndTime = document.getString("shopEndTime") ?: ""
+
+                    binding.shopStartTime.setText(shopStartTime)
+                    binding.shopEndTime.setText(shopEndTime)
+                    sharedHelper.putInUser("shopStartTime", shopStartTime)
+                    sharedHelper.putInUser("shopEndTime", shopEndTime)
 
                     val type = document.getString("restaurantType") ?: "nonveg"
                     categorytype = type
@@ -87,7 +109,7 @@ class ShopeditFragment : BaseFragment<FragmentshopeditBinding>() {
                     val imageUrl = document.getString("profileImage")
                     if (!imageUrl.isNullOrEmpty()) {
                         // Load image using Glide or any image loader
-                        Glide.with(requireContext()).load(imageUrl).into(binding.accProfile)
+                        Glide.with(activitys).load(imageUrl).into(binding.accProfile)
                     }
                 }
             }
@@ -170,6 +192,15 @@ class ShopeditFragment : BaseFragment<FragmentshopeditBinding>() {
         if (TextUtils.isEmpty(binding.restaurantPinCode.text)) { showToast("Please enter your Restaurant Pin code"); return }
         if (TextUtils.isEmpty(binding.restaurantLandMark.text)) { showToast("Please enter your Restaurant LandMark"); return }
         if (TextUtils.isEmpty(binding.tradeId.text)) { showToast("Please enter your Restaurant Trade Id"); return }
+        if (shopStartTime.isEmpty()) {
+            showToast("Please select shop start time")
+            return
+        }
+
+        if (shopEndTime.isEmpty()) {
+            showToast("Please select shop end time")
+            return
+        }
 
         binding.loader.visibility = View.VISIBLE
 
@@ -212,6 +243,8 @@ class ShopeditFragment : BaseFragment<FragmentshopeditBinding>() {
             "restaurantDescreption" to binding.restaurantDescreption.text.toString(),
             "restaurantType" to categorytype,
             "mode" to mode,
+            "shopStartTime" to shopStartTime,   // ✅
+            "shopEndTime" to shopEndTime,
             "preorder" to preorder,
             "gstapplicable" to gstapplicable,
             "profileImage" to (imageUrl ?: "")
@@ -264,5 +297,29 @@ class ShopeditFragment : BaseFragment<FragmentshopeditBinding>() {
         }
 
     override fun getLayoutId(): Int = R.layout.fragmentshopedit
+    private fun openTimePicker(onTimeSelected: (String) -> Unit) {
+        val calendar = Calendar.getInstance()
+
+        val hour = calendar.get(Calendar.HOUR_OF_DAY)
+        val minute = calendar.get(Calendar.MINUTE)
+
+        val timePicker = android.app.TimePickerDialog(
+            requireContext(),
+            { _, selectedHour, selectedMinute ->
+
+                val formattedHour =
+                    if (selectedHour < 10) "0$selectedHour" else "$selectedHour"
+                val formattedMinute =
+                    if (selectedMinute < 10) "0$selectedMinute" else "$selectedMinute"
+
+                onTimeSelected("$formattedHour:$formattedMinute")
+            },
+            hour,
+            minute,
+            true
+        )
+
+        timePicker.show()
+    }
 
 }

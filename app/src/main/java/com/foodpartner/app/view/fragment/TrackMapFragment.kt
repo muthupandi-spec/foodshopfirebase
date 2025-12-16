@@ -1,6 +1,7 @@
 package com.foodboy.app.view.fragment
 
 import android.graphics.Color
+import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
@@ -39,6 +40,15 @@ class TrackMapFragment(
         this.mViewDataBinding.backBtn.setOnClickListener {
             fragmentManagers!!.popBackStackImmediate()
         }
+        this.mViewDataBinding.show.setOnClickListener {
+            if (this.mViewDataBinding.container.visibility == View.VISIBLE) {
+                this.mViewDataBinding.container.visibility = View.GONE
+                this.mViewDataBinding.show.text = "Show" // Optional: toggle text
+            } else {
+                this.mViewDataBinding.container.visibility = View.VISIBLE
+                this.mViewDataBinding.show.text = "Hide"
+            }
+        }
     }
 
 
@@ -63,15 +73,19 @@ class TrackMapFragment(
     private fun setOrderUi(snap: DocumentSnapshot) {
 
         this.mViewDataBinding.orderid.text = "Order #${snap.getString("orderId") ?: ""}"
-        this.mViewDataBinding.foodName.text = snap.getString("foodName") ?: "Food"
         this.mViewDataBinding.foodCount.text = "${snap.getLong("itemCount") ?: 1} Items"
 
         this.mViewDataBinding.foodCost.text = "₹${snap.getDouble("totalAmount") ?: 0.0}"
         this.mViewDataBinding.status.text = snap.getString("orderStatus") ?: "Pending"
+        val img = snap.getString("shop.restaurantImage")
+        val shopname= snap.getString("shop.restaurantName")
+        this.mViewDataBinding.foodName.text = shopname ?:""
 
-        Glide.with(this)
-            .load(sharedHelper.getFromUser("profileImage"))
-            .into(mViewDataBinding.foodImgBg)
+        if (!img.isNullOrEmpty() && view != null && isAdded) {
+            Glide.with(activitys)
+                .load(img)
+                .into(mViewDataBinding.foodImgBg)
+        }
 
         this.mViewDataBinding.deliveryamt.text = "₹${snap.getDouble("deliveryCharge") ?: 0.0}"
         this.mViewDataBinding.promovalue.text = "₹${snap.getDouble("promoDiscount") ?: 0.0}"
