@@ -4,7 +4,7 @@ import com.foodpartner.app.ResponseMOdel.AcceptOrderResponsemodel
 import com.foodpartner.app.ResponseMOdel.AssignorderModel
 import com.foodpartner.app.ResponseMOdel.CancelOrderResponseModel
 import com.foodpartner.app.ResponseMOdel.CancelledOrderResponsemodel
-import com.foodpartner.app.ResponseMOdel.CompletedOrderResponseModel
+import com.foodpartner.app.ResponseMOdel.CompleteddOrderResponModelItem
 import com.foodpartner.app.ResponseMOdel.CreateFoodResponseModel
 import com.foodpartner.app.ResponseMOdel.EnablePackingModel
 import com.foodpartner.app.ResponseMOdel.FoodItemResponemodel
@@ -91,7 +91,7 @@ interface ApiInterface {
     @POST("restaurant/api/food/update/{id}")
     fun updatefood(@Path("id") id: String, @Part avatar: MultipartBody.Part, @Part("food") food: RequestBody): Observable<UpdateFoodResponseModel>
     @GET("restaurant/api/orders/vieworderrestaurantid/{id}/{type}")
-    fun completedorders(@Path("id") id: String,@Path("type") type: String,): Observable<CompletedOrderResponseModel>
+    fun completedorders(@Path("id") id: String,@Path("type") type: String,): Observable<CompleteddOrderResponModelItem>
     @GET("restaurant/api/orders/vieworderid/{orderId}")
     fun vieworder(@Path("orderId") id: String): Observable<OrderDetailResponsemodel>
     @GET("getfooditem")

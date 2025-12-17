@@ -73,6 +73,7 @@
     <string name="endtime">End time</string>
     <string name="empty">No order</string>
     <string name="activeempt">You do not have an active order at this time</string>
+    <string name="completeempt">You do not have an Completed order at this time</string>
     <string name="noorder">You do not have an active order at this time</string>
     <string name="preorder">Pre Order</string>
     <string name="otherdetail">Other Details Status</string>

@@ -48,7 +48,7 @@ class CompletedAdapter (
         )*/
 
         val order = aminitylistcategory[position]
-        val item = order.orderItems.firstOrNull() // safe access to first item
+        val item = order.orderItems!!.firstOrNull() // safe access to first item
 
         if (item != null) {
             binding.foodName.text = item.foodName
@@ -56,7 +56,7 @@ class CompletedAdapter (
             binding.foodCost.text = item.subTotal.toString()+" AED"
             binding.orderid.text = "# Order Id " + item.orderItemId.toString()
             showBase64Image(
-                item.product.image.toString(),
+                item.product!!.image.toString(),
                 binding.foodImgBg
             )
         }

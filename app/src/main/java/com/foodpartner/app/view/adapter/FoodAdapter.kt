@@ -53,7 +53,12 @@ class FoodAdapter(
 
         binding.foodname.text = item.foodName
         Glide.with(context).load(item.imageUrl).into(binding.foodimage)
-
+        Glide.with(context)
+            .load(item.imageUrl)
+            .placeholder(R.drawable.ic_image_loader) // loader at center
+            .error(R.drawable.ic_image_error)         // optional
+            .centerCrop()
+            .into(binding.foodimage)
         // Switch state
         binding.fooditemcheck.isChecked = item.isActive
 
