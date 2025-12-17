@@ -3,6 +3,7 @@ package com.foodpartner.app.view.fragment
 import android.app.DatePickerDialog
 import android.view.View
 import androidx.databinding.ViewDataBinding
+import com.foodboy.app.view.fragment.TrackMapFragment
 import com.foodpartner.app.R
 import com.foodpartner.app.ResponseMOdel.CompleteddOrderResponModelItem
 import com.foodpartner.app.baseClass.BaseFragment
@@ -139,7 +140,19 @@ class CompletedOrderFragment : BaseFragment<FragmentCompletedBinding>() {
             binding.ordersRV.visibility = View.VISIBLE
             binding.emptyCons.visibility = View.GONE
             binding.ordersRV.adapter = Activeadapter(filteredOrders, object : CommonInterface {
-                override fun commonCallback(any: Any) {}
+                override fun commonCallback(any: Any) {
+                    if (any is Map<*, *>) {
+                        val action = any["action"].toString()
+                        val orderId = any["orderId"].toString()
+                        when (action) {
+
+                            "track"->{
+                                loadFragment(TrackMapFragment(orderId),android.R.id.content, "",true)
+
+                            }
+                        }
+                    }
+                }
             })
         }
     }
