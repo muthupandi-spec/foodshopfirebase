@@ -229,15 +229,28 @@ abstract class BaseFragment<T : ViewDataBinding>  : Fragment() {
         imageView.setImageBitmap(bitmap)
     }
     fun showLoader() {
+        if (::loader.isInitialized && loader.isShowing) return
+
         loader = Dialog(requireContext())
         loader.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        loader.setContentView(R.layout.loader_layout) // create a simple loader XML
+        loader.setContentView(R.layout.loader_layout)
         loader.setCancelable(false)
-        loader.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        loader.window?.apply {
+            setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            setLayout(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+        }
+
         loader.show()
     }
+
     fun hideLoader() {
-        if (::loader.isInitialized && loader.isShowing) loader.dismiss()
+        if (::loader.isInitialized && loader.isShowing) {
+            loader.dismiss()
+        }
     }
 }
 

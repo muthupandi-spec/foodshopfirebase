@@ -59,26 +59,26 @@ class DriverAdapter(
         // -------- IMAGES --------
         Glide.with(binding.imgProfile.context)
             .load(driver["profileImage"])
-            .placeholder(R.drawable.profile)
-            .error(R.drawable.profile)
+            .placeholder(R.drawable.ic_image_loader) // loader at center
+            .error(R.drawable.ic_image_error)
             .into(binding.imgProfile)
 
         Glide.with(binding.imgAadhar.context)
             .load(driver["aadharImage"])
-            .placeholder(R.drawable.profile)
-            .error(R.drawable.profile)
+            .placeholder(R.drawable.ic_image_loader) // loader at center
+            .error(R.drawable.ic_image_error)
             .into(binding.imgAadhar)
 
         Glide.with(binding.imgLicense.context)
             .load(driver["licenseImage"])
-            .placeholder(R.drawable.profile)
-            .error(R.drawable.profile)
+            .placeholder(R.drawable.ic_image_loader) // loader at center
+            .error(R.drawable.ic_image_error)
             .into(binding.imgLicense)
 
         Glide.with(binding.imgPassport.context)
             .load(driver["passportImage"])
-            .placeholder(R.drawable.profile)
-            .error(R.drawable.profile)
+            .placeholder(R.drawable.ic_image_loader) // loader at center
+            .error(R.drawable.ic_image_error)
             .into(binding.imgPassport)
 
         // -------- CLICK --------

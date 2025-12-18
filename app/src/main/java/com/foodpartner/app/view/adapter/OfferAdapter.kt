@@ -40,7 +40,8 @@ class OfferAdapter(
 
         Glide.with(holder.binding.root)
             .load(item.bannerUrl)
-            .placeholder(R.drawable.plus)
+            .placeholder(R.drawable.ic_image_loader) // loader at center
+            .error(R.drawable.ic_image_error)
             .into(holder.binding.imgBanner)
 
         holder.binding.btnDelete.setOnClickListener {

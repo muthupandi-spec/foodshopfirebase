@@ -64,6 +64,8 @@ class Activeadapter (
 
             Glide.with(holder.binding.root)
                 .load(image)
+                .placeholder(R.drawable.ic_image_loader) // loader at center
+                .error(R.drawable.ic_image_error)
                 .into(holder.binding.foodImgBg)
         }
 

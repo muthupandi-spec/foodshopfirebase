@@ -257,7 +257,10 @@ class ProductEditDetailFragment(private val foodId: String) :
                     }
 
                     if (!existingImageUrl.isNullOrEmpty()) {
-                        Glide.with(this).load(existingImageUrl).into(mViewDataBinding.foodimg)
+                        Glide.with(activitys).load(existingImageUrl)
+                            .placeholder(R.drawable.ic_image_loader) // loader at center
+                            .error(R.drawable.ic_image_error)
+                            .into(mViewDataBinding.foodimg)
                     }
                 } else {
                     showToast("Food not found")

@@ -29,7 +29,7 @@ class ProfilepageFragment : BaseFragment<FragmentProfilepagefrgamentBinding>() {
             accountcontainer.setOnClickListener {
                 loadFragment(SettingFragment(), android.R.id.content, "homepage", true)
             }
-            Glide.with(requireContext()).load(sharedHelper.getFromUser("profileImage")).into(profileimg)
+            Glide.with(activitys).load(sharedHelper.getFromUser("profileImage")).into(profileimg)
 username.text=sharedHelper.getFromUser("restaurantName")
 phoneno.text=sharedHelper.getFromUser("mobileNumber")
 

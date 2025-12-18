@@ -109,7 +109,11 @@ class ShopeditFragment : BaseFragment<FragmentshopeditBinding>() {
                     val imageUrl = document.getString("profileImage")
                     if (!imageUrl.isNullOrEmpty()) {
                         // Load image using Glide or any image loader
-                        Glide.with(activitys).load(imageUrl).into(binding.accProfile)
+                        Glide.with(activitys)
+                            .load(imageUrl)
+                            .placeholder(R.drawable.ic_image_loader) // loader at center
+                            .error(R.drawable.ic_image_error)
+                            .into(binding.accProfile)
                     }
                 }
             }

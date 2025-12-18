@@ -43,7 +43,8 @@ class FoodItemAdapter(
         if (!img.isNullOrEmpty()) {
             Glide.with(holder.itemView.context)
                 .load(img)
-                .placeholder(R.drawable.ic_logo)
+                .placeholder(R.drawable.ic_image_loader) // loader at center
+                .error(R.drawable.ic_image_error)
                 .into(holder.foodImg)
         }
     }

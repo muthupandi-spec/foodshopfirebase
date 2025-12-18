@@ -191,8 +191,10 @@ class Offerfragment : BaseFragment<FragmentOfferBinding>() {
 
         if (req == 1001 && res == Activity.RESULT_OK) {
             selectedImage = data?.data
-            Glide.with(requireContext())
+            Glide.with(activitys)
                 .load(selectedImage)
+                .placeholder(R.drawable.ic_image_loader) // loader at center
+                .error(R.drawable.ic_image_error)
                 .into(bindingList.bannerPreview)
         }
     }

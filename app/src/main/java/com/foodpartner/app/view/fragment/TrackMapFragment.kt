@@ -90,7 +90,7 @@ class TrackMapFragment(
         mViewDataBinding.foodName.text = shopName ?: ""
 
         if (!shopImg.isNullOrEmpty() && isAdded) {
-            Glide.with(requireContext())
+            Glide.with(activitys)
                 .load(shopImg)
                 .into(mViewDataBinding.foodImgBg)
         }
@@ -103,7 +103,7 @@ class TrackMapFragment(
         if (!deliveredImage.isNullOrEmpty()) {
             mViewDataBinding.deliveredCard.visibility = View.VISIBLE
 
-            Glide.with(requireContext())
+            Glide.with(activitys)
                 .load(deliveredImage)
                 .placeholder(R.drawable.ic_image_loader)
                 .error(R.drawable.ic_image_error)
