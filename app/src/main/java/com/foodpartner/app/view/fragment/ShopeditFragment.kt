@@ -108,13 +108,17 @@ class ShopeditFragment : BaseFragment<FragmentshopeditBinding>() {
 
                     val imageUrl = document.getString("profileImage")
                     if (!imageUrl.isNullOrEmpty()) {
-                        // Load image using Glide or any image loader
                         Glide.with(activitys)
                             .load(imageUrl)
-                            .placeholder(R.drawable.ic_image_loader) // loader at center
+                            .placeholder(R.drawable.ic_image_loader)
                             .error(R.drawable.ic_image_error)
                             .into(binding.accProfile)
+
+                        // ✅ ADD THIS LINE
+                        sharedHelper.putInUser("resimage", imageUrl)
                     }
+
+
                 }
             }
             .addOnFailureListener { e ->
