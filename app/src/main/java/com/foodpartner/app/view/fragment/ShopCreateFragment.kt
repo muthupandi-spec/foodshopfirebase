@@ -11,6 +11,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.view.Window
 import android.widget.Button
@@ -159,11 +160,32 @@ class ShopCreateFragment : BaseFragment<FragmentShopcreateBinding>() {
                 showToast("Please select shop end time")
             }
             else {
-                // Generate OTP
-                generatedOtp = (100000..999999).random().toString()
+                val email =this. mViewDataBinding.restaurantemail.text.toString()
+                    .trim()
+                    .lowercase()
 
-                showOtpNotification(generatedOtp.toInt())    // 🔔 Show notification
-                showOtpDialog()
+                val mobile =this. mViewDataBinding.restaurantmobilenon.text.toString()
+                    .trim()
+                    .replace(" ", "")
+                    .takeLast(10)
+
+                showLoader()
+
+                checkShopAlreadyExists(email, mobile) { exists ->
+
+                    hideLoader()
+
+                    if (exists) {
+                        showToast("Email or Mobile number already registered")
+                        return@checkShopAlreadyExists
+                    }
+
+                    // ✅ ONLY NEW SHOP COMES HERE
+                    generatedOtp = (100000..999999).random().toString()
+                    showOtpNotification(generatedOtp.toInt())
+                    showOtpDialog()
+                }
+
             }
 
 
@@ -306,8 +328,17 @@ showLoader()
         val map = HashMap<String, Any>()
 
         map["restaurantName"] = mViewDataBinding.restaurantname.text.toString()
-        map["restaurantEmail"] = mViewDataBinding.restaurantemail.text.toString()
-        map["mobileNumber"] = mViewDataBinding.restaurantmobilenon.text.toString()
+        map["restaurantEmail"] =
+            mViewDataBinding.restaurantemail.text.toString()
+                .trim()
+                .lowercase()
+
+        map["mobileNumber"] =
+            mViewDataBinding.restaurantmobilenon.text.toString()
+                .trim()
+                .replace(" ", "")
+                .takeLast(10)
+
         map["restaurantStreet"] = mViewDataBinding.restaurantStreet.text.toString()
         map["restaurantCity"] = mViewDataBinding.restaurantCity.text.toString()
         map["restaurantPinCode"] = mViewDataBinding.restaurantPinCode.text.toString()
@@ -439,5 +470,41 @@ showLoader()
 
         dialog.show()
     }
+    private fun checkShopAlreadyExists(
+        email: String,
+        mobile: String,
+        callback: (Boolean) -> Unit
+    ) {
+
+        db.collection("shops")
+            .whereEqualTo("restaurantEmail", email)
+            .limit(1)
+            .get()
+            .addOnSuccessListener { emailSnap ->
+
+                if (!emailSnap.isEmpty) {
+                    callback(true)
+                    return@addOnSuccessListener
+                }
+
+                db.collection("shops")
+                    .whereEqualTo("mobileNumber", mobile)
+                    .limit(1)
+                    .get()
+                    .addOnSuccessListener { mobileSnap ->
+                        callback(!mobileSnap.isEmpty)
+                    }
+                    .addOnFailureListener { e ->
+                        hideLoader()
+                        showToast("Mobile check failed: ${e.message}")
+                    }
+            }
+            .addOnFailureListener { e ->
+                hideLoader()
+                showToast("Email check failed: ${e.message}")
+            }
+    }
+
+
 
 }

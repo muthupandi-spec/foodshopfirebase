@@ -45,7 +45,7 @@ class Shopfragment : BaseFragment<FragmentShopfragmentBinding>() {
             }
 
             shopswitch.setOnCheckedChangeListener { _, isChecked ->
-                updateShopStatus(if (isChecked) "online" else "offline")
+                updateShopStatus(if (isChecked) "active" else "inactive")
             }
 
         }

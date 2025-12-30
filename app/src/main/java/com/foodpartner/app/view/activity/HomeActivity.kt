@@ -1,5 +1,8 @@
 package com.foodpartner.app.view.activity
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -42,6 +45,7 @@ class HomeActivity :AppCompatActivity() {
 
         bottomNavigation = findViewById(R.id.bottom_navigation)
 getShopDetails()
+        createNotificationChannel()
         // Default fragment
         switchFragment(Homefragment())
 
@@ -114,6 +118,20 @@ getShopDetails()
             }
 
     }
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                "order_updates",
+                "Order Updates",
+                NotificationManager.IMPORTANCE_HIGH
+            )
+            channel.description = "Order notifications"
+
+            val manager = getSystemService(NotificationManager::class.java)
+            manager.createNotificationChannel(channel)
+        }
+    }
+
 
 
 }

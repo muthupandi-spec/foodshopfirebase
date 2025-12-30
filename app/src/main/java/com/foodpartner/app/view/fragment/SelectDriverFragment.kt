@@ -26,7 +26,9 @@ class SelectDriverFragment(
         adapter = DriverAdapter(drivers) { selectedDriver ->
             sendResult(selectedDriver)
         }
-
+mViewDataBinding.btnBack.setOnClickListener {
+    fragmentManagers!!.popBackStack()
+}
         mViewDataBinding.rvDrivers.adapter = adapter
         fetchDrivers()
     }
@@ -64,6 +66,7 @@ private fun fetchDrivers() {
                         "mobileNumber" to doc.getString("mobileNumber").orEmpty(),
                         "landmark" to doc.getString("landmark").orEmpty(),
                         "status" to doc.getString("status").orEmpty(),
+                        "fcm" to doc.getString("fcmToken").orEmpty(),
                         "isBusy" to (doc.getBoolean("isBusy") ?: false),
 
                         // Images (KEYS MUST MATCH ADAPTER)

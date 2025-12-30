@@ -3,6 +3,7 @@ package com.foodpartner.app.view.fragment
 import android.os.Handler
 import android.os.Looper
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import androidx.databinding.ViewDataBinding
 import com.app.washeruser.repository.Status
@@ -14,6 +15,9 @@ import com.foodpartner.app.view.responsemodel.LoginResponseModel
 import com.foodpartner.app.view.responsemodel.OtpResponseModel
 import com.foodpartner.app.viewModel.LoginViewModel
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
+import com.google.firebase.messaging.FirebaseMessaging
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.Timer
 import kotlin.concurrent.schedule
@@ -66,7 +70,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                 val uid = auth.currentUser?.uid ?: ""
 
                 sharedHelper.putInUser("userid", uid)
-
+                saveFcmToken(uid)
                 setIntent(HomeActivity::class.java, 2)
             }
             .addOnFailureListener {
@@ -77,4 +81,26 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                 showToast("Login failed: ${it.message}")
             }
     }
+    private fun saveFcmToken(uid: String) {
+
+        FirebaseMessaging.getInstance().token
+            .addOnSuccessListener { token ->
+
+                val data = hashMapOf(
+                    "fcmToken" to token,
+                )
+
+                FirebaseFirestore.getInstance()
+                    .collection("shops")
+                    .document(uid)
+                    .set(data, SetOptions.merge())
+                    .addOnSuccessListener {
+                        Log.d("FCM", "FCM token saved successfully")
+                    }
+                    .addOnFailureListener { e ->
+                        Log.e("FCM", "Failed to save token", e)
+                    }
+            }
+    }
+
 }

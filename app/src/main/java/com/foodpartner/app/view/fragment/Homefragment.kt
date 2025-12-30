@@ -1,6 +1,7 @@
 package com.foodpartner.app.view.fragment
 
 import android.location.Location
+import android.util.Log
 import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.transition.Visibility
@@ -14,6 +15,14 @@ import com.foodpartner.app.view.responsemodel.Shop
 import com.kotlintest.app.utility.interFace.CommonInterface
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.Response
+import java.io.IOException
 
 class Homefragment : BaseFragment<HomefragmentBinding>() {
     private val db = FirebaseFirestore.getInstance()
@@ -97,6 +106,33 @@ class Homefragment : BaseFragment<HomefragmentBinding>() {
     private fun updateOrderStatus(orderId: String, status: String) {
         db.collection("orders").document(orderId)
             .update(mapOf("orderStatus" to status, "updatedAt" to System.currentTimeMillis()))
+            .addOnSuccessListener {
+                showToast("Order updated")
+
+                // Send notifications
+                db.collection("orders").document(orderId).get().addOnSuccessListener { doc ->
+                    val customerFcm = doc.getString("cusfcmtoken") ?: ""
+                    val shopFcm = (doc.get("shop") as? Map<*, *>)?.get("fcm") as? String ?: ""
+                    val deliveryFcm = (doc.get("deliveryBoy") as? Map<*, *>)?.get("fcm") as? String ?: ""
+                    sharedHelper.putInUser("custoken",customerFcm)
+                    sharedHelper.putInUser("shopFcm",shopFcm)
+                    sharedHelper.putInUser("deliveryFcm",deliveryFcm)
+
+
+                    val message = when (status) {
+                        OrderStatus.ACCEPTED_BY_RESTAURANT -> "Your order has been accepted by the restaurant."
+                        OrderStatus.PREPARING -> "Your order is being prepared."
+                        OrderStatus.READY_FOR_PICKUP -> "Your order is ready for pickup."
+                        OrderStatus.DELIVERY_ASSIGNED -> "Delivery boy has been assigned."
+                        OrderStatus.DELIVERY_BOY_ARRIVED -> "Delivery boy has arrived."
+                        else -> "Order status updated."
+                    }
+
+                    if (customerFcm.isNotEmpty()) sendPushNotification(customerFcm, "Order Update", message)
+                    if (shopFcm.isNotEmpty()) sendPushNotification(shopFcm, "Order Update", message)
+                    if (deliveryFcm.isNotEmpty()) sendPushNotification(deliveryFcm, "Order Update", message)
+                }
+            }
     }
     private fun assignDeliveryBoy(orderId: String) {
         val fragment = SelectDriverFragment(orderId, isPickup = false)
@@ -249,6 +285,16 @@ class Homefragment : BaseFragment<HomefragmentBinding>() {
             .addOnSuccessListener {
                 showToast("Delivery boy assigned successfully")
 
+                // Send notification
+                val customerFcm =  sharedHelper.getFromUser("custoken")
+                val shopFcm = sharedHelper.getFromUser("shopFcm")
+                val driverFcm = sharedHelper.getFromUser("deliveryFcm")
+
+
+                if (customerFcm.isNotEmpty()) sendPushNotification(customerFcm, "Order Update", "Delivery boy has been assigned.")
+                if (shopFcm.isNotEmpty()) sendPushNotification(shopFcm, "Order Update", "Delivery boy has been assigned.")
+                if (driverFcm.isNotEmpty()) sendPushNotification(driverFcm, "Order Update", "You have been assigned a new order.")
+
                 // Mark driver as busy
                 db.collection("deliveryboys")
                     .document(driverId)
@@ -257,6 +303,35 @@ class Homefragment : BaseFragment<HomefragmentBinding>() {
             .addOnFailureListener {
                 showToast("Failed to assign delivery boy")
             }
+    }
+    fun sendPushNotification(token: String, title: String, message: String) {
+
+        val client = OkHttpClient()
+
+        val json = """
+        {
+          "token": "$token",
+          "title": "$title",
+          "body": "$message"
+        }
+    """.trimIndent()
+
+        val body = json.toRequestBody("application/json".toMediaType())
+
+        val request = Request.Builder()
+            .url("https://us-central1-bhashabhai-da0a6.cloudfunctions.net/sendTestNotification")
+            .post(body)
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e("FCM", "Push failed", e)
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                Log.d("FCM", "Push success: ${response.body?.string()}")
+            }
+        })
     }
 
 
