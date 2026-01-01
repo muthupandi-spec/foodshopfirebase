@@ -44,7 +44,7 @@
                 android:resource="@array/preloaded_fonts" />
 
         <service
-                android:name=".firebase.MyFirebaseMsgService"
+                android:name=".firebase.MyFirebaseMessagingService"
                 android:exported="false"
                 >
             <intent-filter>

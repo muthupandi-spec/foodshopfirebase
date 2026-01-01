@@ -50,7 +50,7 @@ class CompletedOrderFragment : BaseFragment<FragmentCompletedBinding>() {
         binding.applyButton.setOnLongClickListener {
             binding.startDateText.text = "Start Time"
             binding.endDateText.text = "End Time"
-            filterLastSixMonths()
+            filterTodayOrders()
             true
         }
 
@@ -75,7 +75,7 @@ class CompletedOrderFragment : BaseFragment<FragmentCompletedBinding>() {
                 snap?.documents?.forEach { it.data?.let { data -> allOrders.add(data) } }
 
                 // 🔥 DEFAULT = LAST 6 MONTHS
-                filterLastSixMonths()
+                filterTodayOrders()
             }
     }
 
@@ -124,6 +124,7 @@ class CompletedOrderFragment : BaseFragment<FragmentCompletedBinding>() {
     }
 
     // ================= LAST 6 MONTHS =================
+/*
     private fun filterLastSixMonths() {
         val cal = Calendar.getInstance()
         val endDate = cal.time
@@ -148,6 +149,34 @@ class CompletedOrderFragment : BaseFragment<FragmentCompletedBinding>() {
 
         updateUI()
     }
+*/
+    private fun filterTodayOrders() {
+        val cal = Calendar.getInstance()
+
+        // Start of today (00:00:00)
+        cal.set(Calendar.HOUR_OF_DAY, 0)
+        cal.set(Calendar.MINUTE, 0)
+        cal.set(Calendar.SECOND, 0)
+        cal.set(Calendar.MILLISECOND, 0)
+        val startOfDay = cal.time
+
+        // End of today (23:59:59)
+        cal.set(Calendar.HOUR_OF_DAY, 23)
+        cal.set(Calendar.MINUTE, 59)
+        cal.set(Calendar.SECOND, 59)
+        val endOfDay = cal.time
+
+        filteredOrders = ArrayList(
+            allOrders.filter { order ->
+                val ts = order["createdAt"] as? Timestamp ?: return@filter false
+                val date = ts.toDate()
+                date.after(startOfDay) && date.before(endOfDay)
+            }
+        )
+
+        updateUI()
+    }
+
 
     // ================= UI =================
     private fun updateUI() {

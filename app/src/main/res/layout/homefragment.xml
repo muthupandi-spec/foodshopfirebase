@@ -45,6 +45,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/toolabarcontainer"
                 android:layout_width="0dp"
+                android:visibility="gone"
                 android:layout_height="@dimen/_40sdp"
                 app:layout_constraintEnd_toEndOf="@id/accRMargin"
                 app:layout_constraintStart_toStartOf="@id/accLMargin"

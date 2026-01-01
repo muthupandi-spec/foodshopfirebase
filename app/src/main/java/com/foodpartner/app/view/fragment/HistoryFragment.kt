@@ -13,14 +13,12 @@ class HistoryFragment: BaseFragment<HistoryfragmentBinding>(){
     override fun initView(mViewDataBinding: ViewDataBinding?) {
         this.mViewDataBinding.apply {
             viewPagerAdapter = viewpageradapter(childFragmentManager)
-            viewPagerAdapter!!.add(CancelOrderFragment(), getString(R.string.cancelbold))
+            viewPagerAdapter!!.add(Homefragment(), getString(R.string.ongoing))
             viewPagerAdapter!!.add(CompletedOrderFragment(), getString(R.string.completebold))
-
             viewpager.adapter = viewPagerAdapter
             tabs.setupWithViewPager(viewpager)
 
-            // ✅ Keep both fragments loaded
-            viewpager.offscreenPageLimit = 1
+
         }
 
     }

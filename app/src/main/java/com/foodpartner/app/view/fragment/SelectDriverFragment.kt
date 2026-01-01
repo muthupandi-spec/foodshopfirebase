@@ -42,7 +42,6 @@ private fun fetchDrivers() {
 
             for (doc in snapshot.documents) {
 
-                // ✅ verify (String / Boolean safe)
                 val verifyValue = doc.get("verify")
                 val isVerified = when (verifyValue) {
                     is Boolean -> verifyValue
@@ -51,37 +50,29 @@ private fun fetchDrivers() {
                 }
                 if (!isVerified) continue
 
-                // ✅ Only online drivers
                 if (doc.getString("status") != "Online") continue
 
-                // ✅ Optional: skip busy drivers
-                // if (doc.getBoolean("isBusy") == true) continue
+                val lat = getDoubleSafe(doc, "latitude") ?: continue
+                val lng = getDoubleSafe(doc, "longitude") ?: continue
+               val shopLat= sharedHelper.getFromUser("restaurantLat")
+               val shopLng= sharedHelper.getFromUser("restaurantLng")
+                // 🔥 5 KM RADIUS FILTER
+                val distance = distanceInKm(shopLat.toDouble(), shopLng.toDouble(), lat, lng)
+                if (distance > 5) continue
 
-                val lat = getDoubleSafe(doc, "latitude")
-                val lng = getDoubleSafe(doc, "longitude")
                 drivers.add(
-                    mutableMapOf<String, Any>(
+                    mutableMapOf(
                         "uid" to doc.getString("uid").orEmpty(),
                         "name" to doc.getString("name").orEmpty(),
                         "mobileNumber" to doc.getString("mobileNumber").orEmpty(),
-                        "landmark" to doc.getString("landmark").orEmpty(),
                         "status" to doc.getString("status").orEmpty(),
                         "fcm" to doc.getString("fcmToken").orEmpty(),
                         "isBusy" to (doc.getBoolean("isBusy") ?: false),
-
-                        // Images (KEYS MUST MATCH ADAPTER)
                         "profileImage" to doc.getString("profileImage").orEmpty(),
-                        "aadharImage" to doc.getString("aadharImage").orEmpty(),
-                        "licenseImage" to doc.getString("licenseImage").orEmpty(),
-                        "passportImage" to doc.getString("passportImage").orEmpty(),
-
-                        "latitude" to (lat ?: 0.0),
-                        "longitude" to (lng ?: 0.0)
+                        "latitude" to lat,
+                        "longitude" to lng
                     )
                 )
-
-
-
             }
 
             adapter.notifyDataSetChanged()
@@ -116,6 +107,27 @@ private fun fetchDrivers() {
             is String -> value.toDoubleOrNull()
             else -> null
         }
+    }
+    private fun distanceInKm(
+        lat1: Double,
+        lon1: Double,
+        lat2: Double,
+        lon2: Double
+    ): Double {
+        val earthRadius = 6371 // KM
+
+        val dLat = Math.toRadians(lat2 - lat1)
+        val dLon = Math.toRadians(lon2 - lon1)
+
+        val a =
+            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                    Math.cos(Math.toRadians(lat1)) *
+                    Math.cos(Math.toRadians(lat2)) *
+                    Math.sin(dLon / 2) *
+                    Math.sin(dLon / 2)
+
+        val c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+        return earthRadius * c
     }
 
 }

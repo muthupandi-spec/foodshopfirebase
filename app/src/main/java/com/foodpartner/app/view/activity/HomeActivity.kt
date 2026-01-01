@@ -53,7 +53,7 @@ getShopDetails()
             when (it.itemId) {
                 R.id.navHomeBtn -> switchFragment(Homefragment())
                 R.id.shopbtn -> switchFragment(Shopfragment())
-                R.id.navhistoryBtn -> switchFragment(CompletedOrderFragment())
+                R.id.navhistoryBtn -> switchFragment(HistoryFragment())
                 R.id.navProfBtn -> switchFragment(ProfilepageFragment())
                 else -> false
             }
@@ -107,6 +107,8 @@ getShopDetails()
                     sharedHelper.putInUser("restaurantName", doc.getString("restaurantName") ?: "")
                     sharedHelper.putInUser("profileImage", doc.getString("profileImage") ?: "")
                     sharedHelper.putInUser("mobileNumber", doc.getString("mobileNumber") ?: "")
+                    sharedHelper.putInUser("restaurantLat", doc.getString("restaurantLat") ?: "")
+                    sharedHelper.putInUser("restaurantLng", doc.getString("restaurantLng") ?: "")
 
                     println("dataaa"+shop)
                 } else {
