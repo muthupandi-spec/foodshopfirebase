@@ -9,9 +9,9 @@ import com.foodpartner.app.baseClass.BaseFragment
 import com.foodpartner.app.databinding.FragmentCompletedBinding
 import com.foodpartner.app.network.OrderStatus
 import com.foodpartner.app.view.adapter.Activeadapter
-import com.github.mikephil.charting.data.Entry
-import com.github.mikephil.charting.data.LineData
-import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
@@ -220,7 +220,7 @@ class CompletedOrderFragment : BaseFragment<FragmentCompletedBinding>() {
             cal.add(Calendar.DAY_OF_YEAR, -1)
         }
 
-        filteredOrders.forEach {
+        allOrders.forEach {
             val ts = it["createdAt"] as? Timestamp ?: return@forEach
             val key = SimpleDateFormat("dd MMM", Locale.getDefault()).format(ts.toDate())
             map[key] =
@@ -238,9 +238,10 @@ class CompletedOrderFragment : BaseFragment<FragmentCompletedBinding>() {
 
         for (i in 1..days) map[i.toString()] = 0f
 
-        filteredOrders.forEach {
+        allOrders.forEach {
             val ts = it["createdAt"] as? Timestamp ?: return@forEach
             val c = Calendar.getInstance().apply { time = ts.toDate() }
+
             if (c.get(Calendar.MONTH) == Calendar.getInstance().get(Calendar.MONTH)) {
                 val day = c.get(Calendar.DAY_OF_MONTH).toString()
                 map[day] =
@@ -252,25 +253,37 @@ class CompletedOrderFragment : BaseFragment<FragmentCompletedBinding>() {
     }
 
     private fun drawGraph(data: Map<String, Float>, label: String) {
-        val entries = ArrayList<Entry>()
+
+        val entries = ArrayList<BarEntry>()
         val labels = ArrayList<String>()
 
-        data.entries.forEachIndexed { i, e ->
-            entries.add(Entry(i.toFloat(), e.value))
-            labels.add(e.key)
+        data.entries.forEachIndexed { index, entry ->
+            entries.add(BarEntry(index.toFloat(), entry.value))
+            labels.add(entry.key)
         }
 
-        val set = LineDataSet(entries, label).apply {
-            lineWidth = 2f
-            setDrawCircles(true)
+        val barDataSet = BarDataSet(entries, label).apply {
             setDrawValues(false)
         }
 
+        val barData = BarData(barDataSet).apply {
+            barWidth = 0.6f
+        }
+
         binding.earningsChart.apply {
-            this.data = LineData(set)
+            this.data = barData
             xAxis.valueFormatter = IndexAxisValueFormatter(labels)
+            xAxis.granularity = 1f
+            xAxis.setDrawGridLines(false)
+
+            axisLeft.axisMinimum = 0f
             axisRight.isEnabled = false
+            xAxis.position = com.github.mikephil.charting.components.XAxis.XAxisPosition.BOTTOM
+            xAxis.setLabelCount(labels.size, false)
+
             description.isEnabled = false
+            setFitBars(true)
+            animateY(800)
             invalidate()
         }
     }

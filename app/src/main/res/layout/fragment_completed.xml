@@ -235,11 +235,10 @@
                 </LinearLayout>
 
                 <!-- ================= GRAPH ================= -->
-                <com.github.mikephil.charting.charts.LineChart
+                <com.github.mikephil.charting.charts.BarChart
                     android:id="@+id/earningsChart"
                     android:layout_width="match_parent"
-                    android:layout_height="220dp"
-                    android:layout_marginTop="12dp" />
+                    android:layout_height="220dp" />
 
                 <!-- ================= RECYCLER ================= -->
                 <androidx.recyclerview.widget.RecyclerView
