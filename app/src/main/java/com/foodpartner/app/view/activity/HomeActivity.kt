@@ -5,6 +5,7 @@ import android.app.NotificationManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.ViewDataBinding
@@ -44,7 +45,10 @@ class HomeActivity :AppCompatActivity() {
         sharedHelper = SharedHelper(application)
 
         bottomNavigation = findViewById(R.id.bottom_navigation)
-getShopDetails()
+        window.statusBarColor = getColor(R.color.colorPrimary)
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+
+        getShopDetails()
         createNotificationChannel()
         // Default fragment
         switchFragment(Homefragment())

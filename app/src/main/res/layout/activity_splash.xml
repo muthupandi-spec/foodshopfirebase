@@ -7,6 +7,10 @@
 
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
+    android:fitsSystemWindows="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:background="@color/White"
         android:layout_height="match_parent"
         tools:context=".view.activity.SplashActivity">
 <ImageView

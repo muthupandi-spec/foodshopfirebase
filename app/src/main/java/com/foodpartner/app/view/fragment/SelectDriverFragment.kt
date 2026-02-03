@@ -33,54 +33,58 @@ mViewDataBinding.btnBack.setOnClickListener {
         fetchDrivers()
     }
 
-private fun fetchDrivers() {
+    private fun fetchDrivers() {
 
-    db.collection("deliveryboys").get()
-        .addOnSuccessListener { snapshot ->
+        db.collection("deliveryboys").get()
+            .addOnSuccessListener { snapshot ->
 
-            drivers.clear()
+                drivers.clear()
 
-            for (doc in snapshot.documents) {
+                for (doc in snapshot.documents) {
 
-                val verifyValue = doc.get("verify")
-                val isVerified = when (verifyValue) {
-                    is Boolean -> verifyValue
-                    is String -> verifyValue.equals("true", ignoreCase = true)
-                    else -> false
-                }
-                if (!isVerified) continue
+                    // ✅ VERIFIED CHECK (document field)
+                    val isVerified = doc.getBoolean("document") ?: false
+                    if (!isVerified) continue
 
-                if (doc.getString("status") != "Online") continue
+                    // ✅ ONLINE CHECK (safe)
+                    val status = doc.getString("status")?.lowercase() ?: ""
+                    if (status != "online") continue
 
-                val lat = getDoubleSafe(doc, "latitude") ?: continue
-                val lng = getDoubleSafe(doc, "longitude") ?: continue
-               val shopLat= sharedHelper.getFromUser("restaurantLat")
-               val shopLng= sharedHelper.getFromUser("restaurantLng")
-                // 🔥 5 KM RADIUS FILTER
-                val distance = distanceInKm(shopLat.toDouble(), shopLng.toDouble(), lat, lng)
-                if (distance > 5) continue
+                    val lat = getDoubleSafe(doc, "latitude") ?: continue
+                    val lng = getDoubleSafe(doc, "longitude") ?: continue
 
-                drivers.add(
-                    mutableMapOf(
-                        "uid" to doc.getString("uid").orEmpty(),
-                        "name" to doc.getString("name").orEmpty(),
-                        "mobileNumber" to doc.getString("mobileNumber").orEmpty(),
-                        "status" to doc.getString("status").orEmpty(),
-                        "fcm" to doc.getString("fcmToken").orEmpty(),
-                        "isBusy" to (doc.getBoolean("isBusy") ?: false),
-                        "profileImage" to doc.getString("profileImage").orEmpty(),
-                        "latitude" to lat,
-                        "longitude" to lng
+                    val shopLat = sharedHelper.getFromUser("restaurantLat")?.toDouble() ?: continue
+                    val shopLng = sharedHelper.getFromUser("restaurantLng")?.toDouble() ?: continue
+
+                    // ✅ 5 KM FILTER
+                    val distance = distanceInKm(shopLat, shopLng, lat, lng)
+                    if (distance > 5) continue
+
+                    drivers.add(
+                        hashMapOf(
+                            "uid" to doc.getString("uid").orEmpty(),
+                            "name" to doc.getString("name").orEmpty(),
+                            "mobileNumber" to doc.getString("mobileNumber").orEmpty(),
+                            "status" to doc.getString("status").orEmpty(),
+                            "fcm" to doc.getString("fcmToken").orEmpty(),
+                            "landmark" to doc.getString("landmark").orEmpty(),
+                            "isBusy" to (doc.getBoolean("isBusy") ?: false),
+                            "profileImage" to doc.getString("profileImage").orEmpty(),
+                            "passportImage" to doc.getString("passportImage").orEmpty(),
+                            "licenseImage" to doc.getString("licenseImage").orEmpty(),
+                            "aadharImage" to doc.getString("aadharImage").orEmpty(),
+                            "latitude" to lat,
+                            "longitude" to lng
+                        )
                     )
-                )
-            }
+                }
 
-            adapter.notifyDataSetChanged()
-        }
-        .addOnFailureListener {
-            showToast("Failed to load delivery boys")
-        }
-}
+                adapter.notifyDataSetChanged()
+            }
+            .addOnFailureListener {
+                showToast("Failed to load delivery boys")
+            }
+    }
 
 
     private fun sendResult(driver: Map<String, Any>) {

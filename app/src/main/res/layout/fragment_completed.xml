@@ -8,6 +8,7 @@
         android:clickable="true"
         android:focusableInTouchMode="true"
         android:focusable="true"
+        android:fitsSystemWindows="true"
         android:background="@color/White">
 
         <!-- ================= TOOLBAR ================= -->
