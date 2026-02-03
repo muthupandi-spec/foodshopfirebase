@@ -57,25 +57,54 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
     private fun signInUser(email: String, password: String) {
 
-        showLoader()   // Show loader
+        showLoader()
 
         auth.signInWithEmailAndPassword(email, password)
             .addOnSuccessListener {
 
-                if (!isAdded) return@addOnSuccessListener   // FIXED crash issue
+                if (!isAdded) return@addOnSuccessListener
 
-                hideLoader()
-                showToast("Login Successful")
+                val uid = auth.currentUser?.uid ?: run {
+                    hideLoader()
+                    showToast("User not found")
+                    return@addOnSuccessListener
+                }
 
-                val uid = auth.currentUser?.uid ?: ""
+                // 🔍 CHECK USER EXISTS IN FIRESTORE
+                FirebaseFirestore.getInstance()
+                    .collection("shops")
+                    .document(uid)
+                    .get()
+                    .addOnSuccessListener { document ->
 
-                sharedHelper.putInUser("userid", uid)
-                saveFcmToken(uid)
-                setIntent(HomeActivity::class.java, 2)
+                        hideLoader()
+
+                        if (document.exists()) {
+
+                            // ✅ USER EXISTS
+                            sharedHelper.putInUser("userid", uid)
+                            saveFcmToken(uid)
+
+                            showToast("Login Successful")
+                            setIntent(HomeActivity::class.java, 2)
+
+                        } else {
+
+                            // ❌ USER NOT REGISTERED IN FIRESTORE
+                            FirebaseAuth.getInstance().signOut()
+
+                            showToast("Account not registered. Please sign up first.")
+                        }
+                    }
+                    .addOnFailureListener {
+
+                        hideLoader()
+                        showToast("Something went wrong. Try again.")
+                    }
             }
             .addOnFailureListener {
 
-                if (!isAdded) return@addOnFailureListener   // FIXED
+                if (!isAdded) return@addOnFailureListener
 
                 hideLoader()
                 showToast("Login failed: ${it.message}")
