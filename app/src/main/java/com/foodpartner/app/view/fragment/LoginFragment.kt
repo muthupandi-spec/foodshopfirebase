@@ -1,36 +1,81 @@
 package com.foodpartner.app.view.fragment
 
-import android.os.Handler
-import android.os.Looper
-import android.text.TextUtils
+import android.text.InputType
 import android.util.Log
-import android.view.View
 import androidx.databinding.ViewDataBinding
-import com.app.washeruser.repository.Status
 import com.foodpartner.app.R
 import com.foodpartner.app.baseClass.BaseFragment
 import com.foodpartner.app.databinding.FragmentLoginBinding
 import com.foodpartner.app.view.activity.HomeActivity
-import com.foodpartner.app.view.responsemodel.LoginResponseModel
-import com.foodpartner.app.view.responsemodel.OtpResponseModel
-import com.foodpartner.app.viewModel.LoginViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.messaging.FirebaseMessaging
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.Timer
-import kotlin.concurrent.schedule
-import kotlin.toString
 
 class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
     private val auth = FirebaseAuth.getInstance()
+    private var isPasswordVisible = false
 
     override fun initView(mViewDataBinding: ViewDataBinding?) {
 
-        val binding = this.mViewDataBinding!!   // FIXED
+        val binding = this.mViewDataBinding!!
 
+        // 👁️ PASSWORD TOGGLE
+        binding.eyeBtn.setOnClickListener {
+
+            isPasswordVisible = !isPasswordVisible
+
+            if (isPasswordVisible) {
+                binding.password.inputType =
+                    InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                binding.eyeBtn.setImageResource(R.drawable.ic_eye)
+            } else {
+                binding.password.inputType =
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                binding.eyeBtn.setImageResource(R.drawable.ic_eye_hide)
+            }
+
+            binding.password.setSelection(binding.password.text.length)
+        }
+
+        // 🔐 LOGIN
+        binding.logInBtn.setOnClickListener {
+
+            val email = binding.email.text.toString().trim()
+            val password = binding.password.text.toString().trim()
+
+            when {
+                email.isEmpty() ->
+                    showToast("Please enter your email")
+
+                password.isEmpty() ->
+                    showToast("Please enter your password")
+
+                else ->
+                    signInUser(email, password)
+            }
+        }
+
+        // 🔁 FORGOT PASSWORD
+        binding.forgotPassword.setOnClickListener {
+
+            val email = binding.email.text.toString().trim()
+
+            if (email.isEmpty()) {
+                showToast("Please enter your email first")
+                return@setOnClickListener
+            }
+
+            if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                showToast("Enter valid email address")
+                return@setOnClickListener
+            }
+
+            sendResetPasswordEmail(email)
+        }
+
+        // 🆕 SIGN UP
         binding.signUpBtn.setOnClickListener {
             loadFragment(
                 ShopCreateFragment(),
@@ -39,22 +84,13 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                 true
             )
         }
-
-        binding.logInBtn.setOnClickListener {
-
-            val emailStr = binding.email.text.toString().trim()
-            val passStr = binding.password.text.toString().trim()
-
-            when {
-                emailStr.isEmpty() -> showToast("Please enter your Email")
-                passStr.isEmpty() -> showToast("Please enter your Password")
-                else -> signInUser(emailStr, passStr)
-            }
-        }
     }
 
     override fun getLayoutId(): Int = R.layout.fragment_login
 
+    // ------------------------------------------------------------------
+    // LOGIN + FIRESTORE CHECK
+    // ------------------------------------------------------------------
     private fun signInUser(email: String, password: String) {
 
         showLoader()
@@ -70,7 +106,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                     return@addOnSuccessListener
                 }
 
-                // 🔍 CHECK USER EXISTS IN FIRESTORE
                 FirebaseFirestore.getInstance()
                     .collection("shops")
                     .document(uid)
@@ -81,18 +116,15 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
                         if (document.exists()) {
 
-                            // ✅ USER EXISTS
                             sharedHelper.putInUser("userid", uid)
                             saveFcmToken(uid)
 
-                            showToast("Login Successful")
+                            showToast("Login successful")
                             setIntent(HomeActivity::class.java, 2)
 
                         } else {
 
-                            // ❌ USER NOT REGISTERED IN FIRESTORE
                             FirebaseAuth.getInstance().signOut()
-
                             showToast("Account not registered. Please sign up first.")
                         }
                     }
@@ -110,13 +142,38 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                 showToast("Login failed: ${it.message}")
             }
     }
+
+    // ------------------------------------------------------------------
+    // FORGOT PASSWORD
+    // ------------------------------------------------------------------
+    private fun sendResetPasswordEmail(email: String) {
+
+        showLoader()
+
+        FirebaseAuth.getInstance()
+            .sendPasswordResetEmail(email)
+            .addOnSuccessListener {
+
+                hideLoader()
+                showToast("Reset link sent. Please check Inbox or Spam folder.")
+            }
+            .addOnFailureListener {
+
+                hideLoader()
+                showToast(it.message ?: "Failed to send reset email")
+            }
+    }
+
+    // ------------------------------------------------------------------
+    // SAVE FCM TOKEN
+    // ------------------------------------------------------------------
     private fun saveFcmToken(uid: String) {
 
         FirebaseMessaging.getInstance().token
             .addOnSuccessListener { token ->
 
                 val data = hashMapOf(
-                    "fcmToken" to token,
+                    "fcmToken" to token
                 )
 
                 FirebaseFirestore.getInstance()
@@ -124,12 +181,11 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                     .document(uid)
                     .set(data, SetOptions.merge())
                     .addOnSuccessListener {
-                        Log.d("FCM", "FCM token saved successfully")
+                        Log.d("FCM", "FCM token saved")
                     }
                     .addOnFailureListener { e ->
-                        Log.e("FCM", "Failed to save token", e)
+                        Log.e("FCM", "FCM save failed", e)
                     }
             }
     }
-
 }

@@ -72,17 +72,32 @@
                     android:layout_height="1dp"
                     android:background="@color/Gray" />
 
-                <!-- PASSWORD -->
-                <EditText
-                    android:id="@+id/password"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_45sdp"
-                    android:layout_marginTop="@dimen/_8sdp"
-                    android:background="@color/transparent"
-                    android:hint="@string/password"
-                    android:inputType="textPassword"
-                    android:padding="@dimen/_10sdp"
-                    tools:ignore="Autofill" />
+                    android:layout_marginTop="@dimen/_8sdp">
+
+                    <EditText
+                        android:id="@+id/password"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/transparent"
+                        android:hint="@string/password"
+                        android:inputType="textPassword"
+                        android:padding="@dimen/_10sdp"
+                        android:paddingEnd="@dimen/_40sdp"
+                        tools:ignore="Autofill" />
+
+                    <ImageView
+                        android:id="@+id/eyeBtn"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="12dp"
+                        android:src="@drawable/ic_eye_hide" />
+                </RelativeLayout>
+
 
                 <View
                     android:layout_width="match_parent"
@@ -98,6 +113,14 @@
                     android:background="@drawable/custom_border"
                     android:text="@string/sign_in"
                     android:textAllCaps="false" />
+                <TextView
+                    android:id="@+id/forgotPassword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_gravity="end"
+                    android:text="Forgot password?"
+                    android:textColor="@color/colorPrimary" />
 
                 <!-- OR CONTINUE -->
                 <TextView
@@ -105,6 +128,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_15sdp"
                     android:layout_gravity="center"
+                    android:visibility="gone"
                     android:text="@string/or_continue_with"
                     android:textColor="@color/Black" />
 
@@ -113,6 +137,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
+                    android:visibility="gone"
                     android:gravity="center"
                     android:orientation="horizontal">
 
