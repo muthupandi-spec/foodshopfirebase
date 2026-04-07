@@ -40,6 +40,7 @@ class ReelsAdapter(
         holder.binding.videoView.setVideoURI(Uri.parse(reel.videoUrl))
         holder.binding.videoView.setOnPreparedListener {
             it.isLooping = true
+            it.setVolume(0f, 0f) // 🔇 Mute
             holder.binding.videoView.start()
         }
 

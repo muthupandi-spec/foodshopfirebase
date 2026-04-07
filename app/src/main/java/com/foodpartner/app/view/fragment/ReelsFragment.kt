@@ -38,7 +38,9 @@ class ReelsFragment : Fragment() {
     ): View {
 
         binding = FragmentReelsBinding.inflate(inflater, container, false)
-
+binding.backBtn.setOnClickListener {
+    fragmentManager!!.popBackStackImmediate()
+}
         setupRecyclerView()
 
         binding.btnPickVideo.setOnClickListener {
