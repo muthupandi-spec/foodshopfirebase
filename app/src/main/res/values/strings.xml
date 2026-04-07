@@ -5,7 +5,7 @@
     <string name="facebook_app_id">1090954868823074</string>
     <string name="fb_login_protocol_scheme">fb1234</string>
     <string name="facebook_client_token">2952aa4b433c81feee1a110a34a136c5</string>
-    <string name="google_maps_key">AIzaSyCWQj746sQoI8ul4djjQjopk-YhISxmi9o</string>
+    <string name="google_maps_key">AIzaSyB4YmGxoDmc9pbTJAPE4xw3wm7qkkQibXE</string>
 
     <string name="total_earnings_in_rupees">Total earnings in Rupees</string>
     <string name="earnings_history">Earnings History</string>

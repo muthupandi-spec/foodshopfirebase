@@ -155,8 +155,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
             .addOnSuccessListener {
 
                 hideLoader()
-                showToast("Reset link sent. Please check Inbox or Spam folder.")
-            }
+showResetDialog()            }
             .addOnFailureListener {
 
                 hideLoader()
@@ -187,5 +186,19 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                         Log.e("FCM", "FCM save failed", e)
                     }
             }
+    }
+    private fun showResetDialog() {
+
+        androidx.appcompat.app.AlertDialog.Builder(activitys)
+            .setTitle("Password Reset")
+            .setMessage(
+                "Reset link has been sent to your email.\n\n" +
+                        "Please check Inbox or Spam folder."
+            )
+            .setCancelable(false)
+            .setPositiveButton("OK") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
     }
 }

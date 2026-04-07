@@ -13,4 +13,5 @@ object Constant {
     var price: String = ""
     var category: String = ""
     var type: String = ""
+    var loc: String = ""
 }

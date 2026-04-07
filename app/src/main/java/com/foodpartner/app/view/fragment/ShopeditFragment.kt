@@ -23,12 +23,19 @@ import com.bumptech.glide.Glide
 import com.foodpartner.app.R
 import com.foodpartner.app.baseClass.BaseFragment
 import com.foodpartner.app.databinding.FragmentshopeditBinding
+import com.foodpartner.app.network.Constant
+import com.foodpartner.app.view.requestmodel.LocationEditEvent
+import com.foodpartner.app.view.requestmodel.LocationEvent
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.mukesh.OtpView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import java.util.*
+import kotlin.collections.set
 
 class ShopeditFragment : BaseFragment<FragmentshopeditBinding>() {
 
@@ -187,19 +194,41 @@ class ShopeditFragment : BaseFragment<FragmentshopeditBinding>() {
             binding.veg.isChecked = false
             binding.nonveg.isChecked = false
         }
+        binding.restaurantLandMark.setOnClickListener {
+            Constant.loc="edit"
+            loadFragment(PlaceSearchFragment(), android.R.id.content, "placeserach", true)
+        }
     }
 
     private fun updateShopData(binding: FragmentshopeditBinding) {
 
-        if (TextUtils.isEmpty(binding.restaurantname.text)) { showToast("Please enter your Restaurant name"); return }
-        if (TextUtils.isEmpty(binding.restaurantemail.text)) { showToast("Please enter your Restaurant Email"); return }
-        if (TextUtils.isEmpty(binding.restaurantmobilenon.text)) { showToast("Please enter your Restaurant Mobile Number"); return }
-        if (TextUtils.isEmpty(binding.password.text)) { showToast("Please enter your Restaurant Password"); return }
-        if (TextUtils.isEmpty(binding.restaurantStreet.text)) { showToast("Please enter your Restaurant Street"); return }
-        if (TextUtils.isEmpty(binding.restaurantCity.text)) { showToast("Please enter your Restaurant City"); return }
-        if (TextUtils.isEmpty(binding.restaurantPinCode.text)) { showToast("Please enter your Restaurant Pin code"); return }
-        if (TextUtils.isEmpty(binding.restaurantLandMark.text)) { showToast("Please enter your Restaurant LandMark"); return }
-        if (TextUtils.isEmpty(binding.tradeId.text)) { showToast("Please enter your Restaurant Trade Id"); return }
+        if (TextUtils.isEmpty(binding.restaurantname.text)) {
+            showToast("Please enter your Restaurant name"); return
+        }
+        if (TextUtils.isEmpty(binding.restaurantemail.text)) {
+            showToast("Please enter your Restaurant Email"); return
+        }
+        if (TextUtils.isEmpty(binding.restaurantmobilenon.text)) {
+            showToast("Please enter your Restaurant Mobile Number"); return
+        }
+        if (TextUtils.isEmpty(binding.password.text)) {
+            showToast("Please enter your Restaurant Password"); return
+        }
+        if (TextUtils.isEmpty(binding.restaurantStreet.text)) {
+            showToast("Please enter your Restaurant Street"); return
+        }
+        if (TextUtils.isEmpty(binding.restaurantCity.text)) {
+            showToast("Please enter your Restaurant City"); return
+        }
+        if (TextUtils.isEmpty(binding.restaurantPinCode.text)) {
+            showToast("Please enter your Restaurant Pin code"); return
+        }
+        if (TextUtils.isEmpty(binding.restaurantLandMark.text)) {
+            showToast("Please enter your Restaurant LandMark"); return
+        }
+        if (TextUtils.isEmpty(binding.tradeId.text)) {
+            showToast("Please enter your Restaurant Trade Id"); return
+        }
         if (shopStartTime.isEmpty()) {
             showToast("Please select shop start time")
             return
@@ -250,6 +279,8 @@ class ShopeditFragment : BaseFragment<FragmentshopeditBinding>() {
             "tradeId" to binding.tradeId.text.toString(),
             "restaurantDescreption" to binding.restaurantDescreption.text.toString(),
             "restaurantType" to categorytype,
+            "restaurantLat" to latitute.toString(),
+            "restaurantLng" to longitute.toString(),
             "mode" to mode,
             "shopStartTime" to shopStartTime,   // ✅
             "shopEndTime" to shopEndTime,
@@ -299,7 +330,15 @@ class ShopeditFragment : BaseFragment<FragmentshopeditBinding>() {
                     imagePath = fileUri.toString()
                     mViewDataBinding.accProfile.setImageURI(fileUri)
                 }
-                ImagePicker.RESULT_ERROR -> showToast("Image Picker Error: ${ImagePicker.getError(result.data)}")
+
+                ImagePicker.RESULT_ERROR -> showToast(
+                    "Image Picker Error: ${
+                        ImagePicker.getError(
+                            result.data
+                        )
+                    }"
+                )
+
                 else -> showToast("Image selection cancelled")
             }
         }
@@ -328,6 +367,27 @@ class ShopeditFragment : BaseFragment<FragmentshopeditBinding>() {
         )
 
         timePicker.show()
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onFoodEvent(event: LocationEditEvent) {
+
+        mViewDataBinding.restaurantLandMark.text = event.landmark
+        println("dataaa"+event.latlonng)
+        val cleaned =
+            event.latlonng.replace("lat/lng: (", "").replace(")", "")
+        val parts = cleaned.split(",")
+        latitute = parts[0]
+        longitute = parts[1]
+    }
+
+    override fun onStart() {
+        super.onStart()
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        EventBus.getDefault().unregister(this)
     }
 
 }

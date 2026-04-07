@@ -23,8 +23,12 @@ class ProfilepageFragment : BaseFragment<FragmentProfilepagefrgamentBinding>() {
             bankcontainer.setOnClickListener {
                 loadFragment(BankUpdateFragment(), android.R.id.content, "homepage", true)
             }
+
             shopcontainer.setOnClickListener {
-                loadFragment(ShopeditFragment(), android.R.id.content, "homepage", true)
+                loadFragment(ReelsFragment(), android.R.id.content, "real", true)
+            }
+            privacypolicy.setOnClickListener {
+                loadFragment(PrivacyPolicyFragment(), android.R.id.content, "privacy", true)
             }
             accountcontainer.setOnClickListener {
                 loadFragment(SettingFragment(), android.R.id.content, "homepage", true)

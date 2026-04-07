@@ -24,6 +24,8 @@ import com.bumptech.glide.Glide
 import com.foodpartner.app.R
 import com.foodpartner.app.baseClass.BaseFragment
 import com.foodpartner.app.databinding.FragmentPlacesearchBinding
+import com.foodpartner.app.network.Constant
+import com.foodpartner.app.view.requestmodel.LocationEditEvent
 import com.foodpartner.app.view.requestmodel.LocationEvent
 
 import com.github.dhaval2404.imagepicker.ImagePicker
@@ -132,7 +134,13 @@ class PlaceSearchFragment : BaseFragment<FragmentPlacesearchBinding>() {
                 val place = response.place
                 Toast.makeText(requireContext(), "Selected: ${place.name}\n${place.address},\n${place.latLng}", Toast.LENGTH_LONG).show()
                 fragmentManagers!!.popBackStackImmediate()
-                EventBus.getDefault().postSticky(LocationEvent(place.address,place.latLng.toString()))
+                if(Constant.loc.equals("edit")){
+                    Constant.loc=""
+                    EventBus.getDefault().postSticky(LocationEditEvent(place.address,place.latLng.toString()))
+
+                }else{
+                    EventBus.getDefault().postSticky(LocationEvent(place.address,place.latLng.toString()))
+                }
 
                 Log.i("CustomPlaceFragment", "Place details: $place")
             }
