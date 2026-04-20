@@ -30,6 +30,9 @@ class ProfilepageFragment : BaseFragment<FragmentProfilepagefrgamentBinding>() {
             privacypolicy.setOnClickListener {
                 loadFragment(PrivacyPolicyFragment(), android.R.id.content, "privacy", true)
             }
+            earningsContainer.setOnClickListener {
+                loadFragment(CouponFragment(), android.R.id.content, "coupon", true)
+            }
             accountcontainer.setOnClickListener {
                 loadFragment(SettingFragment(), android.R.id.content, "homepage", true)
             }
